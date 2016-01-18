@@ -1,0 +1,68 @@
+	
+<!--MAIN NAVIGATION-->
+<!--===================================================-->
+<nav id="mainnav-container">
+	<div id="mainnav">
+
+		<!--Shortcut buttons-->
+		<!--================================-->
+		<div id="mainnav-shortcut">
+			
+		</div>
+		<!--================================-->
+		<!--End shortcut buttons-->
+		<!--{pr($page.function)}
+		{pr($page.page)}-->
+
+		<!--Menu-->
+		<!--================================-->
+		<div id="mainnav-menu-wrap">
+			<div class="nano">
+				<div class="nano-content">
+					<ul id="mainnav-menu" class="list-group">
+						
+						<li class="list-header">Navigation</li>
+
+						<li class="{if $page.page eq 'home' && $page.function eq 'index'}active-link{/if}">
+							<a href="{$basedomain}home">
+								<i class="fa fa-dashboard"></i>
+								<span class="menu-title">
+									Dashboard
+								</span>
+							</a>
+						</li>
+
+						<li class="{if $page.page eq 'project'}active-link{/if}">
+							<a href="{$basedomain}project">
+								<i class="fa fa-archieve"></i>
+								<span class="menu-title">Project</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="#">
+								<i class="fa fa-cogs"></i>
+								<span class="menu-title">Settings</span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'statistik_laporan' || $page.function eq 'viewvisitor'}in{/if}">
+								<li class="{if $page.page eq 'home' && $page.function eq 'viewvisitor'}active-link{/if}">
+								<a href="{$basedomain}home/viewvisitor">Profile</a></li>
+								<li class="{if $page.page eq 'statistik_laporan'}active-link{/if}"><a href="{$basedomain}statistik_laporan">Setting User</a></li>
+							</ul>
+						</li>
+
+					</ul>
+
+				</div>
+			</div>
+		</div>
+		<!--================================-->
+		<!--End menu-->
+
+	</div>
+</nav>
+<!--===================================================-->
+<!--END MAIN NAVIGATION-->

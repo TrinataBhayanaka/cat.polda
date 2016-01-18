@@ -1,0 +1,319 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Project People</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}project">Project List</a></li>
+	<li class="active">Project People</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-default panel-left">
+				<div class="panel-body">
+					<div class="row">
+						<div class="pad-hor">
+							<div class="text-center pad-all">
+								<div class="pad-ver">
+									<img src="{$app_domain}public_assets/{$data.image}" class="img-lg img-border img-circle" alt="Profile Picture">
+								</div>
+							
+								<h4 class="text-lg text-overflow mar-no">{$data.name}</h4>
+								<p class="text-sm">{$data.client}<br><small>Since {$data.date_start}</small></p>
+								{if $data.n_status eq 1}
+								<a href="{$basedomain}project/upd_project/?id={$data.idProject}" class="btn btn-block btn-mint">
+									Project Complete
+								</a>
+								{else}
+								<a href="#popover" class="btn btn-block btn-success add-popover" data-original-title="Congratulation" data-content="Your {$data.name} project already completed. You can still upload documents and picture!" data-placement="bottom" data-trigger="focus" data-toggle="popover">
+									Already Complete
+								</a>
+								{/if}
+							</div>
+						</div>
+						<hr>
+						<div class="list-group bg-trans bord-no">
+							<a href="{$basedomain}project/detail/?id={$data.idProject}" class="list-group-item"><i class="fa fa-send fa-fw"></i> Detail</a>
+							<a href="{$basedomain}project/people/?id={$data.idProject}" class="list-group-item" style="background-color:rgba(125,211,188,0.5);"><i class="fa fa-users fa-fw"></i> People</a>
+							<a href="#" class="list-group-item"><i class="fa fa-files-o fa-fw"></i> Files</a>
+							<a href="#" class="list-group-item"><i class="fa fa-photo fa-fw"></i> Gallery</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-9">	
+
+			<!-- VIEW MESSAGE -->
+			<!--===================================================-->
+			<div class="panel panel-default panel-left">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-7">
+
+							<!--Sender Information-->
+							<div class="media">
+								<span class="media-left">
+									<span class="fa-stack fa-2x">
+									  <i class="fa fa-square fa-stack-2x"></i>
+									  <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+									</span>
+								</span>
+								<div class="media-body">
+									<div class="text-bold">Project People</div>
+									<small class="text-muted">Team & Participants</small>
+								</div>
+							</div>
+						</div>
+						<hr class="hr-sm visible-xs">
+						<div class="col-sm-5 clearfix">
+
+							<!--Details Information-->
+							<div class="pull-right text-right">
+								<p class="mar-no"><small class="text-muted">{$data.date_start}</small></p>
+								<a href="#">
+									<strong><span class="label label-normal label-{if $data.n_status eq 1}info{else}success{/if}">{if $data.n_status eq 1}Ongoing{else}Completed{/if}</span> Estimated Completion {$data.date_end}</strong>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row pad-ver">
+						<div class="pad-all bord-all bg-gray-light form-group">
+							<p>People consists of two types:</p>
+							<ul>
+								<li>Team : people that organize the event or as a professional speaker.</li>
+								<li>Participant : people that takes part in the event.</li>
+							</ul>
+							<p>Please choose team member with suitable skill as a professional speaker or already takes part in the required event.</p>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="panel-control">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#demo-tabs-box-1" data-toggle="tab">Team</a></li>
+							<li><a href="#demo-tabs-box-2" data-toggle="tab">Participants</a></li>
+						</ul>
+					</div>
+					<h3 class="panel-title">Add People</h3>
+				</div>
+
+				<div class="panel-body">
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="demo-tabs-box-1">
+						{if $data.n_status eq 1}
+							<div id="demo-custom-toolbar2" class="table-toolbar-left">
+								<button id="demo-custom-toolbar2" class="btn btn-primary btn-labeled fa fa-plus" data-target="#demo-default-modal" data-toggle="modal">Add Team</button>
+							</div>
+						{/if}
+
+							<table id="demo-dt-addrows" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Faculty</th>
+										<th class="min-tablet">Institution</th>
+										<th class="min-tablet">Education</th>
+										<th class="min-desktop">Detail</th>
+									</tr>
+								</thead>
+								<tbody>
+									{foreach $team as $val}
+										<tr>
+											<td>{$val.name}</td>
+											<td>{$val.jenis_pekerjaan}</td>
+											<td>{$val.institusi}</td>
+											<td>{$val.pendidikan}</td>
+											<td align="center">
+											{if $data.n_status eq 1}
+												<a href="{$basedomain}project/del_people/?id={$val.id}a2a{$id}">
+													<button class="btn btn-danger btn-xs btn-labeled fa fa-trash">Delete</button>
+												</a>
+											{/if}
+											</td>
+										</tr>
+									{/foreach}
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="demo-tabs-box-2">
+						{if $data.n_status eq 1}
+							<div id="demo-custom-toolbar3" class="table-toolbar-left">
+								<button id="demo-custom-toolbar2" class="btn btn-primary btn-labeled fa fa-plus" data-target="#demo-default-modal2" data-toggle="modal">Add Participants</button>
+							</div>
+						{/if}
+							<table id="demo-dt-addrows2" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Faculty</th>
+										<th class="min-tablet">Institution</th>
+										<th class="min-tablet">Education</th>
+										<th class="min-desktop">Detail</th>
+									</tr>
+								</thead>
+								<tbody>
+									{foreach $listParticipants as $val}
+										<tr>
+											<td>{$val.name}</td>
+											<td>{$val.jenis_pekerjaan}</td>
+											<td>{$val.institusi}</td>
+											<td>{$val.pendidikan}</td>
+											<td align="center">
+											{if $data.n_status eq 1}
+												<a href="{$basedomain}project/del_people/?id={$val.id}a2a{$id}">
+												<button class="btn btn-danger btn-xs btn-labeled fa fa-trash">Delete</button>
+												</a>
+											{/if}
+											</td>
+										</tr>
+									{/foreach}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--===================================================-->
+			<!-- END VIEW MESSAGE -->
+			
+			
+		</div>
+	</div>
+</div>
+<!--===================================================-->
+<!--End page content-->
+
+
+<!--Default Bootstrap Modal-->
+<!--===================================================-->
+<div class="modal fade" id="demo-default-modal" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="{$basedomain}project/ins_team" method="post">
+				<!--Modal header-->
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button">
+					<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Add Team</h4>
+				</div>
+
+				<!--Modal body-->
+				<div class="modal-body">
+					<h4 class="text-thin">Requirements :</h4>
+					{foreach $required as $val}
+						<i class="fa fa-check-square-o"></i> {$val.name}
+					{/foreach}
+					<p>Only people that meet with the requirements above are displayed.</p>
+					<select class="js-example-basic-multiple"  name="idUser" style="width:350px">
+					  {foreach $users as $val}
+					  	<option value="{$val.id}">{$val.name}</option>
+					  {/foreach}
+					</select>
+				</div>
+
+				<input type="hidden" name="idProject" value="{$id}">
+				<input type="hidden" name="people" value="1">
+				<input type="hidden" name="n_status" value="1">
+
+				<!--Modal footer-->
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+					<button class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="demo-default-modal2" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal2" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="{$basedomain}project/ins_team" method="post">
+				<!--Modal header-->
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button">
+					<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Add Participants</h4>
+				</div>
+
+				<!--Modal body-->
+				<div class="modal-body">
+					<p>Choose participant</p>
+					<select class="js-example-basic-multiple"  name="idUser" style="width:350px">
+					  {foreach $participants as $val}
+					  	<option value="{$val.id}">{$val.name}</option>
+					  {/foreach}
+					</select>
+				</div>
+
+				<input type="hidden" name="idProject" value="{$id}">
+				<input type="hidden" name="people" value="2">
+				<input type="hidden" name="n_status" value="1">
+
+				<!--Modal footer-->
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+					<button class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--===================================================-->
+<!--End Default Bootstrap Modal-->
+
+{literal}
+<script type="text/javascript">
+	$(window).on('load', function() {
+		var t = $('#demo-dt-addrows').DataTable({
+			"responsive": true,
+			"language": {
+				"paginate": {
+				  "previous": '<i class="fa fa-angle-left"></i>',
+				  "next": '<i class="fa fa-angle-right"></i>'
+				}
+			},
+			"dom": '<"newtoolbar">frtip'
+		});
+		$('#demo-custom-toolbar2').appendTo($("div.newtoolbar"));
+
+		var t = $('#demo-dt-addrows2').DataTable({
+			"responsive": true,
+			"language": {
+				"paginate": {
+				  "previous": '<i class="fa fa-angle-left"></i>',
+				  "next": '<i class="fa fa-angle-right"></i>'
+				}
+			},
+			"dom": '<"newtoolbar2">frtip'
+		});
+		$('#demo-custom-toolbar3').appendTo($("div.newtoolbar2"));
+
+		$(".js-example-basic-multiple").select2({
+			placeholder: "Select a user",
+	  		allowClear: true
+		});
+	})
+</script>
+{/literal}
+

@@ -1,0 +1,22 @@
+USE [db_sipmas]
+GO
+/****** Object:  Table [dbo].[bsn_waktu_kriteria]    Script Date: 11/23/2015 16:09:59 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[bsn_waktu_kriteria](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[value] [int] NULL,
+	[type] [int] NULL,
+	[create_date] [datetime] NULL,
+	[statusPenelaahan] [int] NULL,
+	[statusDisposisi] [int] NULL,
+	[statusTindakLanjut] [int] NULL,
+	[n_status] [int] NULL,
+ CONSTRAINT [PK_bsn_waktu_kriteria] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]

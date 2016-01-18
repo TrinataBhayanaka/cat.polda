@@ -1,0 +1,35 @@
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="{$basedomain}assets/plugin/jquery/jquery.js"></script>
+<script src="{$basedomain}assets/plugin/jquery/jquery-1.12.0.min.js"></script>
+<script src="{$basedomain}assets/plugin/bootstrap-3.3.6/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="{$basedomain}assets/plugin/jquery/jquery.dcjqaccordion.2.7.js"></script>
+<script src="{$basedomain}assets/plugin/jquery/jquery.scrollTo.min.js"></script>
+<script src="{$basedomain}assets/plugin/jquery/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+<!-- Datatables JS -->
+<script src="{$basedomain}assets/plugin/datatable/js/jquery.dataTables.min.js"></script>
+<script src="{$basedomain}assets/plugin/datatable/js/dataTables.bootstrap.js"></script>
+
+<!--common script for all pages-->
+<script src="{$basedomain}assets/js/cat-scripts.js"></script>
+
+<script type="text/javascript">
+   
+    $(document).ready(function() {
+        // INITIATE DATATABLE
+            $('.dttable').dataTable({
+            	"dom": '<"top"p><"clear">',
+            	"bLengthChange": false,
+    			"bFilter": false,
+                "pageLength": 5
+            });  
+            
+        // INITIATE GALLERY PLUGIN
+    	$('#blueimp-gallery').toggleClass('blueimp-gallery-controls', true); 
+    });
+
+</script>
+
+</body>
+</html>

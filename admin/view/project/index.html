@@ -1,0 +1,105 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Project</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li class="active">Project</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<div id="page-content">
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Project List</h3>
+		</div>
+
+		<div id="demo-custom-toolbar2" class="table-toolbar-left">
+			<a href="{$basedomain}project/addproject">
+				<button id="demo-custom-toolbar2" class="btn btn-primary btn-labeled fa fa-times">Add project</button>
+			</a>
+		</div>
+
+		<div class="panel-body">
+			<table id="demo-dt-addrows" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>ID Project</th>
+						<th>Project Name</th>
+						<th class="min-tablet">Client</th>
+						<th class="min-tablet">People</th>
+						<th class="min-tablet">Date Start</th>
+						<th class="min-desktop">Estimated</th>
+						<th class="min-desktop">Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $data as $val}
+					<tr>
+						<td><a href="{$basedomain}project/detail/?id={$val.idProject}">{$val.idProject}</a></td>
+						<td><a href="{$basedomain}project/detail/?id={$val.idProject}" class="btn-link">{$val.name}</a></td>
+						<td><a href="{$basedomain}project/detail/?id={$val.idProject}">{$val.client}</a></td>
+						<td><a href="{$basedomain}project/detail/?id={$val.idProject}">{$val.client}</a></td>
+						<td>{$val.date_start}</a></td>
+						<td>{$val.date_end}</td>
+						<td>{if $val.n_status eq '2'}<span class="label label-success">Complete</span>
+						{else}<span class="label label-info">Ongoing</span>{/if}
+						</td>
+					</tr>
+					{/foreach}
+				</tbody>
+			</table>
+
+			<div id="demo-preview-alert-1" class="demo-preview-alert" style="display:none">
+					
+				<!-- Alert layout example -->
+				<div class="alert alert-success media fade in">
+					<strong>Success!</strong> Data has been successfully inserted.
+				</div>
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+{literal}
+<script type="text/javascript">
+
+$(window).on('load', function() {
+	var t = $('#demo-dt-addrows').DataTable({
+		"responsive": true,
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"></i>',
+			  "next": '<i class="fa fa-angle-right"></i>'
+			}
+		},
+		"dom": '<"newtoolbar">frtip'
+	});
+	$('#demo-custom-toolbar2').appendTo($("div.newtoolbar"));
+
+
+	// var alertContent = $('#demo-preview-alert-1').find('.alert').html(),
+	// autoClose = true;
+
+	// contentHTML = alertContent.replace("btn-danger", "btn-success");
+	// $.niftyNoty({
+	// 	type: 'success',
+	// 	container : 'page',
+	// 	html : contentHTML,
+	// 	timer : autoClose ? 10000 : 0
+	// });
+
+})
+</script>	
+{/literal}

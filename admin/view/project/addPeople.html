@@ -1,0 +1,162 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Add People</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}project">Project List</a></li>
+	<li><a href="{$basedomain}project/people/?id={$id}">Project People</a></li>
+	<li class="active">Add People</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<div id="page-content">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-default panel-left">
+				<div class="panel-body">
+					<div class="row">
+						<div class="pad-hor">
+							<div class="text-center pad-all">
+								<div class="pad-ver">
+									<img src="{$app_domain}public_assets/{$data.image}" class="img-lg img-border img-circle" alt="Profile Picture">
+								</div>
+							
+								<h4 class="text-lg text-overflow mar-no">{$data.name}</h4>
+								<p class="text-sm">{$data.client}</p>
+								<a href="mailbox-compose.html" class="btn btn-block btn-success">
+									Project Complete
+								</a>
+							</div>
+						</div>
+						<hr>
+						<div class="list-group bg-trans bord-no">
+							<a href="{$basedomain}project/detail/?id={$id}" class="list-group-item"><i class="fa fa-send fa-fw"></i> Detail</a>
+							<a href="{$basedomain}project/people/?id={$id}" class="list-group-item" style="background-color:rgba(125,211,188,0.5);"><i class="fa fa-users fa-fw"></i> People</a>
+							<a href="#" class="list-group-item"><i class="fa fa-files-o fa-fw"></i> Files</a>
+							<a href="#" class="list-group-item"><i class="fa fa-photo fa-fw"></i> Gallery</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Add People Form</h3>
+				</div>
+
+				<form class="form-horizontal form-padding" action="{$basedomain}project/ins_project" method="post" enctype="multipart/form-data">
+					<div class="panel-body">
+
+						<div class="pad-all bord-all bg-gray-light form-group">
+							<p>People consists of two types:</p>
+							<ul>
+								<li>Team : people that organize the event or as a professional speaker.</li>
+								<li>Participant : people that takes part in the event.</li>
+							</ul>
+							<p>Please choose team member with suitable skill as professional speaker or already takes part in the event before.</p>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Required Event</label>
+							<div class="col-md-5">
+								<select class="js-example-basic-multiple" style="width:250px">
+								  {foreach $projeck as $val}
+								  	<option value="{$val.idProject}">{$val.name}</option>
+								  {/foreach}
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Project Name</label>
+							<div class="col-md-5">
+								<input type="text" class="form-control" name="name" placeholder="Enter project name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Client</label>
+							<div class="col-md-5">
+								<input type="text" class="form-control" name="client" placeholder="who is your client?">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Date Start</label>
+							<div class="col-md-3">
+								<div class="input-group date">
+									<input type="text" class="form-control" name="date_start">
+									<span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Date End</label>
+							<div class="col-md-3">
+								<div class="input-group date">
+									<input type="text" class="form-control" name="date_end">
+									<span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+								<small class="help-block">Estimated time</small>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Project Image</label>
+							<div class="col-sm-4">
+								<div class="fileupload fileupload-new" data-provides="fileupload">
+								  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="{$app_domain}public_assets/noimage.png" alt="Placeholder" /></div>
+								  <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+								  <div>
+								    <span class="btn btn-default btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="gambar"/></span>
+								    <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
+								  </div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Description</label>
+							<div class="col-md-9">
+								<textarea id="add-info" name="description"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel-footer">
+						<div class="row">
+							<div class="col-sm-9 col-sm-offset-3">
+								<a href="">
+									<button class="btn btn-info btn-labeled fa fa-paper-plane fa-lg" type="submit">Submit</button>
+								</a>
+								<a href="{$basedomain}project">
+									<button class="btn btn-warning btn-labeled fa fa-repeat fa-lg" type="button">Back</button>
+								</a>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{literal}
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$(".js-example-basic-multiple").select2({
+		placeholder: "Select a state",
+  		allowClear: true
+	});
+})
+
+</script>	
+{/literal}

@@ -1,0 +1,138 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Project Detail</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}project">Project List</a></li>
+	<li class="active">Project Detail</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-default panel-left">
+				<div class="panel-body">
+					<div class="row">
+						<div class="pad-hor">
+							<div class="text-center pad-all">
+								<div class="pad-ver">
+									<img src="{$app_domain}public_assets/{$data.image}" class="img-lg img-border img-circle" alt="Profile Picture">
+								</div>
+							
+								<h4 class="text-lg text-overflow mar-no">{$data.name}</h4>
+								<p class="text-sm">{$data.client}<br><small>Since {$data.date_start}</small></p>
+								{if $data.n_status eq 1}
+								<a href="{$basedomain}project/upd_project/?id={$data.idProject}" class="btn btn-block btn-mint">
+									Project Complete
+								</a>
+								{else}
+								<a href="#popover" class="btn btn-block btn-success add-popover" data-original-title="Congratulation" data-content="Your {$data.name} project already completed. You can still upload documents and picture!" data-placement="bottom" data-trigger="focus" data-toggle="popover">
+									Already Complete
+								</a>
+								{/if}
+							</div>
+						</div>
+						<hr>
+						<div class="list-group bg-trans bord-no">
+							<a href="{$basedomain}project/detail/?id={$data.idProject}" class="list-group-item" style="background-color:rgba(125,211,188,0.5);"><i class="fa fa-send fa-fw"></i> Detail</a>
+							<a href="{$basedomain}project/people/?id={$data.idProject}" class="list-group-item"><i class="fa fa-users fa-fw"></i> People</a>
+							<a href="#" class="list-group-item"><i class="fa fa-files-o fa-fw"></i> Files</a>
+							<a href="#" class="list-group-item"><i class="fa fa-photo fa-fw"></i> Gallery</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-9">	
+
+			<!-- VIEW MESSAGE -->
+			<!--===================================================-->
+			<div class="panel panel-default panel-left">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-7">
+
+							<!--Sender Information-->
+							<div class="media">
+								<span class="media-left">
+									<span class="fa-stack fa-2x">
+									  <i class="fa fa-square fa-stack-2x"></i>
+									  <i class="fa fa-send fa-stack-1x fa-inverse"></i>
+									</span>
+								</span>
+								<div class="media-body">
+									<div class="text-bold">Description</div>
+									<small class="text-muted">About Project</small>
+								</div>
+							</div>
+						</div>
+						<hr class="hr-sm visible-xs">
+						<div class="col-sm-5 clearfix">
+
+							<!--Details Information-->
+							<div class="pull-right text-right">
+								<p class="mar-no"><small class="text-muted">{$data.date_start}</small></p>
+								<a href="#">
+									<strong><span class="label label-normal label-{if $data.n_status eq 1}info{else}success{/if}">{if $data.n_status eq 1}Ongoing{else}Completed{/if}</span> Estimated Completion {$data.date_end}</strong>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row pad-ver">
+						{*}<div class="col-xs-7">
+
+							<!--Mail toolbar-->
+							<button class="btn btn-default"><i class="fa fa-print"></i></button>
+							<div class="btn-group btn-group">
+								<button class="btn btn-default"><i class="fa fa-exclamation-circle"></i></button>
+								<button class="btn btn-default"><i class="fa fa-trash"></i></button>
+							</div>
+						</div>
+						<div class="col-xs-5 clearfix">
+							<div class="pull-right">
+
+								<!--Reply & forward buttons-->
+								<div class="btn-group btn-group">
+									<a class="btn btn-default" href="#">
+									<i class="fa fa-reply"></i>
+									</a>
+									<a class="btn btn-default" href="#">
+									<i class="fa fa-share"></i>
+									</a>
+								</div>
+							</div>
+						</div>{/*}
+					</div>
+
+					<!--Message-->
+					<!--===================================================-->
+					<div class="pad-all bord-all bg-gray-light">
+						{$data.description}
+					</div>
+					<!--===================================================-->
+					<!--End Message-->
+					
+				</div>
+			</div>
+			<!--===================================================-->
+			<!-- END VIEW MESSAGE -->
+			
+			
+		</div>
+	</div>
+</div>
+<!--===================================================-->
+<!--End page content-->
+

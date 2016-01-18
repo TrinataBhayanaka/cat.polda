@@ -1,0 +1,70 @@
+<!--===================================================-->
+<div id="demo-set" class="demo-set">
+	<div class="demo-set-body bg-dark">
+		<div id="demo-set-alert"></div>
+		<form action="{$basedomain}home/search" method="post">
+			<div class="demo-set-content clearfix" id="formSearch">
+				<h4 class="text-lg mar-btm text-center">Pencarian Data</h4>
+				<hr class="hr-sm">
+				<div class="col-xs-8 col-md-8">
+					<div id="demo-anim" class="mar-btm">
+						<div class="form-group" id="dataInput">
+							<input type="text" placeholder="Masukkan kata kunci" id="demo-inline-inputmail" name="tracking" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4 col-md-4">
+					<select class="form-control" id="selectData" name="type">
+						<option value="1" selected>Judul Laporan</option>
+						<option value="2">Ruang Lingkup Laporan</option>
+						<option value="3">Satuan Unit Kerja Terkait</option>
+						<!-- <option value="4">Pejabat Terkait</option> -->
+						<option value="5">Status Laporan</option>
+						<option value="6">Data user</option>
+					</select>
+				</div>
+				<div class="col-xs-6 col-md-8">
+					<div class="demo-dp-range">
+						<div class="input-daterange input-group" id="datepicker">
+							<input type="text" class="form-control" name="start" required/>
+							<span class="input-group-addon" style="color:white">to</span>
+							<input type="text" class="form-control" name="end" required/>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="pad-all text-left">
+				<hr class="hr-sm">
+				<p class="demo-set-save-text">* Pencarian akan membutuhkan waktu</p>
+				<button type="submit" class="btn btn-primary btn-labeled fa fa-search mar-btm">Search Data</button>
+			</div>
+		</form>
+	</div>
+	<button id="demo-set-btn" class="btn btn-sm"><i class="fa fa-search fa-2x"></i></button>
+</div>
+<!--===================================================-->
+
+{literal}
+<script>
+// alert("ada");
+$('#formSearch').on('change','#selectData',function(){
+
+                   var parameter =$('#selectData').val();
+                   // alert(parameter);
+
+                     $.post(basedomain+"home/selectData", {actionfunction: 'showData',type:parameter}, function(data){
+                            // console.log(data);
+                            if (data.status==true) {
+                               // console.log(data.data);
+
+                                    $('#dataInput').html(data.data); 
+
+                            }
+
+                        }, "JSON")
+
+                return false;
+                });
+</script>
+{/literal}

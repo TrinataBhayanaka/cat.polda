@@ -1,0 +1,137 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Add Project</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}project">Project List</a></li>
+	<li class="active">Add Project</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<div id="page-content">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Add Project Form</h3>
+				</div>
+
+				<form class="form-horizontal form-padding" action="{$basedomain}project/ins_project" method="post" enctype="multipart/form-data">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Project Name</label>
+							<div class="col-md-5">
+								<input type="text" class="form-control" name="name" placeholder="Enter project name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Client</label>
+							<div class="col-md-5">
+								<input type="text" class="form-control" name="client" placeholder="who is your client?">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Team Requirement</label>
+							<div class="col-md-7">
+								<select class="js-example-basic-multiple"  name="idRequired[]" style="width:350px" multiple="multiple">
+								  {foreach $data as $val}
+								  	<option value="{$val.idProject}">{$val.name}</option>
+								  {/foreach}
+								</select>
+								<input id="demo-sw-checkstate" type="checkbox" checked>
+								<span id="demo-sw-checkstate-field" class="label label-info"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Date Start</label>
+							<div class="col-md-3">
+								<div class="input-group date">
+									<input type="text" class="form-control" name="date_start">
+									<span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Date End</label>
+							<div class="col-md-3">
+								<div class="input-group date">
+									<input type="text" class="form-control" name="date_end">
+									<span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+								<small class="help-block">Estimated time</small>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Project Image</label>
+							<div class="col-sm-4">
+								<div class="fileupload fileupload-new" data-provides="fileupload">
+								  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="{$app_domain}public_assets/noimage.png" alt="Placeholder" /></div>
+								  <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+								  <div>
+								    <span class="btn btn-default btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" name="gambar"/></span>
+								    <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
+								  </div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Description</label>
+							<div class="col-md-9">
+								<textarea id="add-info" name="description"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel-footer">
+						<div class="row">
+							<div class="col-sm-9 col-sm-offset-3">
+								<a href="">
+									<button class="btn btn-info btn-labeled fa fa-paper-plane fa-lg" type="submit">Submit</button>
+								</a>
+								<a href="{$basedomain}project">
+									<button class="btn btn-warning btn-labeled fa fa-repeat fa-lg" type="button">Back</button>
+								</a>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{literal}
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$(".js-example-basic-multiple").select2({
+		placeholder: "Select requirements",
+  		allowClear: true
+	});
+
+	var changeCheckbox = document.getElementById('demo-sw-checkstate'), changeField = document.getElementById('demo-sw-checkstate-field');
+	new Switchery(changeCheckbox)
+	changeField.innerHTML = "Required";
+	changeCheckbox.onchange = function() {
+		if(changeCheckbox.checked == false){
+			$(".js-example-basic-multiple").prop('disabled', true);
+			changeField.innerHTML = "Free";
+		} else {
+			$(".js-example-basic-multiple").prop('disabled', false);
+			changeField.innerHTML = "Required";
+		}
+	};
+})
+
+</script>	
+{/literal}
