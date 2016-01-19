@@ -7,13 +7,15 @@
 
 $ROUTES = array(
 		'home',
-                'soal'
+                'soal',
+                'login'
                 
         );
 
 $ROUTES_IGNORE = array(
                 'home',
-                'soal'
+                'soal',
+                'login'
         );
 ?>
 

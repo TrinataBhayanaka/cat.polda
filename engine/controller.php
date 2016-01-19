@@ -71,6 +71,25 @@ class Controller extends Application{
 
 			}
 
+			if ($DATA[$this->configkey]['page']!=='login'){
+				if (array_key_exists('default',$CONFIG)) {
+
+					if (!$this->isUserOnline()){
+						redirect($basedomain.$CONFIG[$this->configkey]['login']);
+						exit;
+					}
+				}
+
+				if (array_key_exists('dashboard',$CONFIG)) {
+					
+					if (!$this->isUserOnline()){
+						redirect($basedomain.$CONFIG[$this->configkey]['login']);
+						exit;
+					}
+				}
+
+			}
+
 			if ($this->configkey == 'default'){
 				if ($DATA[$this->configkey]['page']=='register'){
 
@@ -95,6 +114,15 @@ class Controller extends Application{
 			if ($this->configkey == 'admin'){
 				if ($DATA[$this->configkey]['page']=='login'){
 					if ($this->isAdminOnline()){
+					redirect($CONFIG[$this->configkey]['default_view']);
+					exit;
+					}
+				}
+			}
+
+			if ($this->configkey == 'default'){
+				if ($DATA[$this->configkey]['page']=='login'){
+					if ($this->isUserOnline()){
 					redirect($CONFIG[$this->configkey]['default_view']);
 					exit;
 					}

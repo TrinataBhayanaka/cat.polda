@@ -21,12 +21,18 @@ class login extends Controller {
         $this->contentHelper = $this->loadModel('contentHelper');
         $this->loginHelper = $this->loadModel('loginHelper');
         $this->userHelper = $this->loadModel('userHelper');
+        $this->models = $this->loadModel('mlogin');
 	}
 	
 	function index(){
-
         
-    	return $this->loadView('register');
+        $materi = $this->models->getData('master_kategori',1);
+        $lokasi = $this->models->getData('lokasi',1,'status_pemanfaatan = 1');
+
+        $this->view->assign('materi',$materi);
+        $this->view->assign('lokasi',$lokasi);
+
+    	return $this->loadView('login');
     }
     
 
@@ -53,19 +59,26 @@ class login extends Controller {
         
     }
 
-    
+    function ajaxCheckUser()
+    {
+        $idUser = $_POST['iduser'];
 
-    function login(){
+        $data = $this->models->getData('master_peserta',1,"no_peserta = {$idUser}");
 
-        global $basedomain;
+        print json_encode($data);
 
-        
-
-    	return $this->loadView('user/login');
+        exit;
     }
-    
-    function register(){
-    	return $this->loadView('user/register');
+
+    function ajaxgetRuang()
+    {
+        $idLokasi = $_POST['idLokasi'];
+
+        $data = $this->models->getData('ruangan',1,"id_lokasi = {$idLokasi}");
+
+        print json_encode($data);
+
+        exit;
     }
     
     
