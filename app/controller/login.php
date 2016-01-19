@@ -12,7 +12,7 @@ class login extends Controller {
 		$this->loadmodule();
 		$this->view = $this->setSmarty();
 		$this->view->assign('basedomain',$basedomain);
-        $this->loadSession = new Session;
+        //$this->loadSession = new Session;
 
     }
 	
@@ -81,6 +81,27 @@ class login extends Controller {
         exit;
     }
     
+
+    /* DHITA DEMO */
+    function demo_1(){
+        return $this->loadView('demo/mulai-1');
+    }
+    function demo_2(){
+        return $this->loadView('demo/mulai-2');
+    }
+    function demo_3(){
+        return $this->loadView('demo/mulai-3');
+    }
+    function demo_4(){
+        return $this->loadView('demo/mulai-4');
+    }
+    function demo_5(){
+        return $this->loadView('demo/mulai-5');
+    }
+    function demo_6(){
+        return $this->loadView('demo/mulai-6');
+    }
+
     
 
 }

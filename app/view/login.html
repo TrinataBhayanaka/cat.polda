@@ -59,8 +59,8 @@
               
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
-                  <button type="submit" class="btn btn-cat">Verifikasi</button>
-                  <!-- <a href="{$basedomain}soal" class="btn btn-cat">Mulai</a> -->
+                  <!--<button type="submit" class="btn btn-cat">Verifikasi</button>-->
+                  <a href="{$basedomain}login/demo_1" class="btn btn-cat">Verifikasi</a>
                 </div>
               </div>
             </form>
@@ -84,6 +84,7 @@
     $.post(basedomain+'login/ajaxCheckUser', {iduser:iduser}, function(data){
 
       if(data[0]){
+        $(".main_content").css('padding-top','60px');
         $("#nama").val(data[0].nama);
         $(".divdetail").show(300); 
       } 
