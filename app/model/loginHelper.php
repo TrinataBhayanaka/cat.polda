@@ -84,13 +84,13 @@ class loginHelper extends Database {
             if ($res[0]['tgl_lahir'] == $data['tgl_lahir']){
                 
                 $status_ujian = 1;
-                $sql = array(
-                        'table'=>"master_peserta",
-                        'field'=>"status_ujian = {$status_ujian}",
-                        'condition'=>"no_peserta = '{$res[0]['no_peserta']}'",
-                        );
+                // $sql = array(
+                //         'table'=>"master_peserta",
+                //         'field'=>"status_ujian = {$status_ujian}",
+                //         'condition'=>"no_peserta = '{$res[0]['no_peserta']}'",
+                //         );
 
-                $result = $this->lazyQuery($sql,$debug,2);
+                // $result = $this->lazyQuery($sql,$debug,2);
                 $this->session->set_session($res);
                 return $res;
             }
