@@ -22,5 +22,32 @@ class mlogin extends Database {
 
         return $data;
     }
+
+    function getId($id)
+    {
+        $sql = "SELECT id_soal FROM master_soal WHERE id_kategori = {$id}";
+        $data = $this->fetch($sql,1);
+
+        foreach ($data as $key => $value) {
+            $numbers[$key] = $value['id_soal'];
+        }
+
+        return $numbers;
+    }
+
+    function insert_data($data,$table)
+    {
+        $this->insert($data,$table);
+
+        return true;
+    }
+
+    function delete_data($id,$table)
+    {
+        $sql = "DELETE FROM {$table} WHERE id_kategori = {$id}";
+        $this->query($sql);
+
+        return true;
+    }
 }
 ?>

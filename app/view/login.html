@@ -12,7 +12,7 @@
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-4 control-label">No. Peserta</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="id_peserta" name="no_peserta" placeholder="mis. 123/123/123" onkeyup="return checkUser()">
+                  <input type="text" class="form-control" id="id_peserta" name="no_peserta" placeholder="mis. 123/123/123" onkeyup="return checkUser()" onchange="return checkUser()">
                 </div>
               </div>
               <div class="form-group divdetail" style="display:none">
@@ -32,7 +32,7 @@
                 <div class="col-sm-8">
                   <select class="form-control" name="id_kategori">
                   {foreach $materi as $val}
-                    <option value="{$val.id_master}">{$val.nama_master}</option> 
+                    <option value="{$val.id_master}">{$val.detail.nama_master}</option> 
                   {/foreach}
                   </select>
                 </div>

@@ -26,9 +26,14 @@ class login extends Controller {
 	
 	function index(){
         
-        $materi = $this->models->getData('master_kategori',1,'status = 1');
+        $materi = $this->models->getData('ujian',1,'status = 1');
         $lokasi = $this->models->getData('lokasi',1,'status_pemanfaatan = 1');
 
+        foreach ($materi as $key => $value) {
+            $detail = $this->models->getData('master_kategori',0,"id_master = {$value['id_kategori']}");
+            $materi[$key]['detail'] = $detail;
+        }
+        
         $this->view->assign('materi',$materi);
         $this->view->assign('lokasi',$lokasi);
 
@@ -78,14 +83,34 @@ class login extends Controller {
         exit;
     }
 
+    function generatePaket()
+    {
+        $ujian = $this->models->getData('ujian',0,"status=1");
+        $soalstack = $this->models->getId($ujian['id_kategori']);
+        
+        $number = randomize_number($soalstack,$ujian['jumlah_soal'],$ujian['pilihan_paket']);
+        
+        $this->models->delete_data($ujian['id_kategori'],'paket_soal');
+        
+        $letters = range('A', 'Z');
+        foreach ($number as $key => $val) {
+            $data['id_kategori'] = $ujian['id_kategori'];
+            $data['id_soal'] = implode(",", $val);
+            $data['paket'] = $letters[$key];
+            $data['waktu_acak'] = date('Y/m/d h:i:s', time());
+            
+            $this->models->insert_data($data,'paket_soal');
+        }
+
+        db('======= Generate Paket Selesai ========');
+        // $data = $this->models->getData('bank_soal',1,"id_kategori = 4 AND kisi = 5 AND id_soal IN ({$paket})");
+        // $random = shuffle_assoc($data);
+        // db($random);
+    }
+
     function generateSoal()
     {
-        $number = UniqueRandomNumbersWithinRange(1,10,5);
-        $paket = implode(",", $number);
-
-        $data = $this->models->getData('bank_soal',1,"id_kategori = 4 AND kisi = 5 AND id_soal IN ({$paket})");
-        $random = shuffle_assoc($data);
-        db($random);
+        
     }
     
 

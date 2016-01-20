@@ -91,5 +91,10 @@ class contentHelper extends Database {
         if ($fetch) return $fetch;
         return false;
     }
+    function getStatusEvent(){
+
+        $query="select * from ujian";
+        return $event;
+    }
 }
 ?>

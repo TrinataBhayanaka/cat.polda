@@ -969,4 +969,22 @@ function UniqueRandomNumbersWithinRange($min, $max, $quantity) {
     shuffle($numbers);
     return array_slice($numbers, 0, $quantity);
 }
+
+function randomize_number($stack,$quantity,$packet)
+{
+	shuffle($stack);
+
+	for($i=0;$i<$packet;$i++){
+		$data = array_slice($stack, 0, $quantity);
+		foreach ($data as $key => $value) {
+			if(($key = array_search($value, $stack)) !== false) {
+			    unset($stack[$key]);
+			}
+		}
+		$hasil[$i] = $data;	
+	}
+	
+	return $hasil;
+}
+
 ?>

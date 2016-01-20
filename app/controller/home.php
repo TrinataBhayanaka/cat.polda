@@ -49,6 +49,15 @@ class home extends Controller {
     {
     	return $this->loadView('hasil');
     }
+    function static_event()
+    {
+        header('Content-Type: text/event-stream');
+        header('Cache-Control: no-cache');
+
+        $time = date('r');
+        echo "data: bayu The server time is: {$time}\n\n";
+        flush();
+    }
 
 }
 
