@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2016 at 09:33 AM
+-- Generation Time: Jan 20, 2016 at 01:06 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -19,6 +19,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `cat_polda`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bank_soal`
+--
+
+CREATE TABLE IF NOT EXISTS `bank_soal` (
+  `id_soal` int(11) NOT NULL AUTO_INCREMENT,
+  `tipe_soal` int(11) NOT NULL DEFAULT '0',
+  `penulis` varchar(255) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
+  `kisi` int(11) NOT NULL DEFAULT '0' COMMENT 'kategori_soal',
+  `waktu` int(11) NOT NULL DEFAULT '0' COMMENT 'minutes',
+  `tingkatan` int(11) NOT NULL DEFAULT '0',
+  `prosedur_penilaian` int(11) NOT NULL DEFAULT '0',
+  `soal` text NOT NULL,
+  `kunci` text NOT NULL,
+  `pilihan1` text NOT NULL,
+  `pilihan2` text NOT NULL,
+  `pilihan3` text NOT NULL,
+  `pilihan4` text NOT NULL,
+  PRIMARY KEY (`id_soal`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `bank_soal`
+--
+
+INSERT INTO `bank_soal` (`id_soal`, `tipe_soal`, `penulis`, `id_kategori`, `kisi`, `waktu`, `tingkatan`, `prosedur_penilaian`, `soal`, `kunci`, `pilihan1`, `pilihan2`, `pilihan3`, `pilihan4`) VALUES
+(1, 0, '', 4, 5, 0, 0, 0, 'Definisi algoritma adalah :', 'Urutan langkah-langkah logis penyelesaian masalah yang disusun secara sistematis', 'Sebuah system manusia/mesin yang terpadu untuk menyajikan informasi', 'Sebuah kumpulan system yang digunakan pada suatu organisasi', 'Metode untuk menyelesaikan masalah besar', ''),
+(2, 0, '', 4, 5, 0, 0, 0, 'Kriteria algoritma yang baik, kecuali:', 'Kompleks', 'Tepat', 'Logis', 'Proses dapat berakhir', ''),
+(3, 0, '', 4, 5, 0, 0, 0, 'Kode yang mirip dengan kode pemrograman yang sebenarnya disebut juga dengan :', 'Pseudocode', 'Bahasa Pemrograman', 'Sintaks', 'Semantic', ''),
+(4, 0, '', 4, 5, 0, 0, 0, 'Generasi pertama bahasa pemrograman adalah:', 'Machine Language', 'Assembly Language', 'Pascal', 'Basic', ''),
+(5, 0, '', 4, 5, 0, 0, 0, 'Yang termasuk ke dalam bahasa pemrograman OOP adalah :', 'C++', 'C', 'Pascal', 'Fortran', ''),
+(6, 0, '', 4, 5, 0, 0, 0, 'Sejarah Metrologi dimulai sejak perabadan kuno di Mesir berupa standar panjang â€œCubitâ€ yang didefinisikan sebagai panjang lengan bawah dari siku ke ujung jari tengah Firâ€™aun yang sedang memerintah ditambah dengan â€¦', 'lebar telapak tangannya', 'panjang lengan kakinya', 'panjang jari jempol', 'panjang lengan atasnya', ''),
+(7, 0, '', 4, 5, 0, 0, 0, 'Metrologi modern dimulai sejak Revolusi Perancis (1795) dengan penetapan standar meter yaitu sepersepuluh juta bagian dari seperempat meridian bumi atau sepersepuluh juta bagian dari jarak antara kota Barcelona dengan kotaâ€¦', 'Dunkirk', 'Paris', 'Bavaria', 'Cordova', ''),
+(8, 0, '', 4, 5, 0, 0, 0, 'Metrologi dibagi menjadi 3, yaitu:', 'Ilmiah, Industri dan Legal', 'Dasar, Turunan, dan Legal', 'Dasar, Industri, dan Legal', 'Ilmiah, Turunan, dan Legal', ''),
+(9, 0, '', 4, 5, 0, 0, 0, 'Menjamin transparansi transaksi ekonomi dan perlindungan konsumen merupakan salah satu peran Metrologi?', 'Legal', 'Dasar', 'Industri', 'Ilmiah', ''),
+(10, 0, '', 4, 5, 0, 0, 0, 'Alasan utama kalibrasi alat ukur kecuali?', 'agar tidak cepat rusak atau awet', 'membangun dan menunjukkan ketertelusuran', 'memastikan konsistensi dan keakuratan pembacaan alat ukur', 'menjaga reliabilitas alat ukur agar dapat dipercaya', '');
 
 -- --------------------------------------------------------
 
@@ -165,8 +205,8 @@ CREATE TABLE IF NOT EXISTS `jawaban` (
   `no_urut` int(11) NOT NULL,
   `id_soal` int(11) NOT NULL,
   `kategori` int(11) NOT NULL,
-  `kunci` int(11) NOT NULL,
-  `jawaban` int(11) NOT NULL,
+  `kunci` text NOT NULL,
+  `jawaban` text NOT NULL,
   `nilai` int(11) NOT NULL,
   `id_peserta` int(11) NOT NULL,
   PRIMARY KEY (`id_jawaban`)
@@ -204,19 +244,22 @@ INSERT INTO `lokasi` (`id_lokasi`, `nama_lokasi`, `status_pemanfaatan`) VALUES
 
 CREATE TABLE IF NOT EXISTS `master_kategori` (
   `id_master` int(11) NOT NULL AUTO_INCREMENT,
+  `id_parent` int(11) NOT NULL,
   `nama_master` text NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_master`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='daftar nama mata pelajaran/soal' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='daftar nama mata pelajaran/soal' AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `master_kategori`
 --
 
-INSERT INTO `master_kategori` (`id_master`, `nama_master`) VALUES
-(1, 'BAHASA INGGRIS'),
-(2, 'BAHASA INDONESIA'),
-(3, 'MATEMATIKA'),
-(4, 'PENGETAHUAN UMUM');
+INSERT INTO `master_kategori` (`id_master`, `id_parent`, `nama_master`, `status`) VALUES
+(1, 0, 'BAHASA INGGRIS', 1),
+(2, 0, 'BAHASA INDONESIA', 0),
+(3, 0, 'MATEMATIKA', 0),
+(4, 0, 'PENGETAHUAN UMUM', 0),
+(5, 4, 'ALGORITMA', 1);
 
 -- --------------------------------------------------------
 
@@ -227,7 +270,10 @@ INSERT INTO `master_kategori` (`id_master`, `nama_master`) VALUES
 CREATE TABLE IF NOT EXISTS `master_peserta` (
   `id_peserta` int(11) NOT NULL AUTO_INCREMENT,
   `id_ujian` int(11) NOT NULL,
+  `id_lokasi` int(11) NOT NULL,
+  `id_ruangan` int(11) NOT NULL,
   `no_peserta` int(11) NOT NULL,
+  `nama` varchar(150) NOT NULL,
   `tgl_lahir` date NOT NULL,
   `status_ujian` int(11) NOT NULL,
   `waktu_mulai` datetime NOT NULL,
@@ -238,7 +284,14 @@ CREATE TABLE IF NOT EXISTS `master_peserta` (
   `keterangan` int(11) NOT NULL,
   PRIMARY KEY (`id_peserta`),
   KEY `id_ujian` (`id_ujian`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `master_peserta`
+--
+
+INSERT INTO `master_peserta` (`id_peserta`, `id_ujian`, `id_lokasi`, `id_ruangan`, `no_peserta`, `nama`, `tgl_lahir`, `status_ujian`, `waktu_mulai`, `durasi_pengerjaan`, `tambahan_waktu`, `waktu_selesai`, `skor_total`, `keterangan`) VALUES
+(1, 0, 2, 12, 98810, 'Albertus Bayu', '1989-09-08', 0, '0000-00-00 00:00:00', 0, 0, '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -368,27 +421,6 @@ INSERT INTO `ruangan` (`id_ruangan`, `id_lokasi`, `nama`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `template_soal`
---
-
-CREATE TABLE IF NOT EXISTS `template_soal` (
-  `id_soal` int(11) NOT NULL AUTO_INCREMENT,
-  `tipe_soal` int(11) NOT NULL DEFAULT '0',
-  `penulis` varchar(255) NOT NULL,
-  `kisi` int(11) NOT NULL DEFAULT '0' COMMENT 'kategori_soal',
-  `waktu` int(11) NOT NULL DEFAULT '0' COMMENT 'minutes',
-  `tingkatan` int(11) NOT NULL DEFAULT '0',
-  `prosedur_penilaian` int(11) NOT NULL DEFAULT '0',
-  `kunci` text NOT NULL,
-  `pilihan1` text NOT NULL,
-  `pilihan2` text NOT NULL,
-  `pilihan3` text NOT NULL,
-  PRIMARY KEY (`id_soal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `ujian`
 --
 
@@ -403,6 +435,8 @@ CREATE TABLE IF NOT EXISTS `ujian` (
   `jumlah_peserta` int(11) NOT NULL,
   `keterangan` int(11) NOT NULL,
   `pilihan_paket` varchar(5) NOT NULL,
+  `status_ujian` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_ujian`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
