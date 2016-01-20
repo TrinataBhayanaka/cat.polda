@@ -8,11 +8,11 @@
             <h4>VERIFIKASI TEST SIP 2016</h4>
           </div>
           <div class="content-box-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" action="{$basedomain}login/local">
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-4 control-label">No. Peserta</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="id_peserta" name="id_peserta" placeholder="mis. 123/123/123" onkeyup="return checkUser()">
+                  <input type="text" class="form-control" id="id_peserta" name="no_peserta" placeholder="mis. 123/123/123" onkeyup="return checkUser()">
                 </div>
               </div>
               <div class="form-group divdetail" style="display:none">
@@ -24,7 +24,7 @@
               <div class="form-group divdetail" style="display:none">
                 <label for="inputEmail3" class="col-sm-4 control-label">Tgl. Lahir</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" name="tgl_lahir">
                 </div>
               </div>
               <div class="form-group">
@@ -40,8 +40,8 @@
               <div class="form-group">
                 <label for="inputPassword3" class="col-sm-4 control-label">Lokasi</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="id_lokasi" id="id_lokasi" onchange="return getRuang()">
-                    <option value="" disabled selected>Pilih Lokasi</option>
+                  <select class="form-control" name="id_lokasi" id="id_lokasi" disabled>
+                    <option value="0" disabled selected>Pilih Lokasi</option>
                   {foreach $lokasi as $val}
                     <option value="{$val.id_lokasi}">{$val.nama_lokasi}</option>
                   {/foreach}
@@ -51,16 +51,19 @@
               <div class="form-group">
                 <label for="inputPassword3" class="col-sm-4 control-label">Ruang</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="id_ruangan" id="id_ruangan">
+                  <select class="form-control" name="id_ruangan" id="id_ruangan" disabled>
                     
                   </select>
                 </div>
               </div>
               
+              <!-- HIDDEN -->
+              <input type="hidden" name="token" value="1">
+
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
-                  <!--<button type="submit" class="btn btn-cat">Verifikasi</button>-->
-                  <a href="{$basedomain}login/demo_1" class="btn btn-cat">Verifikasi</a>
+                  <button type="submit" class="btn btn-cat">Verifikasi</button>
+                  <!-- <a href="{$basedomain}login/demo_1" class="btn btn-cat">Verifikasi</a> -->
                 </div>
               </div>
             </form>
@@ -86,16 +89,23 @@
       if(data[0]){
         $(".main_content").css('padding-top','60px');
         $("#nama").val(data[0].nama);
-        $(".divdetail").show(300); 
+        $("#id_lokasi").val(data[0].id_lokasi);
+        $(".divdetail").show(300);
+
+        getRuang(data[0].id_ruangan); 
+      } else {
+        $("#nama").val('');
+        $(".divdetail").hide(300);
+        $("#id_lokasi").val(0);
+        getRuang(0);
       } 
     },"JSON")
   }
 
-  function getRuang()
+  function getRuang(item)
   {
-    var idLokasi = $('#id_lokasi').val();
     var template = "";
-    $.post(basedomain+'login/ajaxgetRuang', {idLokasi:idLokasi}, function(data){
+    $.post(basedomain+'login/ajaxgetRuang', {idLokasi:item}, function(data){
 
       $('#id_ruangan')
           .find('option')
@@ -109,6 +119,12 @@
         }
 
         $("#id_ruangan").html(template);
+      } else {
+        $('#id_ruangan')
+          .find('option')
+          .remove()
+          .end()
+        ;
       }
       
     },"JSON")

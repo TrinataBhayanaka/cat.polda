@@ -1,64 +1,164 @@
+
+<header class="header">
+    <div class="pull-left">
+      <a href="<?php echo $base_url;?>" class="logo">
+        <div>TEST SIP 2016 - NAMA MATERI TERPILIH</div>
+        <div class="sublogo">Kampus D Depok - Ruangan D436 LEPKOM</div>
+      </a>
+    </div>
+    <div class="pull-right time">
+      <span class="mr"><strong>Mulai</strong> 15 Januari 2016 20:30:58</span> <span class="mr"><strong>Sisa waktu</strong> 1 Jam 29 Menit 45 Detik</span>
+      <a href="{$basedomain}home/hasil" class="btn btn-cat">Selesai</a>
+    </div>
+    <div class="clearfix"></div>
+</header>
+
 <!--main content start-->
   <div class="container main_content">
     <div class="row">
-      <div class="col-xs-4 col-xs-offset-4">
+      <div class="col-xs-7">
         <div class="content-box">
-          <div class="content-box-header cops-uniform text-center">
-            <img src="{$basedomain}assets/img/logo-polda.png" style="width: 50px;">
-            <h4>TEST SIP 2016</h4>
+          <div class="content-box-header retro-red">
+            <div class="pull-left">LIST SOAL (90 Menit)</div>
+            <div class="pull-right">PAKET A</div>
+            <div class="clearfix"></div>
           </div>
           <div class="content-box-body">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-4 control-label">No. Peserta</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" placeholder="mis. 123/123/123">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputPassword3" class="col-sm-4 control-label">Materi</label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>Nama Materi 1</option>
-                    <option>Nama Materi 2</option>
-                    <option>Nama Materi 3</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputPassword3" class="col-sm-4 control-label">Lokasi</label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>Kampus D Depok</option>
-                    <option>Kampus E Depok</option>
-                    <option>Kampus G Depok</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputPassword3" class="col-sm-4 control-label">Ruang</label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>D436 LEPKOM</option>
-                    <option>D541 IBC</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-8">
-                  <!--<button type="submit" class="btn btn-cat">Mulai</button>-->
-                  <a href="{$basedomain}soal" class="btn btn-cat">Mulai</a>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div class="content-box-footer text-center">
-            &copy; 2016 - CAT POLDA
+            <table class="table dttable table-bordered">
+              <thead>
+                <tr>
+                  <td>No.</td>
+                  <td>Pertanyaan</td>
+                  <td>Jawaban</td>
+                  <td>Pilih</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Cara penyusunan naskah dinas harus memperhitungkan segi keindahan, yaitu meliputi:</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Ketentuan yang ditetapkan oleh Kepala Kepolisian yang berwenang dan memuat kebijakan yang bersifat mengatur dan mengikat secara umum adalah pengertian dari:</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Salah satu ciri peraturan adalah:</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center"><a href="<?php echo $base_url;?>mulai-2.php" class="btn btn-xs btn-cat">Pilih</a></td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Peraturan Kapolri harus diundangkan dengan penempatan dalam …</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Naskah dinas harus dilaksanakan secara tepat guna dan berdaya guna, salah satu faktor yang perlu diperhatikan  adalah</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
+                </tr>
+                <tr>
+                  <td class="text-center">6</td>
+                  <td>Naskah dinas di lingkungan Polri digunakan sebagai komunikasi untuk penyampaian, yaitu:</td>
+                  <td class="text-center">-</td>
+                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div> <!-- END COL-XS-7 -->
+
+      <div class="col-xs-5">
+        <div class="content-box">
+          <div class="content-box-header dark-green">
+            <div class="pull-left">DATA PESERTA</div>
+            <div class="pull-right">0291/L/0027</div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="content-box-body">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td><strong>Nama </strong>: JOHN DOE</td>
+                  <td class="text-center"><strong>L</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="content-box">
+          <div class="content-box-header retro-blue">
+            <div class="pull-left">SOAL TERPILIH</div>
+            <div class="pull-right">No. 3</div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="content-box-body">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td><strong>Soal Cerita</strong></td>
+                  <td> -</td>
+                </tr>
+                <tr>
+                  <td><strong>Pertanyaan</strong></td>
+                  <td>Salah satu ciri peraturan adalah:</td>
+                </tr>
+                <tr>
+                  <td><strong>Jawaban</strong></td>
+                  <td>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="jawaban" value="A">
+                        A. Bersifat perintah.
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="jawaban" value="B">
+                        B. Bersifat penetapan.
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="jawaban" value="C">
+                        C. Bersifat mengatur dan mengikat secara umum.
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="jawaban" value="D">
+                        D. Bersifat arahan.
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php" class="btn btn-cat">Simpan</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div> <!-- END COL-XS-5 -->
     </div>     
   </div><!-- /MAIN CONTENT --> 
   <!--main content end-->
+
+
+<footer class="site-footer">
+  <div class="text-center">
+      &copy; 2016 - CAT POLDA
+      <a href="#" class="go-top">
+          <i class="fa fa-angle-up"></i>
+      </a>
+  </div>
+</footer>

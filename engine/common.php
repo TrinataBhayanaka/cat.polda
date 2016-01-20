@@ -951,4 +951,22 @@ function formatSizeUnits($bytes)
 
     return $bytes;
 }
+
+function shuffle_assoc($list) { 
+	if (!is_array($list)) return $list; 
+
+	$keys = array_keys($list); 
+	shuffle($keys); 
+	$random = array(); 
+	foreach ($keys as $key) { 
+		$random[$key] = $list[$key]; 
+	}
+	return $random; 
+} 
+
+function UniqueRandomNumbersWithinRange($min, $max, $quantity) {
+    $numbers = range($min, $max);
+    shuffle($numbers);
+    return array_slice($numbers, 0, $quantity);
+}
 ?>

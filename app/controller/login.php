@@ -26,7 +26,7 @@ class login extends Controller {
 	
 	function index(){
         
-        $materi = $this->models->getData('master_kategori',1);
+        $materi = $this->models->getData('master_kategori',1,'status = 1');
         $lokasi = $this->models->getData('lokasi',1,'status_pemanfaatan = 1');
 
         $this->view->assign('materi',$materi);
@@ -39,19 +39,16 @@ class login extends Controller {
     function local()
     {
         // db($_POST);
-        global $basedomain;
+        global $basedomain, $CONFIG;
         if (isset($_POST['token'])){
 
             $validateData = $this->loginHelper->local($_POST);
-           
+           // db($validateData);
             if ($validateData){
-                // set session
-                $setSession = $this->loadSession->set_session($validateData);
-                    redirect($basedomain.'home');
-                exit;
+                // db($basedomain.$CONFIG['default']['default_view']);
+                redirect($basedomain.$CONFIG['default']['default_view']);
             }else{
-                echo "<script>alert('Username atau Password anda salah');</script>";
-                redirect($basedomain);exit;
+                redirect($basedomain.$CONFIG['default']['login']);
             }
 
         }
@@ -74,11 +71,21 @@ class login extends Controller {
     {
         $idLokasi = $_POST['idLokasi'];
 
-        $data = $this->models->getData('ruangan',1,"id_lokasi = {$idLokasi}");
+        $data = $this->models->getData('ruangan',1,"id_ruangan = {$idLokasi}");
 
         print json_encode($data);
 
         exit;
+    }
+
+    function generateSoal()
+    {
+        $number = UniqueRandomNumbersWithinRange(1,10,5);
+        $paket = implode(",", $number);
+
+        $data = $this->models->getData('bank_soal',1,"id_kategori = 4 AND kisi = 5 AND id_soal IN ({$paket})");
+        $random = shuffle_assoc($data);
+        db($random);
     }
     
 

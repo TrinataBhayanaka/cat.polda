@@ -9,6 +9,7 @@ class loginHelper extends Database {
         global $basedomain;
         $this->loadmodule();
         $this->salt = '12345678PnD';
+        $this->session = new Session;
     }
     
     function loadmodule()
@@ -64,32 +65,33 @@ class loginHelper extends Database {
 		if($data== false) return false;
 		
 	    
-        $username = clean($data['username']);
+        $no_peserta = clean($data['no_peserta']);
 
 		// $sql = "SELECT * FROM social_member where username = '{$data['username']}' AND password = '{$password}' LIMIT 1";
 		$sql = array(
-                'table'=>"{$this->prefix}_users",
-                'field'=>"TOP 1 *",
-                'condition'=>"( username = '{$username}' OR email = '{$username}') AND n_status = 1"
+                'table'=>"master_peserta",
+                'field'=>"*",
+                'condition'=>"no_peserta = '{$no_peserta}' AND status_ujian = 0"
                 );
 
         $res = $this->lazyQuery($sql,$debug);
         // pr($res);
+        // db($data);
         if ($res){
 
-            $password = sha1($res[0]['salt'] . $data['password'] . $res[0]['salt']);
             // pr($password);
             // exit;
-            if ($res[0]['password'] == $password){
-
-                $login_count = intval($res[0]['login_count']) + 1;
+            if ($res[0]['tgl_lahir'] == $data['tgl_lahir']){
+                
+                $status_ujian = 1;
                 $sql = array(
-                        'table'=>"{$this->prefix}_users",
-                        'field'=>"login_count = {$login_count}, is_online = 1",
-                        'condition'=>"idUser = '{$res[0]['idUser']}'",
+                        'table'=>"master_peserta",
+                        'field'=>"status_ujian = {$status_ujian}",
+                        'condition'=>"no_peserta = '{$res[0]['no_peserta']}'",
                         );
 
                 $result = $this->lazyQuery($sql,$debug,2);
+                $this->session->set_session($res);
                 return $res;
             }
         }
