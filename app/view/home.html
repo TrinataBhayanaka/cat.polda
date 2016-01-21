@@ -1,22 +1,8 @@
-
-
-
-<script>
-if(typeof(EventSource) !== "undefined") {
-    var source = new EventSource(basedomain+"home/static_event");
-    source.onmessage = function(event) {
-        document.getElementById("result_event").innerHTML = event.data ;
-    };
-} else {
-    document.getElementById("result_event").innerHTML = "Sorry, your browser does not support server-sent events...";
-}
-</script>
-
 <header class="header">
     <div class="pull-left">
       <a href="<?php echo $base_url;?>" class="logo">
-        <div>TEST SIP 2016 - NAMA MATERI TERPILIH</div>
-        <div class="sublogo">Kampus D Depok - Ruangan D436 LEPKOM</div>
+        <div>TEST SIP 2016 - {$detailujian.nama_master}</div>
+        <div class="sublogo">{$lokasi.nama_lokasi} - Ruangan {$ruangan.nama}</div>
       </a>
     </div>
     <div class="pull-right time">
@@ -32,8 +18,8 @@ if(typeof(EventSource) !== "undefined") {
       <div class="col-xs-7">
         <div class="content-box">
           <div class="content-box-header retro-red">
-            <div class="pull-left">LIST SOAL (90 Menit)</div>
-            <div class="pull-right">PAKET A</div>
+            <div class="pull-left">LIST SOAL ({$ujian.lama_ujian} Menit)</div>
+            <div class="pull-right">PAKET {$paket.paket}</div>
             <div class="clearfix"></div>
           </div>
           <div class="content-box-body">
@@ -47,42 +33,14 @@ if(typeof(EventSource) !== "undefined") {
                 </tr>
               </thead>
               <tbody>
+              {foreach $soal as $key => $val}
                 <tr>
-                  <td class="text-center">1</td>
-                  <td>Cara penyusunan naskah dinas harus memperhitungkan segi keindahan, yaitu meliputi:</td>
+                  <td class="text-center">{$key+1}</td>
+                  <td>{$val.soal}</td>
                   <td class="text-center">-</td>
-                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
+                  <td class="text-center"><a href="#" onclick="return switchDiv({$key+1})" class="btn btn-xs btn-cat">Pilih</a></td>
                 </tr>
-                <tr>
-                  <td class="text-center">2</td>
-                  <td>Ketentuan yang ditetapkan oleh Kepala Kepolisian yang berwenang dan memuat kebijakan yang bersifat mengatur dan mengikat secara umum adalah pengertian dari:</td>
-                  <td class="text-center">-</td>
-                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
-                </tr>
-                <tr>
-                  <td class="text-center">3</td>
-                  <td>Salah satu ciri peraturan adalah:</td>
-                  <td class="text-center">-</td>
-                  <td class="text-center"><a href="<?php echo $base_url;?>mulai-2.php" class="btn btn-xs btn-cat">Pilih</a></td>
-                </tr>
-                <tr>
-                  <td class="text-center">4</td>
-                  <td>Peraturan Kapolri harus diundangkan dengan penempatan dalam …</td>
-                  <td class="text-center">-</td>
-                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
-                </tr>
-                <tr>
-                  <td class="text-center">5</td>
-                  <td>Naskah dinas harus dilaksanakan secara tepat guna dan berdaya guna, salah satu faktor yang perlu diperhatikan  adalah</td>
-                  <td class="text-center">-</td>
-                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
-                </tr>
-                <tr>
-                  <td class="text-center">6</td>
-                  <td>Naskah dinas di lingkungan Polri digunakan sebagai komunikasi untuk penyampaian, yaitu:</td>
-                  <td class="text-center">-</td>
-                  <td class="text-center"><a href="#" class="btn btn-xs btn-cat">Pilih</a></td>
-                </tr>
+              {/foreach}
               </tbody>
             </table>
           </div>
@@ -93,14 +51,14 @@ if(typeof(EventSource) !== "undefined") {
         <div class="content-box">
           <div class="content-box-header dark-green">
             <div class="pull-left">DATA PESERTA</div>
-            <div class="pull-right">0291/L/0027</div>
+            <div class="pull-right">{$user.no_peserta}</div>
             <div class="clearfix"></div>
           </div>
           <div class="content-box-body">
             <table class="table table-bordered">
               <tbody>
                 <tr>
-                  <td><strong>Nama </strong>: JOHN DOE</td>
+                  <td><strong>Nama </strong>: {$user.nama}</td>
                   <td class="text-center"><strong>L</strong></td>
                 </tr>
               </tbody>
@@ -108,7 +66,7 @@ if(typeof(EventSource) !== "undefined") {
           </div>
         </div>
 
-        <div class="content-box">
+        <div class="content-box"  id="quiz">
           <div class="content-box-header retro-blue">
             <div class="pull-left">SOAL TERPILIH</div>
             <div class="pull-right">No. 3</div>
@@ -118,45 +76,22 @@ if(typeof(EventSource) !== "undefined") {
             <table class="table table-bordered">
               <tbody>
                 <tr>
-                  <td><strong>Soal Cerita</strong></td>
-                  <td> -</td>
+                  <td><strong>Kisi - Kisi</strong></td>
+                  <td> - </td>
                 </tr>
                 <tr>
                   <td><strong>Pertanyaan</strong></td>
-                  <td>Salah satu ciri peraturan adalah:</td>
+                  <td> - </td>
                 </tr>
                 <tr>
                   <td><strong>Jawaban</strong></td>
                   <td>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="jawaban" value="A">
-                        A. Bersifat perintah.
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="jawaban" value="B">
-                        B. Bersifat penetapan.
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="jawaban" value="C">
-                        C. Bersifat mengatur dan mengikat secara umum.
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="jawaban" value="D">
-                        D. Bersifat arahan.
-                      </label>
-                    </div>
+                    
                   </td>
                 </tr>
-                <tr>
+                {*}<tr>
                   <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php" class="btn btn-cat">Simpan</a></td>
-                </tr>
+                </tr>{/*}
               </tbody>
             </table>
           </div>
@@ -175,3 +110,65 @@ if(typeof(EventSource) !== "undefined") {
       </a>
   </div>
 </footer>
+
+<div style="display:none">
+  {foreach $soal as $key => $val}
+   <div class="content-box" id="soal_{$key+1}">
+      <div class="content-box-header retro-blue">
+        <div class="pull-left">SOAL TERPILIH</div>
+        <div class="pull-right">No. {$key+1}</div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="content-box-body">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><strong>Kisi - Kisi</strong></td>
+              <td> - </td>
+            </tr>
+            <tr>
+              <td><strong>Pertanyaan</strong></td>
+              <td> {$val.soal} </td>
+            </tr>
+            <tr>
+              <td><strong>Jawaban</strong></td>
+              <td>
+                {foreach $val.pilihan as $vals}
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="jawaban" value="{$vals}">
+                      {$vals}
+                    </label>
+                  </div>
+                {/foreach}
+              </td>
+            </tr>
+            {*}<tr>
+              <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php" class="btn btn-cat">Simpan</a></td>
+            </tr>{/*}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {/foreach}
+</div>
+
+{literal}
+<script>
+if(typeof(EventSource) !== "undefined") {
+    var source = new EventSource(basedomain+"ujian/static_event");
+    source.onmessage = function(event) {
+        document.getElementById("result_event").innerHTML = event.data ;
+    };
+} else {
+    document.getElementById("result_event").innerHTML = "Sorry, your browser does not support server-sent events...";
+}
+
+function switchDiv(item)
+{
+  $("#quiz").empty();
+  $("#soal_"+item).clone().appendTo("#quiz");
+}
+
+</script>
+{/literal}

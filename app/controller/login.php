@@ -103,14 +103,33 @@ class login extends Controller {
         }
 
         db('======= Generate Paket Selesai ========');
-        // $data = $this->models->getData('bank_soal',1,"id_kategori = 4 AND kisi = 5 AND id_soal IN ({$paket})");
-        // $random = shuffle_assoc($data);
-        // db($random);
     }
 
     function generateSoal()
     {
+        $paket = $this->models->getData('paket_soal',1,"id_kategori = 4");
+        $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$paket[0]['id_soal']})");
+       
+        $total = 500;
         
+        for($i=1;$i<=$total;$i++){
+
+            $soal['id_paket'] = $paket[0]['id_paket'];
+            $soal['id_kategori'] = $paket[0]['id_kategori'];
+            $soal['paket'] = $paket[0]['paket'];
+
+            $exp = explode(",", $paket[0]['id_soal']);
+            $soal['soal'] = implode(",",shuffle_assoc($exp));
+
+            $option = range(1, 4);
+            $soal['opt'] = implode(",",shuffle_assoc($option));
+            
+            $this->models->insert_data($soal,'generated_soal');
+
+        }
+
+
+         db('======= Generate Soal Selesai ========');
     }
     
 

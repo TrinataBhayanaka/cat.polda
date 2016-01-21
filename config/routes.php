@@ -6,14 +6,14 @@
 */
 
 $ROUTES = array(
-		'home',
+		'ujian',
                 'soal',
                 'login'
                 
         );
 
 $ROUTES_IGNORE = array(
-                'home',
+                'ujian',
                 'soal',
                 'login'
         );
