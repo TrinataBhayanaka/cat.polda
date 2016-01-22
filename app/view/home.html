@@ -23,7 +23,7 @@
             <div class="clearfix"></div>
           </div>
           <div class="content-box-body">
-            <table class="table dttable table-bordered">
+            <table id = "dttable" class="table table-bordered">
               <thead>
                 <tr>
                   <td>No.</td>
@@ -37,8 +37,8 @@
                 <tr>
                   <td class="text-center">{$key+1}</td>
                   <td>{$val.soal}</td>
-                  <td class="text-center">-</td>
-                  <td class="text-center"><a href="#" onclick="return switchDiv({$key+1})" class="btn btn-xs btn-cat">Pilih</a></td>
+                  <td class="text-center">{$val.opt}</td>
+                  <td class="text-center"><a href="#" onclick="return switchDiv({$key+1},'{$val.opt}',{$val.id_soal})" class="btn btn-xs btn-cat">{if empty($val.opt)}Pilih{else}Ubah{/if}</a></td>
                 </tr>
               {/foreach}
               </tbody>
@@ -121,10 +121,10 @@
       </div>
       <div class="content-box-body">
         <table class="table table-bordered">
-          <tbody>
+          <!-- <tbody> -->
             <tr>
               <td><strong>Kisi - Kisi</strong></td>
-              <td> - </td>
+              <td> {$val.kisi} </td>
             </tr>
             <tr>
               <td><strong>Pertanyaan</strong></td>
@@ -136,8 +136,8 @@
                 {foreach $val.pilihan as $vals}
                   <div class="radio">
                     <label>
-                      <input type="radio" name="jawaban" onclick="return getAnws({$val.id_soal})" value="{$vals}">
-                      {$vals}
+                      <input type="radio" name="jawaban_{$val.id_soal}" onclick="return getAnws({$val.id_soal},{$val.id_kategori})" id="{$val.id_soal}_{$vals.opt}" value="{$vals.opt}"/>
+                      {$vals.full}
                     </label>
                   </div>
                 {/foreach}
@@ -146,7 +146,7 @@
             {*}<tr>
               <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php" class="btn btn-cat">Simpan</a></td>
             </tr>{/*}
-          </tbody>
+          <!-- </tbody> -->
         </table>
       </div>
     </div>
@@ -164,15 +164,40 @@ if(typeof(EventSource) !== "undefined") {
     document.getElementById("result_event").innerHTML = "Sorry, your browser does not support server-sent events...";
 }
 
-function switchDiv(item)
+function switchDiv(item,opt,id)
 {
   $("#quiz").empty();
   $("#soal_"+item).clone().appendTo("#quiz");
+  // $("#"+id+"_"+opt).prop("checked", true);
+  if(opt){
+    $("#"+id+"_"+opt).attr('checked', true);
+  }
+  
 }
 
-function getAnws(idsoal)
+function getAnws(idsoal,idKategori)
 {
-  alert($("input[name=jawaban]:checked").val());
+  var jwb = $("input[name=jawaban_"+idsoal+"]:checked").val();
+
+  $.post(basedomain+'ujian/ajaxaddJwb', {idsoal:idsoal, jwb:jwb, idKategori:idKategori}, function(data){
+    var info = $('#dttable').DataTable().page.info();
+    var page = info.start;
+    // alert('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
+
+    // $('#dttable').dataTable().fnDestroy();
+    
+    // oTable1.fnStandingRedraw();
+    
+    document.cookie="pagenumber="+page;
+    location.reload();
+    // delete_cookie('pagenumber');
+  },"JSON")
 }
+
+function delete_cookie(name)
+{
+  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 </script>
 {/literal}

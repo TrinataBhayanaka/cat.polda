@@ -65,7 +65,7 @@ class login extends Controller {
     {
         $idUser = $_POST['iduser'];
 
-        $data = $this->models->getData('master_peserta',1,"no_peserta = {$idUser}");
+        $data = $this->models->getData('master_peserta',1,"no_peserta = '{$idUser}'");
 
         print json_encode($data);
 
@@ -107,12 +107,16 @@ class login extends Controller {
 
     function generateSoal()
     {
+        
+        $this->models->delData('generated_soal',"id_kategori = 4");
+
         $paket = $this->models->getData('paket_soal',1,"id_kategori = 4");
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$paket[0]['id_soal']})");
        
-        $total = 500;
+        $user = $this->models->getidUser();
+        $total = count($user);
         
-        for($i=1;$i<=$total;$i++){
+        for($i=0;$i<$total;$i++){
 
             $soal['id_paket'] = $paket[0]['id_paket'];
             $soal['id_kategori'] = $paket[0]['id_kategori'];
@@ -123,7 +127,9 @@ class login extends Controller {
 
             $option = range(1, 4);
             $soal['opt'] = implode(",",shuffle_assoc($option));
-            
+            $soal['id_peserta'] = $user[$i]['id_peserta'];
+            // db($soal);
+
             $this->models->insert_data($soal,'generated_soal');
 
         }

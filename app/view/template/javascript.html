@@ -14,27 +14,31 @@
 <!-- Datatables JS -->
 <script src="{$basedomain}assets/plugin/datatable/js/jquery.dataTables.min.js"></script>
 <script src="{$basedomain}assets/plugin/datatable/js/dataTables.bootstrap.js"></script>
+<script src="{$basedomain}assets/plugin/datatable/js/api.js"></script>
 
 <!--common script for all pages-->
 <script src="{$basedomain}assets/js/cat-scripts.js"></script>
 
+{literal}
 <script type="text/javascript">
-   
+   var tes = getCookie('pagenumber');
     $(document).ready(function() {
         // INITIATE DATATABLE
-            $('.dttable').dataTable({
-            	"dom": '<"top"p><"clear">',
-            	"bLengthChange": false,
-    			"bFilter": false,
-                "pageLength": 5,
-                "language": {
-                    "paginate": {
-                        "next":       "Selanjutnya",
-                        "previous":   "Sebelumnya"
-                    },
-                }
-            }); 
-
+        var tabel = $('#dttable').DataTable({
+        	"dom": '<"top"p><"clear">',
+        	"bLengthChange": false,
+			"bFilter": false,
+            "pageLength": 5,
+            "displayStart": tes,
+            "language": {
+                "paginate": {
+                    "next":       "Selanjutnya",
+                    "previous":   "Sebelumnya"
+                },
+            }
+        }); 
+  
+        // console.log(page);
         // radio selected
         $('input:radio[name="jawaban"]').change(function(){
             $('.radio').css('background-color','transparent');
@@ -45,7 +49,12 @@
 
     });
 
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
 </script>
-
+{/literal}
 </body>
 </html>

@@ -81,7 +81,7 @@ class loginHelper extends Database {
 
             // pr($password);
             // exit;
-            if ($res[0]['tgl_lahir'] == $data['tgl_lahir']){
+            if ($res[0]['nrp'] == $data['nrp']){
                 
                 $status_ujian = 1;
                 // $sql = array(

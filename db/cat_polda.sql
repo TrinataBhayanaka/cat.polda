@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 20, 2016 at 01:06 PM
+-- Generation Time: Jan 22, 2016 at 05:49 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -19,46 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `cat_polda`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bank_soal`
---
-
-CREATE TABLE IF NOT EXISTS `bank_soal` (
-  `id_soal` int(11) NOT NULL AUTO_INCREMENT,
-  `tipe_soal` int(11) NOT NULL DEFAULT '0',
-  `penulis` varchar(255) NOT NULL,
-  `id_kategori` int(11) NOT NULL,
-  `kisi` int(11) NOT NULL DEFAULT '0' COMMENT 'kategori_soal',
-  `waktu` int(11) NOT NULL DEFAULT '0' COMMENT 'minutes',
-  `tingkatan` int(11) NOT NULL DEFAULT '0',
-  `prosedur_penilaian` int(11) NOT NULL DEFAULT '0',
-  `soal` text NOT NULL,
-  `kunci` text NOT NULL,
-  `pilihan1` text NOT NULL,
-  `pilihan2` text NOT NULL,
-  `pilihan3` text NOT NULL,
-  `pilihan4` text NOT NULL,
-  PRIMARY KEY (`id_soal`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
-
---
--- Dumping data for table `bank_soal`
---
-
-INSERT INTO `bank_soal` (`id_soal`, `tipe_soal`, `penulis`, `id_kategori`, `kisi`, `waktu`, `tingkatan`, `prosedur_penilaian`, `soal`, `kunci`, `pilihan1`, `pilihan2`, `pilihan3`, `pilihan4`) VALUES
-(1, 0, '', 4, 5, 0, 0, 0, 'Definisi algoritma adalah :', 'Urutan langkah-langkah logis penyelesaian masalah yang disusun secara sistematis', 'Sebuah system manusia/mesin yang terpadu untuk menyajikan informasi', 'Sebuah kumpulan system yang digunakan pada suatu organisasi', 'Metode untuk menyelesaikan masalah besar', ''),
-(2, 0, '', 4, 5, 0, 0, 0, 'Kriteria algoritma yang baik, kecuali:', 'Kompleks', 'Tepat', 'Logis', 'Proses dapat berakhir', ''),
-(3, 0, '', 4, 5, 0, 0, 0, 'Kode yang mirip dengan kode pemrograman yang sebenarnya disebut juga dengan :', 'Pseudocode', 'Bahasa Pemrograman', 'Sintaks', 'Semantic', ''),
-(4, 0, '', 4, 5, 0, 0, 0, 'Generasi pertama bahasa pemrograman adalah:', 'Machine Language', 'Assembly Language', 'Pascal', 'Basic', ''),
-(5, 0, '', 4, 5, 0, 0, 0, 'Yang termasuk ke dalam bahasa pemrograman OOP adalah :', 'C++', 'C', 'Pascal', 'Fortran', ''),
-(6, 0, '', 4, 5, 0, 0, 0, 'Sejarah Metrologi dimulai sejak perabadan kuno di Mesir berupa standar panjang â€œCubitâ€ yang didefinisikan sebagai panjang lengan bawah dari siku ke ujung jari tengah Firâ€™aun yang sedang memerintah ditambah dengan â€¦', 'lebar telapak tangannya', 'panjang lengan kakinya', 'panjang jari jempol', 'panjang lengan atasnya', ''),
-(7, 0, '', 4, 5, 0, 0, 0, 'Metrologi modern dimulai sejak Revolusi Perancis (1795) dengan penetapan standar meter yaitu sepersepuluh juta bagian dari seperempat meridian bumi atau sepersepuluh juta bagian dari jarak antara kota Barcelona dengan kotaâ€¦', 'Dunkirk', 'Paris', 'Bavaria', 'Cordova', ''),
-(8, 0, '', 4, 5, 0, 0, 0, 'Metrologi dibagi menjadi 3, yaitu:', 'Ilmiah, Industri dan Legal', 'Dasar, Turunan, dan Legal', 'Dasar, Industri, dan Legal', 'Ilmiah, Turunan, dan Legal', ''),
-(9, 0, '', 4, 5, 0, 0, 0, 'Menjamin transparansi transaksi ekonomi dan perlindungan konsumen merupakan salah satu peran Metrologi?', 'Legal', 'Dasar', 'Industri', 'Ilmiah', ''),
-(10, 0, '', 4, 5, 0, 0, 0, 'Alasan utama kalibrasi alat ukur kecuali?', 'agar tidak cepat rusak atau awet', 'membangun dan menunjukkan ketertelusuran', 'memastikan konsistensi dan keakuratan pembacaan alat ukur', 'menjaga reliabilitas alat ukur agar dapat dipercaya', '');
 
 -- --------------------------------------------------------
 
@@ -197,16 +157,40 @@ CREATE TABLE IF NOT EXISTS `ck_menu_parent` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `generated_soal`
+--
+
+CREATE TABLE IF NOT EXISTS `generated_soal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_paket` int(11) NOT NULL,
+  `id_peserta` int(11) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
+  `soal` text NOT NULL,
+  `opt` varchar(10) NOT NULL,
+  `paket` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `generated_soal`
+--
+
+INSERT INTO `generated_soal` (`id`, `id_paket`, `id_peserta`, `id_kategori`, `soal`, `opt`, `paket`) VALUES
+(1, 5, 1, 4, '11,1,14,4,13,6,12,5', '3,1,2,4', 'A');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jawaban`
 --
 
 CREATE TABLE IF NOT EXISTS `jawaban` (
   `id_jawaban` int(11) NOT NULL AUTO_INCREMENT,
-  `no_urut` int(11) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
   `id_soal` int(11) NOT NULL,
-  `kategori` int(11) NOT NULL,
   `kunci` text NOT NULL,
   `jawaban` text NOT NULL,
+  `opt` varchar(15) NOT NULL,
   `nilai` int(11) NOT NULL,
   `id_peserta` int(11) NOT NULL,
   PRIMARY KEY (`id_jawaban`)
@@ -246,7 +230,6 @@ CREATE TABLE IF NOT EXISTS `master_kategori` (
   `id_master` int(11) NOT NULL AUTO_INCREMENT,
   `id_parent` int(11) NOT NULL,
   `nama_master` text NOT NULL,
-  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_master`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='daftar nama mata pelajaran/soal' AUTO_INCREMENT=6 ;
 
@@ -254,12 +237,12 @@ CREATE TABLE IF NOT EXISTS `master_kategori` (
 -- Dumping data for table `master_kategori`
 --
 
-INSERT INTO `master_kategori` (`id_master`, `id_parent`, `nama_master`, `status`) VALUES
-(1, 0, 'BAHASA INGGRIS', 1),
-(2, 0, 'BAHASA INDONESIA', 0),
-(3, 0, 'MATEMATIKA', 0),
-(4, 0, 'PENGETAHUAN UMUM', 0),
-(5, 4, 'ALGORITMA', 1);
+INSERT INTO `master_kategori` (`id_master`, `id_parent`, `nama_master`) VALUES
+(1, 0, 'BAHASA INGGRIS'),
+(2, 0, 'BAHASA INDONESIA'),
+(3, 0, 'MATEMATIKA'),
+(4, 0, 'PENGETAHUAN UMUM'),
+(5, 4, 'ALGORITMA');
 
 -- --------------------------------------------------------
 
@@ -272,8 +255,9 @@ CREATE TABLE IF NOT EXISTS `master_peserta` (
   `id_ujian` int(11) NOT NULL,
   `id_lokasi` int(11) NOT NULL,
   `id_ruangan` int(11) NOT NULL,
-  `no_peserta` int(11) NOT NULL,
+  `no_peserta` varchar(50) NOT NULL,
   `nama` varchar(150) NOT NULL,
+  `nrp` varchar(50) NOT NULL,
   `tgl_lahir` date NOT NULL,
   `status_ujian` int(11) NOT NULL,
   `waktu_mulai` datetime NOT NULL,
@@ -290,8 +274,54 @@ CREATE TABLE IF NOT EXISTS `master_peserta` (
 -- Dumping data for table `master_peserta`
 --
 
-INSERT INTO `master_peserta` (`id_peserta`, `id_ujian`, `id_lokasi`, `id_ruangan`, `no_peserta`, `nama`, `tgl_lahir`, `status_ujian`, `waktu_mulai`, `durasi_pengerjaan`, `tambahan_waktu`, `waktu_selesai`, `skor_total`, `keterangan`) VALUES
-(1, 0, 2, 12, 98810, 'Albertus Bayu', '1989-09-08', 0, '0000-00-00 00:00:00', 0, 0, '0000-00-00 00:00:00', 0, 0);
+INSERT INTO `master_peserta` (`id_peserta`, `id_ujian`, `id_lokasi`, `id_ruangan`, `no_peserta`, `nama`, `nrp`, `tgl_lahir`, `status_ujian`, `waktu_mulai`, `durasi_pengerjaan`, `tambahan_waktu`, `waktu_selesai`, `skor_total`, `keterangan`) VALUES
+(1, 1, 1, 4, '373/P/PMJ', 'NUR SUHARTONO', '83110054', '2016-01-22', 0, '0000-00-00 00:00:00', 90, 0, '0000-00-00 00:00:00', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_soal`
+--
+
+CREATE TABLE IF NOT EXISTS `master_soal` (
+  `id_soal` int(11) NOT NULL AUTO_INCREMENT,
+  `tipe_soal` int(11) NOT NULL DEFAULT '0',
+  `penulis` varchar(255) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
+  `kisi` int(11) NOT NULL DEFAULT '0' COMMENT 'kategori_soal',
+  `waktu` int(11) NOT NULL DEFAULT '0' COMMENT 'minutes',
+  `tingkatan` int(11) NOT NULL DEFAULT '0',
+  `prosedur_penilaian` int(11) NOT NULL DEFAULT '0',
+  `soal` text NOT NULL,
+  `1` text NOT NULL COMMENT 'kunci',
+  `2` text NOT NULL,
+  `3` text NOT NULL,
+  `4` text NOT NULL,
+  `5` text NOT NULL,
+  PRIMARY KEY (`id_soal`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+--
+-- Dumping data for table `master_soal`
+--
+
+INSERT INTO `master_soal` (`id_soal`, `tipe_soal`, `penulis`, `id_kategori`, `kisi`, `waktu`, `tingkatan`, `prosedur_penilaian`, `soal`, `1`, `2`, `3`, `4`, `5`) VALUES
+(1, 0, '', 4, 5, 0, 0, 0, 'Definisi algoritma adalah :', 'Urutan langkah-langkah logis penyelesaian masalah yang disusun secara sistematis', 'Sebuah system manusia/mesin yang terpadu untuk menyajikan informasi', 'Sebuah kumpulan system yang digunakan pada suatu organisasi', 'Metode untuk menyelesaikan masalah besar', ''),
+(2, 0, '', 4, 5, 0, 0, 0, 'Kriteria algoritma yang baik, kecuali:', 'Kompleks', 'Tepat', 'Logis', 'Proses dapat berakhir', ''),
+(3, 0, '', 4, 5, 0, 0, 0, 'Kode yang mirip dengan kode pemrograman yang sebenarnya disebut juga dengan :', 'Pseudocode', 'Bahasa Pemrograman', 'Sintaks', 'Semantic', ''),
+(4, 0, '', 4, 5, 0, 0, 0, 'Generasi pertama bahasa pemrograman adalah:', 'Machine Language', 'Assembly Language', 'Pascal', 'Basic', ''),
+(5, 0, '', 4, 5, 0, 0, 0, 'Yang termasuk ke dalam bahasa pemrograman OOP adalah :', 'C++', 'C', 'Pascal', 'Fortran', ''),
+(6, 0, '', 4, 5, 0, 0, 0, 'Sejarah Metrologi dimulai sejak perabadan kuno di Mesir berupa standar panjang â€œCubitâ€ yang didefinisikan sebagai panjang lengan bawah dari siku ke ujung jari tengah Firâ€™aun yang sedang memerintah ditambah dengan â€¦', 'lebar telapak tangannya', 'panjang lengan kakinya', 'panjang jari jempol', 'panjang lengan atasnya', ''),
+(7, 0, '', 4, 5, 0, 0, 0, 'Metrologi modern dimulai sejak Revolusi Perancis (1795) dengan penetapan standar meter yaitu sepersepuluh juta bagian dari seperempat meridian bumi atau sepersepuluh juta bagian dari jarak antara kota Barcelona dengan kotaâ€¦', 'Dunkirk', 'Paris', 'Bavaria', 'Cordova', ''),
+(8, 0, '', 4, 5, 0, 0, 0, 'Metrologi dibagi menjadi 3, yaitu:', 'Ilmiah, Industri dan Legal', 'Dasar, Turunan, dan Legal', 'Dasar, Industri, dan Legal', 'Ilmiah, Turunan, dan Legal', ''),
+(9, 0, '', 4, 5, 0, 0, 0, 'Menjamin transparansi transaksi ekonomi dan perlindungan konsumen merupakan salah satu peran Metrologi?', 'Legal', 'Dasar', 'Industri', 'Ilmiah', ''),
+(10, 0, '', 4, 5, 0, 0, 0, 'Alasan utama kalibrasi alat ukur kecuali?', 'agar tidak cepat rusak atau awet', 'membangun dan menunjukkan ketertelusuran', 'memastikan konsistensi dan keakuratan pembacaan alat ukur', 'menjaga reliabilitas alat ukur agar dapat dipercaya', ''),
+(11, 0, '', 4, 5, 0, 0, 0, 'Kegiatan untuk menilai bahwa barang, jasa, proses, sistem, atau personel telah memenuhi persyaratan acuan atau standar merupakan pengertian dari?', 'Penilaian Kesesuaian', 'Sertifikasi', 'Standardisasi', 'Akreditasi', ''),
+(12, 0, '', 4, 5, 0, 0, 0, 'Prinsip mengenai penilaian kesesuaian terkandung di dalam?', 'ISO/IEC 17000:2004', 'ISO 9001:2008', 'ISO 15189:2012', 'ISO/IEC Guide 2:2004', ''),
+(13, 0, '', 4, 5, 0, 0, 0, 'Kegiatan di dalam penilaian kesesuaian pada dasarnya bersifat....', 'Sukarela', 'Wajib', 'Positif', 'Mandatory', ''),
+(14, 0, '', 4, 5, 0, 0, 0, 'Berdasarkan pihak penilai, praktik penilaian kesesuaian dapat menjadi tiga, yaitu..', 'Pihak Pertama, Pihak Kedua, Pihak Ketiga', 'Produsen, Pemasok, Konsumen', 'Produsen, Konsumen, Regulator', 'Input, Proses, Output', ''),
+(15, 0, '', 4, 5, 0, 0, 0, 'Kegiatan penilaian kesesuaian yang dilakukan oleh produsen yang menyediakan obyek yang sedang dinilai adalah pengertian dari?', 'Pihak Pertama', 'Produsen', 'Regulator', 'Proses', ''),
+(16, 0, '', 4, 5, 0, 0, 0, 'Berikut prinsip penilaian kesesuaian yang harus dipenuhi, kecuali?', 'Berikut prinsip penilaian kesesuaian yang harus dipenuhi, kecualiâ€¦', 'Kompeten, tidak memihak, terbuka', 'Tidak memihak, Terbuka, Efektif', 'Transparan, Terbuka, Konvergen', '');
 
 -- --------------------------------------------------------
 
@@ -300,11 +330,21 @@ INSERT INTO `master_peserta` (`id_peserta`, `id_ujian`, `id_lokasi`, `id_ruangan
 --
 
 CREATE TABLE IF NOT EXISTS `paket_soal` (
-  `id_soal` int(11) NOT NULL,
-  `kategori` varchar(255) NOT NULL,
-  `paket` int(11) NOT NULL,
-  `waktu_acak` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_paket` int(11) NOT NULL AUTO_INCREMENT,
+  `id_soal` text NOT NULL,
+  `id_kategori` int(11) NOT NULL,
+  `paket` varchar(11) NOT NULL,
+  `waktu_acak` datetime NOT NULL,
+  PRIMARY KEY (`id_paket`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `paket_soal`
+--
+
+INSERT INTO `paket_soal` (`id_paket`, `id_soal`, `id_kategori`, `paket`, `waktu_acak`) VALUES
+(5, '1,5,4,6,13,11,14,12', 4, 'A', '2016-01-20 05:32:42'),
+(6, '16,10,8,7,9,15,3,2', 4, 'B', '2016-01-20 05:32:42');
 
 -- --------------------------------------------------------
 
@@ -433,12 +473,19 @@ CREATE TABLE IF NOT EXISTS `ujian` (
   `mulai` int(11) NOT NULL,
   `selesai` int(11) NOT NULL,
   `jumlah_peserta` int(11) NOT NULL,
-  `keterangan` int(11) NOT NULL,
+  `keterangan` text NOT NULL,
   `pilihan_paket` varchar(5) NOT NULL,
-  `status_ujian` tinyint(1) NOT NULL,
+  `status_ujian` tinyint(1) NOT NULL COMMENT '0:belum mulai;1:verifikasi;2:sedang dimulai;3:selesai',
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_ujian`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `ujian`
+--
+
+INSERT INTO `ujian` (`id_ujian`, `id_kategori`, `lama_ujian`, `jumlah_soal`, `waktu_ujian`, `mulai`, `selesai`, `jumlah_peserta`, `keterangan`, `pilihan_paket`, `status_ujian`, `status`) VALUES
+(1, 4, 90, 8, '2016-01-20', 0, 0, 500, '0', '2', 0, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
