@@ -111,8 +111,11 @@ class ujian extends Controller {
         if(count($jwb) == 2){
             $data['jawaban'] = $jwb[1];
             $data['opt'] = $jwb[0];
+        } else {
+            $data['jawaban'] = "";
+            $data['opt'] = "";
         }
-        
+
         $data['id_peserta'] = $this->user['id_peserta'];
 
         $soal = $this->models->getData('master_soal',0,"id_soal = {$data['id_soal']}");
