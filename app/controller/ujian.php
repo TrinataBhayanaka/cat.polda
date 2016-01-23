@@ -108,8 +108,11 @@ class ujian extends Controller {
         $data['id_soal'] = $_POST['idsoal'];
         $data['id_kategori'] = $_POST['idKategori'];
         $jwb = explode(". ", $_POST['jwb']);
-        $data['jawaban'] = $jwb[1];
-        $data['opt'] = $jwb[0];
+        if(count($jwb) == 2){
+            $data['jawaban'] = $jwb[1];
+            $data['opt'] = $jwb[0];
+        }
+        
         $data['id_peserta'] = $this->user['id_peserta'];
 
         $soal = $this->models->getData('master_soal',0,"id_soal = {$data['id_soal']}");
