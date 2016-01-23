@@ -32,15 +32,15 @@
             "displayStart": tes,
             "language": {
                 "paginate": {
-                    "next":       "Selanjutnya",
-                    "previous":   "Sebelumnya"
+                    "next":       "",
+                    "previous":   ""
                 },
             }
         }); 
   
         // console.log(page);
         // radio selected
-        $('input:radio[name="jawaban"]').change(function(){
+        $('input:radio[class="radio-button"]').change(function(){
             $('.radio').css('background-color','transparent');
             if ($(this).prop( "checked", true )) {
                 $(this).parents('.radio').css('background-color','#DFF0D8');
