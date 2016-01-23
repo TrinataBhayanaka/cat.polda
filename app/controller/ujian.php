@@ -24,7 +24,7 @@ class ujian extends Controller {
 	
 	function index(){
 		global $basedomain;
-
+       
         $ujian = $this->models->getData('ujian',0,"id_kategori = 4 AND status = 1");
         $detailujian = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
         $paket = $this->models->getData('paket_soal',0,"id_kategori = 4 AND paket = 'A'");
@@ -32,7 +32,7 @@ class ujian extends Controller {
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$tmp_soal['soal']})");
         $lokasi = $this->models->getData('lokasi',0,"id_lokasi = {$this->user['id_lokasi']}");
         $ruangan = $this->models->getData('ruangan',0,"id_ruangan = {$this->user['id_ruangan']}");
-        
+
         $exp = explode(",", $tmp_soal['soal']);
         $opt = explode(",", $tmp_soal['opt']);
         foreach ($exp as $key => $value) {

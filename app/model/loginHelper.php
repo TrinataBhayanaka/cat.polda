@@ -71,7 +71,7 @@ class loginHelper extends Database {
 		$sql = array(
                 'table'=>"master_peserta",
                 'field'=>"*",
-                'condition'=>"no_peserta = '{$no_peserta}' AND status_ujian = 0"
+                'condition'=>"no_peserta = '{$no_peserta}'"
                 );
 
         $res = $this->lazyQuery($sql,$debug);
@@ -84,13 +84,13 @@ class loginHelper extends Database {
             if ($res[0]['nrp'] == $data['nrp']){
                 
                 $status_ujian = 1;
-                // $sql = array(
-                //         'table'=>"master_peserta",
-                //         'field'=>"status_ujian = {$status_ujian}",
-                //         'condition'=>"no_peserta = '{$res[0]['no_peserta']}'",
-                //         );
+                $waktu_ujian = date('Y-m-d h:i:s', time());
+                
+                if(!isset($_COOKIE['id_peserta'])){
+                    $sql = "UPDATE master_peserta SET status_ujian = {$status_ujian}, waktu_mulai = '{$waktu_ujian}' WHERE no_peserta = '{$res[0]['no_peserta']}'";
+                    $this->query($sql);
+                }
 
-                // $result = $this->lazyQuery($sql,$debug,2);
                 $this->session->set_session($res);
                 return $res;
             }

@@ -25,7 +25,22 @@ class login extends Controller {
 	}
 	
 	function index(){
-        
+        global $basedomain,$CONFIG;
+
+        if(isset($_COOKIE['id_peserta']))
+        {
+            $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
+            
+            $validateData = $this->loginHelper->local($getUser);
+
+             if ($validateData){
+                redirect($basedomain.$CONFIG['default']['default_view']);
+            }else{
+                redirect($basedomain.$CONFIG['default']['login']);
+            }
+            exit;
+
+        }
         $materi = $this->models->getData('ujian',1,'status = 1');
         $lokasi = $this->models->getData('lokasi',1,'status_pemanfaatan = 1');
 
@@ -50,7 +65,16 @@ class login extends Controller {
             $validateData = $this->loginHelper->local($_POST);
            // db($validateData);
             if ($validateData){
-                // db($basedomain.$CONFIG['default']['default_view']);
+
+                // $path = LOGS;
+                // $filename= 'datUser-'.$validateData[0]['id_peserta'].'.txt';
+                // $data = serialize($validateData);
+                // $handle = fopen($path.$filename, "a");
+                // fwrite($handle, $data."\n");
+                // fclose($handle);
+
+                setcookie('id_peserta',$validateData[0]['id_peserta'],time() + 10800);
+
                 redirect($basedomain.$CONFIG['default']['default_view']);
             }else{
                 redirect($basedomain.$CONFIG['default']['login']);
