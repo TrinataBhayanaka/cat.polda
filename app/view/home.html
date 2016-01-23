@@ -37,8 +37,8 @@
                 <tr>
                   <td class="text-center">{$key+1}</td>
                   <td>{$val.soal}</td>
-                  <td class="text-center">{$val.opt}</td>
-                  <td class="text-center"><a href="#" onclick="return switchDiv({$key+1},'{$val.opt}',{$val.id_soal})" class="btn btn-xs btn-cat">{if empty($val.opt)}Pilih{else}Ubah{/if}</a></td>
+                  <td class="text-center"><span id="jwb_{$val.id_soal}">{if empty($val.opt)}{else}{$val.opt}{/if}</span></td>
+                  <td class="text-center"><a href="#" id="tombol_{$val.id_soal}" onclick="return switchDiv({$key+1},'{$val.opt}',{$val.id_soal})" class="btn btn-xs btn-cat">{if empty($val.opt)}Pilih{else}Ubah{/if}</a></td>
                 </tr>
               {/foreach}
               </tbody>
@@ -172,6 +172,10 @@ function switchDiv(item,opt,id)
   if(opt){
     $("#"+id+"_"+opt).attr('checked', true);
   }
+
+  var jwb = $("#jwb_"+id).html();
+  // alert(jwb);
+  $("#"+id+"_"+jwb).attr('checked', true);
   
 }
 
@@ -180,17 +184,20 @@ function getAnws(idsoal,idKategori)
   var jwb = $("input[name=jawaban_"+idsoal+"]:checked").val();
 
   $.post(basedomain+'ujian/ajaxaddJwb', {idsoal:idsoal, jwb:jwb, idKategori:idKategori}, function(data){
-    var info = $('#dttable').DataTable().page.info();
-    var page = info.start;
+    // var info = $('#dttable').DataTable().page.info();
+    // var page = info.start;
     // alert('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
 
     // $('#dttable').dataTable().fnDestroy();
     
     // oTable1.fnStandingRedraw();
     
-    document.cookie="pagenumber="+page;
-    location.reload();
+    // document.cookie="pagenumber="+page;
+    // location.reload();
     // delete_cookie('pagenumber');
+    $("#jwb_"+idsoal).html(jwb);
+    $("#tombol_"+idsoal).html('Ubah');
+
   },"JSON")
 }
 
