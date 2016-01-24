@@ -34,9 +34,20 @@ class ujian extends Controller {
         if($tmp_soal['status'] == 3){
             redirect($basedomain."ujian/result");
             exit;
+        } elseif ($tmp_soal['status'] == 4) {
+            session_destroy();
+            
+            redirect($basedomain);
         }
 
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$tmp_soal['soal']})");
+        foreach ($getSoal as $key => $value) {
+            $getSoal[$key]['soal'] = html_entity_decode(htmlspecialchars_decode($value['soal'],ENT_NOQUOTES));
+            $getSoal[$key]['1'] = html_entity_decode(htmlspecialchars_decode($value['1'],ENT_NOQUOTES));
+            $getSoal[$key]['2'] = html_entity_decode(htmlspecialchars_decode($value['2'],ENT_NOQUOTES));
+            $getSoal[$key]['3'] = html_entity_decode(htmlspecialchars_decode($value['3'],ENT_NOQUOTES));
+            $getSoal[$key]['4'] = html_entity_decode(htmlspecialchars_decode($value['4'],ENT_NOQUOTES));
+        }
         $opts = unserialize($tmp_soal['opt']);
         
         $exp = explode(",", $tmp_soal['soal']);
@@ -68,7 +79,7 @@ class ujian extends Controller {
             $soalSort[$key]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
 
         }
-        // db($ujian);
+        // db($soalSort);
         $this->view->assign('genSoal',$tmp_soal);
         $this->view->assign('status',$tmp_soal['id']);
         $this->view->assign('user',$this->user);

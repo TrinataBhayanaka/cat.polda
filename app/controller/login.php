@@ -43,9 +43,7 @@ class login extends Controller {
                     redirect($basedomain.$CONFIG['default']['login']);
                 }
                 exit;
-            } else {
-                db('ask then it shall be given to you!!');
-            }
+            } 
 
         }
         $materi = $this->models->getData('ujian',1,'status = 1');

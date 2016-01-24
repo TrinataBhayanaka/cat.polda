@@ -90,7 +90,7 @@ class loginHelper extends Database {
                     $sql = "SELECT status FROM generated_soal WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']} AND id_kategori = {$data['id_kategori']}";
                     $gen = $this->fetch($sql,0);
                     // db($gen);
-                    if($gen['status'] == 0){
+                    if($gen['status'] == 0 && $gen['status'] == 5){
                         $sql = "UPDATE generated_soal SET status = 1 WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']} AND id_kategori = {$data['id_kategori']}";
                         $this->query($sql);
                     }
