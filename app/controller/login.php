@@ -160,8 +160,11 @@ class login extends Controller {
             $exp = explode(",", $paket[0]['id_soal']);
             $soal['soal'] = implode(",",shuffle_assoc($exp));
 
-            $option = range(1, 4);
-            $soal['opt'] = implode(",",shuffle_assoc($option));
+            for($j=0;$j<count($exp);$j++){
+                $option = range(1, 4);
+                $tmp[$j] = implode(",",fisherYatesShuffle($option,make_seed($j)));
+            }
+            $soal['opt'] = serialize($tmp);
             $soal['id_peserta'] = $user[$i]['id_peserta'];
             // db($soal);
 

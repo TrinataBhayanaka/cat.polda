@@ -987,4 +987,24 @@ function randomize_number($stack,$quantity,$packet)
 	return $hasil;
 }
 
+function make_seed($add)
+{
+  list($usec, $sec) = explode(' ', microtime());
+  return (float) $sec + ((float) $usec * 100000) + $add;
+}
+
+function fisherYatesShuffle(&$items, $seed)
+{
+    @mt_srand($seed);
+    for ($i = count($items) - 1; $i > 0; $i--)
+    {
+        $j = @mt_rand(0, $i);
+        $tmp = $items[$i];
+        $items[$i] = $items[$j];
+        $items[$j] = $tmp;
+    }
+
+    return $items;
+}
+
 ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2016 at 05:49 PM
+-- Generation Time: Jan 24, 2016 at 11:24 AM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -166,8 +166,11 @@ CREATE TABLE IF NOT EXISTS `generated_soal` (
   `id_peserta` int(11) NOT NULL,
   `id_kategori` int(11) NOT NULL,
   `soal` text NOT NULL,
-  `opt` varchar(10) NOT NULL,
+  `opt` mediumtext NOT NULL,
   `paket` varchar(15) NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `waktu_mulai` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -175,8 +178,8 @@ CREATE TABLE IF NOT EXISTS `generated_soal` (
 -- Dumping data for table `generated_soal`
 --
 
-INSERT INTO `generated_soal` (`id`, `id_paket`, `id_peserta`, `id_kategori`, `soal`, `opt`, `paket`) VALUES
-(1, 5, 1, 4, '11,1,14,4,13,6,12,5', '3,1,2,4', 'A');
+INSERT INTO `generated_soal` (`id`, `id_paket`, `id_peserta`, `id_kategori`, `soal`, `opt`, `paket`, `nilai`, `waktu_mulai`, `status`) VALUES
+(1, 1, 1, 4, '12,6,8,9,7,3,4,5', 'a:8:{i:0;s:7:"1,4,2,3";i:1;s:7:"1,3,2,4";i:2;s:7:"4,2,3,1";i:3;s:7:"2,1,3,4";i:4;s:7:"3,2,1,4";i:5;s:7:"2,3,4,1";i:6;s:7:"4,2,1,3";i:7;s:7:"2,1,3,4";}', 'A', 0, '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -253,8 +256,8 @@ INSERT INTO `master_kategori` (`id_master`, `id_parent`, `nama_master`) VALUES
 CREATE TABLE IF NOT EXISTS `master_peserta` (
   `id_peserta` int(11) NOT NULL AUTO_INCREMENT,
   `id_ujian` int(11) NOT NULL,
-  `id_lokasi` int(11) NOT NULL,
-  `id_ruangan` int(11) NOT NULL,
+  `id_lokasi` varchar(150) NOT NULL,
+  `id_ruangan` varchar(150) NOT NULL,
   `no_peserta` varchar(50) NOT NULL,
   `nama` varchar(150) NOT NULL,
   `nrp` varchar(50) NOT NULL,
@@ -275,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `master_peserta` (
 --
 
 INSERT INTO `master_peserta` (`id_peserta`, `id_ujian`, `id_lokasi`, `id_ruangan`, `no_peserta`, `nama`, `nrp`, `tgl_lahir`, `status_ujian`, `waktu_mulai`, `durasi_pengerjaan`, `tambahan_waktu`, `waktu_selesai`, `skor_total`, `keterangan`) VALUES
-(1, 1, 1, 4, '373/P/PMJ', 'NUR SUHARTONO', '83110054', '2016-01-22', 0, '0000-00-00 00:00:00', 90, 0, '0000-00-00 00:00:00', 0, 0);
+(1, 1, 'Kampus Depok', 'D440/LePMA', '373/P/PMJ', 'NUR SUHARTONO', '83110054', '2016-01-22', 1, '0000-00-00 00:00:00', 90, 0, '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -336,15 +339,15 @@ CREATE TABLE IF NOT EXISTS `paket_soal` (
   `paket` varchar(11) NOT NULL,
   `waktu_acak` datetime NOT NULL,
   PRIMARY KEY (`id_paket`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `paket_soal`
 --
 
 INSERT INTO `paket_soal` (`id_paket`, `id_soal`, `id_kategori`, `paket`, `waktu_acak`) VALUES
-(5, '1,5,4,6,13,11,14,12', 4, 'A', '2016-01-20 05:32:42'),
-(6, '16,10,8,7,9,15,3,2', 4, 'B', '2016-01-20 05:32:42');
+(1, '12,6,5,3,7,4,8,9', 4, 'A', '2016-01-24 10:10:17'),
+(2, '11,14,16,13,15,10,1,2', 4, 'B', '2016-01-24 10:10:17');
 
 -- --------------------------------------------------------
 
@@ -469,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `ujian` (
   `id_kategori` int(11) NOT NULL,
   `lama_ujian` int(11) NOT NULL COMMENT 'minutes',
   `jumlah_soal` int(11) NOT NULL,
-  `waktu_ujian` date NOT NULL,
+  `waktu_ujian` datetime NOT NULL,
   `mulai` int(11) NOT NULL,
   `selesai` int(11) NOT NULL,
   `jumlah_peserta` int(11) NOT NULL,
@@ -485,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `ujian` (
 --
 
 INSERT INTO `ujian` (`id_ujian`, `id_kategori`, `lama_ujian`, `jumlah_soal`, `waktu_ujian`, `mulai`, `selesai`, `jumlah_peserta`, `keterangan`, `pilihan_paket`, `status_ujian`, `status`) VALUES
-(1, 4, 90, 8, '2016-01-20', 0, 0, 500, '0', '2', 0, 1);
+(1, 4, 90, 8, '0000-00-00 00:00:00', 0, 0, 500, '0', '2', 0, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

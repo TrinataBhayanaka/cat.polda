@@ -17,7 +17,7 @@ class mlogin extends Database {
     {
         if ($id) $cond = "WHERE {$id}"; else $cond = "";
         $sql = "SELECT * FROM {$table} {$cond}";
-        
+        // pr($sql);
         $data = $this->fetch($sql,$all);
 
         return $data;

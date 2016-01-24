@@ -30,7 +30,8 @@ class ujian extends Controller {
         $paket = $this->models->getData('paket_soal',0,"id_kategori = 4 AND paket = 'A'");
         $tmp_soal = $this->models->getData('generated_soal',0,"id_paket = {$paket['id_paket']} AND id_peserta = {$this->user['id_peserta']}");
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$tmp_soal['soal']})");
-
+        $opts = unserialize($tmp_soal['opt']);
+        
         $exp = explode(",", $tmp_soal['soal']);
         $opt = explode(",", $tmp_soal['opt']);
         foreach ($exp as $key => $value) {
@@ -40,9 +41,10 @@ class ujian extends Controller {
                 }
             }
         }
-
+        
         $letters = range('A', 'Z');
         foreach ($soalSort as $key => $value) {
+            $opt = explode(",", $opts[$key]);
             foreach ($opt as $j => $vals) {
                $soalSort[$key]['pilihan'][$j]['full'] = $letters[$j].". ".$value[$vals];
                $soalSort[$key]['pilihan'][$j]['opt'] = $letters[$j];
@@ -59,7 +61,7 @@ class ujian extends Controller {
             $soalSort[$key]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
 
         }
-        
+        // db($soalSort);
         $this->view->assign('status',$tmp_soal['id']);
         $this->view->assign('user',$this->user);
         $this->view->assign('ujian',$ujian);
@@ -111,9 +113,11 @@ class ujian extends Controller {
         $id = $_GET['id'];
         
         $check = $this->models->getData('generated_soal',0,"id = {$id}");
+        $check2 = $this->models->getData('ujian',0,"status_ujian = 1 AND id_kategori = {$check['id_kategori']}");
         $waktu_ujian = date('Y-m-d H:i:s', time());
         
-        if($check['status'] == 2 && $check['waktu_mulai'] == '0000-00-00 00:00:00'){
+        if($check2['status'] == 2 && $check2['waktu_mulai'] == '0000-00-00 00:00:00'){
+            $this->models->update_data("waktu_ujian = '{$waktu_ujian}'",'ujian',"id_ujian = {$check2['id_ujian']}");
             $this->models->update_data("waktu_mulai = '{$waktu_ujian}'",'generated_soal',"id = {$id}");
             $new = $this->models->getData('generated_soal',0,"id = {$id}");
             
