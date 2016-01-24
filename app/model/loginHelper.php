@@ -76,7 +76,7 @@ class loginHelper extends Database {
 
         $res = $this->lazyQuery($sql,$debug);
         // pr($res);
-        // db($data);
+       
         if ($res){
 
             // pr($password);
@@ -87,7 +87,7 @@ class loginHelper extends Database {
                 $waktu_ujian = date('Y-m-d h:i:s', time());
                 
                 if(!isset($_COOKIE['id_peserta'])){
-                    $sql = "UPDATE master_peserta SET status_ujian = {$status_ujian}, waktu_mulai = '{$waktu_ujian}' WHERE no_peserta = '{$res[0]['no_peserta']}'";
+                    $sql = "UPDATE generated_soal SET status = 1 WHERE id_peserta = {$res[0]['id_peserta']} AND id_kategori = {$data['id_kategori']}";
                     $this->query($sql);
                 }
 

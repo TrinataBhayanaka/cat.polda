@@ -24,14 +24,12 @@ class ujian extends Controller {
 	
 	function index(){
 		global $basedomain;
-       
+
         $ujian = $this->models->getData('ujian',0,"id_kategori = 4 AND status = 1");
         $detailujian = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
         $paket = $this->models->getData('paket_soal',0,"id_kategori = 4 AND paket = 'A'");
         $tmp_soal = $this->models->getData('generated_soal',0,"id_paket = {$paket['id_paket']} AND id_peserta = {$this->user['id_peserta']}");
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$tmp_soal['soal']})");
-        $lokasi = $this->models->getData('lokasi',0,"id_lokasi = {$this->user['id_lokasi']}");
-        $ruangan = $this->models->getData('ruangan',0,"id_ruangan = {$this->user['id_ruangan']}");
 
         $exp = explode(",", $tmp_soal['soal']);
         $opt = explode(",", $tmp_soal['opt']);
@@ -61,10 +59,9 @@ class ujian extends Controller {
             $soalSort[$key]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
 
         }
-        // db($soalSort);
+        
+        $this->view->assign('status',$tmp_soal['id']);
         $this->view->assign('user',$this->user);
-        $this->view->assign('lokasi',$lokasi);
-        $this->view->assign('ruangan',$ruangan);
         $this->view->assign('ujian',$ujian);
         $this->view->assign('detailujian',$detailujian);
         $this->view->assign('paket',$paket);
@@ -91,6 +88,19 @@ class ujian extends Controller {
 
     function hasil()
     {
+        $id = $_COOKIE['idgen'];
+        $gen = $this->models->getData('generated_soal',0,"id = {$id}");
+        $materi = $this->models->getData('master_kategori',0,"id_master = {$gen['id_kategori']}");
+        $user = $this->models->getData('master_peserta',0,"id_peserta = {$gen['id_peserta']}");
+        
+        $waktu_ujian = date('Y-m-d H:i:s', time());
+        $now = strtoupper(changeDate($waktu_ujian));
+
+        $this->view->assign('nowdate',$now);
+        $this->view->assign('soal',$gen);
+        $this->view->assign('materi',$materi);
+        $this->view->assign('user',$user);
+
     	return $this->loadView('hasil');
     }
     function static_event()
@@ -98,8 +108,21 @@ class ujian extends Controller {
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
 
-        $time = date('r');
-        echo "data: bayu The server time is: {$time}\n\n";
+        $id = $_GET['id'];
+        
+        $check = $this->models->getData('generated_soal',0,"id = {$id}");
+        $waktu_ujian = date('Y-m-d H:i:s', time());
+        
+        if($check['status'] == 2 && $check['waktu_mulai'] == '0000-00-00 00:00:00'){
+            $this->models->update_data("waktu_mulai = '{$waktu_ujian}'",'generated_soal',"id = {$id}");
+            $new = $this->models->getData('generated_soal',0,"id = {$id}");
+            
+            echo "data: {$new['waktu_mulai']}";
+        } elseif ($check['status'] == 2) {
+            echo "data: {$check['waktu_mulai']}";
+        } else {
+            echo "data: 1";
+        }
         flush();
     }
 
@@ -130,6 +153,7 @@ class ujian extends Controller {
 
         exit;
     }
+
 
 }
 

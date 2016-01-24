@@ -38,7 +38,7 @@
                 <div class="col-sm-8">
                   <select class="form-control" name="id_kategori">
                   {foreach $materi as $val}
-                    <option value="{$val.id_master}">{$val.detail.nama_master}</option> 
+                    <option value="{$val.detail.id_master}">{$val.detail.nama_master}</option> 
                   {/foreach}
                   </select>
                 </div>
@@ -46,20 +46,13 @@
               <div class="form-group">
                 <label for="inputPassword3" class="col-sm-4 control-label">Lokasi</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="id_lokasi" id="id_lokasi" disabled>
-                    <option value="0" disabled selected>Pilih Lokasi</option>
-                  {foreach $lokasi as $val}
-                    <option value="{$val.id_lokasi}">{$val.nama_lokasi}</option>
-                  {/foreach}
-                  </select>
+                  <input type="text" class="form-control" name="id_lokasi" id="id_lokasi" disabled>
                 </div>
               </div>
               <div class="form-group">
                 <label for="inputPassword3" class="col-sm-4 control-label">Ruang</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="id_ruangan" id="id_ruangan" disabled>
-                    
-                  </select>
+                  <input type="text" class="form-control" name="id_ruangan" id="id_ruangan" disabled>
                 </div>
               </div>
               
@@ -100,6 +93,7 @@
         $(".main_content").css('padding-top','60px');
         $("#nama").val(data[0].nama);
         $("#id_lokasi").val(data[0].id_lokasi);
+        $("#id_ruangan").val(data[0].id_ruangan);
         $(".divdetail").show(300);
 
         getRuang(data[0].id_ruangan); 

@@ -26,19 +26,24 @@ class login extends Controller {
 	
 	function index(){
         global $basedomain,$CONFIG;
-
+        // unset($_COOKIE['id_peserta']);
         if(isset($_COOKIE['id_peserta']))
         {
-            $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
-            
-            $validateData = $this->loginHelper->local($getUser);
+            $status = $this->models->getData('generated_soal',0,"id_peserta = {$_COOKIE['id_peserta']} AND id_kategori = {$_COOKIE['id_kategori']}");
+            if($status['status'] == 1)
+            {
+                 $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
+                 $validateData = $this->loginHelper->local($getUser);
 
-             if ($validateData){
-                redirect($basedomain.$CONFIG['default']['default_view']);
-            }else{
-                redirect($basedomain.$CONFIG['default']['login']);
+                 if ($validateData){
+                    redirect($basedomain.$CONFIG['default']['default_view']);
+                }else{
+                    redirect($basedomain.$CONFIG['default']['login']);
+                }
+                exit;
+            } else {
+                db('hasil');
             }
-            exit;
 
         }
         $materi = $this->models->getData('ujian',1,'status = 1');
@@ -74,7 +79,8 @@ class login extends Controller {
                 // fclose($handle);
 
                 setcookie('id_peserta',$validateData[0]['id_peserta'],time() + 10800);
-
+                setcookie('id_kategori',$_POST['id_kategori'],time() + 10800);
+                
                 redirect($basedomain.$CONFIG['default']['default_view']);
             }else{
                 redirect($basedomain.$CONFIG['default']['login']);
@@ -83,6 +89,11 @@ class login extends Controller {
         }
 
         
+    }
+
+    function hasil()
+    {
+        return $this->loadView('hasil');
     }
 
     function ajaxCheckUser()

@@ -16,6 +16,11 @@
 <script src="{$basedomain}assets/plugin/datatable/js/dataTables.bootstrap.js"></script>
 <script src="{$basedomain}assets/plugin/datatable/js/api.js"></script>
 
+<!-- CountDown -->
+<link rel="stylesheet" type="text/css" href="{$basedomain}assets/plugin/countdown/jquery.countdown.css"> 
+<script type="text/javascript" src="{$basedomain}assets/plugin/countdown/jquery.plugin.js"></script> 
+<script type="text/javascript" src="{$basedomain}assets/plugin/countdown/jquery.countdown.js"></script>
+
 <!--common script for all pages-->
 <script src="{$basedomain}assets/js/cat-scripts.js"></script>
 
@@ -28,6 +33,7 @@
         	"dom": '<"top"p><"clear">',
         	"bLengthChange": false,
 			"bFilter": false,
+            "bSort" : false,
             "pageLength": 5,
             "displayStart": tes,
             "language": {

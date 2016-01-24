@@ -17,12 +17,12 @@
                 <tr>
                   <td>MATERI&nbsp;</td>
                   <td>:&nbsp;</td>
-                  <td> NAMA MATERI</td>
+                  <td> {$materi.nama_master}</td>
                 </tr>
               </table>
             </div>
             <div class="pull-right">
-              15 JANUARI 2016
+              {$nowdate}
             </div>
             <div class="clearfix"></div>
           </div>
@@ -32,24 +32,24 @@
                 <table class="table table-bordered">
                   <tbody>
                     <tr>
-                      <td><strong>Nomor </strong></td>
-                      <td>0291/L/0027</td>
+                      <td><strong>Nomor Peserta</strong></td>
+                      <td>{$user.no_peserta}</td>
                     </tr>
                     <tr>
                       <td><strong>Nama </strong></td>
-                      <td>JOHN DOE</td>
+                      <td>{$user.nama}</td>
                     </tr>
                     <tr>
-                      <td><strong>Jenis Kelamin </strong></td>
-                      <td>Laki-laki</td>
+                      <td><strong>NRP </strong></td>
+                      <td>{$user.nrp}</td>
                     </tr>
                     <tr>
                       <td><strong>Lokasi </strong></td>
-                      <td>Kampus D Depok</td>
+                      <td>{$user.id_lokasi}</td>
                     </tr>
                     <tr>
                       <td><strong>Ruang </strong></td>
-                      <td>D436 LEPKOM</td>
+                      <td>{$user.id_ruangan}</td>
                     </tr>
                   </tbody>
                 </table>
