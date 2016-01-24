@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 24, 2016 at 11:24 AM
+-- Generation Time: Jan 24, 2016 at 08:23 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -162,6 +162,7 @@ CREATE TABLE IF NOT EXISTS `ck_menu_parent` (
 
 CREATE TABLE IF NOT EXISTS `generated_soal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_ujian` int(11) NOT NULL,
   `id_paket` int(11) NOT NULL,
   `id_peserta` int(11) NOT NULL,
   `id_kategori` int(11) NOT NULL,
@@ -170,16 +171,19 @@ CREATE TABLE IF NOT EXISTS `generated_soal` (
   `paket` varchar(15) NOT NULL,
   `nilai` int(11) NOT NULL,
   `waktu_mulai` datetime NOT NULL,
+  `durasi_pengerjaan` int(11) NOT NULL,
+  `tambahan_waktu` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `generated_soal`
 --
 
-INSERT INTO `generated_soal` (`id`, `id_paket`, `id_peserta`, `id_kategori`, `soal`, `opt`, `paket`, `nilai`, `waktu_mulai`, `status`) VALUES
-(1, 1, 1, 4, '12,6,8,9,7,3,4,5', 'a:8:{i:0;s:7:"1,4,2,3";i:1;s:7:"1,3,2,4";i:2;s:7:"4,2,3,1";i:3;s:7:"2,1,3,4";i:4;s:7:"3,2,1,4";i:5;s:7:"2,3,4,1";i:6;s:7:"4,2,1,3";i:7;s:7:"2,1,3,4";}', 'A', 0, '0000-00-00 00:00:00', 1);
+INSERT INTO `generated_soal` (`id`, `id_ujian`, `id_paket`, `id_peserta`, `id_kategori`, `soal`, `opt`, `paket`, `nilai`, `waktu_mulai`, `durasi_pengerjaan`, `tambahan_waktu`, `status`) VALUES
+(1, 1, 2, 1, 4, '15,10,13,12,4,1,14,11', 'a:8:{i:0;s:7:"2,1,3,4";i:1;s:7:"2,3,4,1";i:2;s:7:"3,2,1,4";i:3;s:7:"3,2,4,1";i:4;s:7:"2,4,3,1";i:5;s:7:"1,3,4,2";i:6;s:7:"2,1,4,3";i:7;s:7:"2,4,1,3";}', 'B', 25, '2016-01-24 20:09:10', 2, 0, 3),
+(2, 1, 2, 2, 4, '14,10,13,12,4,15,11,1', 'a:8:{i:0;s:7:"4,3,1,2";i:1;s:7:"2,4,3,1";i:2;s:7:"4,1,2,3";i:3;s:7:"2,4,3,1";i:4;s:7:"1,4,3,2";i:5;s:7:"2,3,1,4";i:6;s:7:"1,3,2,4";i:7;s:7:"3,2,1,4";}', 'B', 38, '2016-01-24 20:09:11', 2, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -189,6 +193,7 @@ INSERT INTO `generated_soal` (`id`, `id_paket`, `id_peserta`, `id_kategori`, `so
 
 CREATE TABLE IF NOT EXISTS `jawaban` (
   `id_jawaban` int(11) NOT NULL AUTO_INCREMENT,
+  `id_ujian` int(11) NOT NULL,
   `id_kategori` int(11) NOT NULL,
   `id_soal` int(11) NOT NULL,
   `kunci` text NOT NULL,
@@ -197,7 +202,29 @@ CREATE TABLE IF NOT EXISTS `jawaban` (
   `nilai` int(11) NOT NULL,
   `id_peserta` int(11) NOT NULL,
   PRIMARY KEY (`id_jawaban`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+--
+-- Dumping data for table `jawaban`
+--
+
+INSERT INTO `jawaban` (`id_jawaban`, `id_ujian`, `id_kategori`, `id_soal`, `kunci`, `jawaban`, `opt`, `nilai`, `id_peserta`) VALUES
+(1, 1, 4, 15, 'Pihak Pertama', 'Produsen', 'A', 0, 1),
+(2, 1, 4, 10, 'agar tidak cepat rusak atau awet', 'menjaga reliabilitas alat ukur agar dapat dipercaya', 'C', 0, 1),
+(3, 1, 4, 13, 'Sukarela', 'Positif', 'A', 0, 1),
+(4, 1, 4, 12, 'ISO/IEC 17000:2004', 'ISO/IEC 17000:2004', 'D', 0, 1),
+(5, 1, 4, 4, 'Machine Language', 'Pascal', 'C', 0, 1),
+(6, 1, 4, 1, 'Urutan langkah-langkah logis penyelesaian masalah yang disusun secara sistematis', 'Sebuah kumpulan system yang digunakan pada suatu organisasi', 'B', 0, 1),
+(7, 1, 4, 14, 'Pihak Pertama, Pihak Kedua, Pihak Ketiga', 'Produsen, Pemasok, Konsumen', 'A', 0, 1),
+(8, 1, 4, 11, 'Penilaian Kesesuaian', 'Penilaian Kesesuaian', 'C', 0, 1),
+(9, 1, 4, 14, 'Pihak Pertama, Pihak Kedua, Pihak Ketiga', 'Produsen, Konsumen, Regulator', 'B', 0, 2),
+(10, 1, 4, 10, 'agar tidak cepat rusak atau awet', 'memastikan konsistensi dan keakuratan pembacaan alat ukur', 'C', 0, 2),
+(11, 1, 4, 13, 'Sukarela', 'Positif', 'D', 0, 2),
+(12, 1, 4, 12, 'ISO/IEC 17000:2004', 'ISO/IEC 17000:2004', 'D', 0, 2),
+(13, 1, 4, 4, 'Machine Language', 'Machine Language', 'A', 0, 2),
+(14, 1, 4, 15, 'Pihak Pertama', 'Produsen', 'A', 0, 2),
+(15, 1, 4, 11, 'Penilaian Kesesuaian', 'Penilaian Kesesuaian', 'A', 0, 2),
+(16, 1, 4, 1, 'Urutan langkah-langkah logis penyelesaian masalah yang disusun secara sistematis', 'Sebuah kumpulan system yang digunakan pada suatu organisasi', 'A', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -271,14 +298,15 @@ CREATE TABLE IF NOT EXISTS `master_peserta` (
   `keterangan` int(11) NOT NULL,
   PRIMARY KEY (`id_peserta`),
   KEY `id_ujian` (`id_ujian`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `master_peserta`
 --
 
 INSERT INTO `master_peserta` (`id_peserta`, `id_ujian`, `id_lokasi`, `id_ruangan`, `no_peserta`, `nama`, `nrp`, `tgl_lahir`, `status_ujian`, `waktu_mulai`, `durasi_pengerjaan`, `tambahan_waktu`, `waktu_selesai`, `skor_total`, `keterangan`) VALUES
-(1, 1, 'Kampus Depok', 'D440/LePMA', '373/P/PMJ', 'NUR SUHARTONO', '83110054', '2016-01-22', 1, '0000-00-00 00:00:00', 90, 0, '0000-00-00 00:00:00', 0, 0);
+(1, 1, 'Kampus Depok', 'D440/LePMA', '373/P/PMJ', 'NUR SUHARTONO', '83110054', '2016-01-22', 1, '0000-00-00 00:00:00', 90, 0, '0000-00-00 00:00:00', 0, 0),
+(2, 1, 'Kampus Depok', 'D440/LePMA', '383/P/PMJ', 'KOKO BACHRUDIN', '83110055', '0000-00-00', 1, '0000-00-00 00:00:00', 0, 0, '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -335,19 +363,21 @@ INSERT INTO `master_soal` (`id_soal`, `tipe_soal`, `penulis`, `id_kategori`, `ki
 CREATE TABLE IF NOT EXISTS `paket_soal` (
   `id_paket` int(11) NOT NULL AUTO_INCREMENT,
   `id_soal` text NOT NULL,
+  `id_ujian` int(11) NOT NULL,
   `id_kategori` int(11) NOT NULL,
   `paket` varchar(11) NOT NULL,
   `waktu_acak` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_paket`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `paket_soal`
 --
 
-INSERT INTO `paket_soal` (`id_paket`, `id_soal`, `id_kategori`, `paket`, `waktu_acak`) VALUES
-(1, '12,6,5,3,7,4,8,9', 4, 'A', '2016-01-24 10:10:17'),
-(2, '11,14,16,13,15,10,1,2', 4, 'B', '2016-01-24 10:10:17');
+INSERT INTO `paket_soal` (`id_paket`, `id_soal`, `id_ujian`, `id_kategori`, `paket`, `waktu_acak`, `status`) VALUES
+(1, '2,16,5,8,6,3,9,7', 1, 4, 'A', '2016-01-24 07:58:17', 0),
+(2, '4,14,15,13,12,10,11,1', 1, 4, 'B', '2016-01-24 07:58:17', 1);
 
 -- --------------------------------------------------------
 
@@ -488,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `ujian` (
 --
 
 INSERT INTO `ujian` (`id_ujian`, `id_kategori`, `lama_ujian`, `jumlah_soal`, `waktu_ujian`, `mulai`, `selesai`, `jumlah_peserta`, `keterangan`, `pilihan_paket`, `status_ujian`, `status`) VALUES
-(1, 4, 90, 8, '0000-00-00 00:00:00', 0, 0, 500, '0', '2', 0, 1);
+(1, 4, 2, 8, '2016-01-24 20:08:56', 0, 0, 500, '', '2', 2, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

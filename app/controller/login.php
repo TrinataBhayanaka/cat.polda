@@ -126,7 +126,8 @@ class login extends Controller {
 
     function generatePaket()
     {
-        $ujian = $this->models->getData('ujian',0,"status=1");
+        $id = $_GET['id'];
+        $ujian = $this->models->getData('ujian',0,"id_ujian = {$id}");
         $soalstack = $this->models->getId($ujian['id_kategori']);
         
         $number = randomize_number($soalstack,$ujian['jumlah_soal'],$ujian['pilihan_paket']);
@@ -137,21 +138,23 @@ class login extends Controller {
         foreach ($number as $key => $val) {
             $data['id_kategori'] = $ujian['id_kategori'];
             $data['id_soal'] = implode(",", $val);
+            $data['id_ujian'] = $id;
             $data['paket'] = $letters[$key];
             $data['waktu_acak'] = date('Y/m/d h:i:s', time());
             
             $this->models->insert_data($data,'paket_soal');
         }
 
+
         db('======= Generate Paket Selesai ========');
     }
 
     function generateSoal()
     {
-
-        $ujian = $this->models->getData('ujian',0,"status = 1");
+        $id = $_GET['id'];
+        $ujian = $this->models->getData('ujian',0,"id_ujian = {$id}");
         $this->models->delData('generated_soal',"id_ujian = {$ujian['id_ujian']}");
-        $paket = $this->models->getData('paket_soal',1,"id_kategori = 4 AND status = 1");
+        $paket = $this->models->getData('paket_soal',1,"id_ujian = {$id} AND status = 1");
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$paket[0]['id_soal']})");
        
         $user = $this->models->getidUser();
