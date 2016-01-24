@@ -87,8 +87,13 @@ class loginHelper extends Database {
                 $waktu_ujian = date('Y-m-d h:i:s', time());
                 
                 if(!isset($_COOKIE['id_peserta'])){
-                    $sql = "UPDATE generated_soal SET status = 1 WHERE id_peserta = {$res[0]['id_peserta']} AND id_kategori = {$data['id_kategori']}";
-                    $this->query($sql);
+                    $sql = "SELECT status FROM generated_soal WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']} AND id_kategori = {$data['id_kategori']}";
+                    $gen = $this->fetch($sql,0);
+                    // db($gen);
+                    if($gen['status'] == 0){
+                        $sql = "UPDATE generated_soal SET status = 1 WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']} AND id_kategori = {$data['id_kategori']}";
+                        $this->query($sql);
+                    }
                 }
 
                 $this->session->set_session($res);

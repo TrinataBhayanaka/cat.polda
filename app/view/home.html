@@ -8,7 +8,8 @@
     <div class="pull-right time">
       <span class="mr"><strong>Mulai</strong></span><span class="mr" id="waktu_mulai"> {$user.waktu_mulai}</span> <span class="mr"><strong>Sisa waktu</strong></span> <span id="countdown_div" class="mr">  </span>
       <a href="{$basedomain}ujian/hasil" class="btn btn-cat">Selesai</a>
-      <input type="hidden" value="{$ujian.lama_ujian}" id="minute_ujian">
+      <input type="hidden" value="{$genSoal.durasi_pengerjaan}" id="minute_ujian">
+      <input type="hidden" value="{$genSoal.tambahan_waktu}" id="tambahan_minute">
       <input type="hidden" value="{$status}" id="status">
       <input type="hidden" value="{$ujian.lama_ujian}" id="lama_ujian">
     </div>
@@ -25,7 +26,7 @@
             <div class="pull-right">PAKET {$paket.paket}</div>
             <div class="clearfix"></div>
           </div>
-          <div class="content-box-body">
+          <div class="content-box-body" id="showEvents" style="display:none">
             <table id = "dttable" class="table table-bordered">
               <thead>
                 <tr>
@@ -47,6 +48,9 @@
               </tbody>
             </table>
           </div>
+          <div class="content-box-body" id="waitEvents">
+            <center><span class="mr">Menunggu Ujian Mulai</span></center>
+          </div>
         </div>
       </div> <!-- END COL-XS-7 -->
 
@@ -62,7 +66,7 @@
               <tbody>
                 <tr>
                   <td><strong>Nama </strong>: {$user.nama}</td>
-                  <td class="text-center"><strong>L</strong></td>
+                  <td class="text-center"><strong>NRP </strong>: {$user.nrp}</td>
                 </tr>
               </tbody>
             </table>
@@ -124,7 +128,7 @@
                         {foreach $val.pilihan as $vals}
                           <div class="radio">
                             <label>
-                              <input type="radio" class="radio-button" name="jawaban_{$val.id_soal}" onclick="return getAnws({$val.id_soal},{$val.id_kategori})" id="{$val.id_soal}_{$vals.opt}" value="{$vals.full}"/>
+                              <input type="radio" class="radio-button" name="jawaban_{$val.id_soal}" onclick="return getAnws({$val.id_soal},{$val.id_kategori},{$ujian.id_ujian})" id="{$val.id_soal}_{$vals.opt}" value="{$vals.full}"/>
                               {$vals.full}
                             </label>
                           </div>
@@ -172,6 +176,8 @@ if(typeof(EventSource) !== "undefined") {
           starttime(event.data);
           document.getElementById("waktu_mulai").innerHTML = event.data;
           document.cookie="idgen="+status;
+          $("#showEvents").show();
+          $("#waitEvents").hide();
         }
     };
 } else {
@@ -198,11 +204,11 @@ function switchDiv(item,opt,id)
   
 }
 
-function getAnws(idsoal,idKategori)
+function getAnws(idsoal,idKategori,idUjian)
 {
   var jwb = $("input[name=jawaban_"+idsoal+"]:checked").val();
 
-  $.post(basedomain+'ujian/ajaxaddJwb', {idsoal:idsoal, jwb:jwb, idKategori:idKategori}, function(data){
+  $.post(basedomain+'ujian/ajaxaddJwb', {idsoal:idsoal, jwb:jwb, idKategori:idKategori, idUjian:idUjian}, function(data){
     
     var opt = jwb.split(". ");
     $("#jwb_"+idsoal).html(opt[0]);
@@ -231,7 +237,8 @@ function delete_cookie(name)
         (+dateArray[6])
     );
     var minute = parseInt(document.getElementById("lama_ujian").value);
-    dateObject.setMinutes(dateObject.getMinutes() + minute);
+    var extra = parseInt(document.getElementById("tambahan_minute").value);
+    dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
     $('#countdown_div').countdown({until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil'});
   }
 

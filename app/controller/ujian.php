@@ -25,10 +25,17 @@ class ujian extends Controller {
 	function index(){
 		global $basedomain;
 
-        $ujian = $this->models->getData('ujian',0,"id_kategori = 4 AND status = 1");
+        $ujian = $this->models->getData('ujian',0,"status = 1");
         $detailujian = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
-        $paket = $this->models->getData('paket_soal',0,"id_kategori = 4 AND paket = 'A'");
+        $paket = $this->models->getData('paket_soal',0,"id_kategori = {$ujian['id_kategori']} AND status = 1");
         $tmp_soal = $this->models->getData('generated_soal',0,"id_paket = {$paket['id_paket']} AND id_peserta = {$this->user['id_peserta']}");
+
+        setcookie('idgen',$tmp_soal['id'],time() + 10800);
+        if($tmp_soal['status'] == 3){
+            redirect($basedomain."ujian/result");
+            exit;
+        }
+
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$tmp_soal['soal']})");
         $opts = unserialize($tmp_soal['opt']);
         
@@ -61,7 +68,8 @@ class ujian extends Controller {
             $soalSort[$key]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
 
         }
-        // db($soalSort);
+        // db($ujian);
+        $this->view->assign('genSoal',$tmp_soal);
         $this->view->assign('status',$tmp_soal['id']);
         $this->view->assign('user',$this->user);
         $this->view->assign('ujian',$ujian);
@@ -90,21 +98,48 @@ class ujian extends Controller {
 
     function hasil()
     {
+        global $basedomain;
+
         $id = $_COOKIE['idgen'];
         $gen = $this->models->getData('generated_soal',0,"id = {$id}");
-        $materi = $this->models->getData('master_kategori',0,"id_master = {$gen['id_kategori']}");
-        $user = $this->models->getData('master_peserta',0,"id_peserta = {$gen['id_peserta']}");
+        // $this->models->update_data("status_ujian = 3",'ujian',"status = 1 AND id_kategori = {$gen['id_kategori']}");
+
+        $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$gen['id_ujian']} AND id_peserta = {$gen['id_peserta']}");
+        // db($jwbUser);
+        $benar = 0;
+        foreach ($jwbUser as $key => $value) {
+            if($value['kunci'] == $value['jawaban']){
+                $benar++;
+            }
+        }
+        $nilai = $benar/count($jwbUser)*100;
+        $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id = {$id}");
+        // db('bisa');
+
+        redirect($basedomain."ujian/result");
+
+    }
+
+    function result()
+    {
+        $id = $_COOKIE['idgen'];
+
+        $newgen = $this->models->getData('generated_soal',0,"id = {$id}");
+        $materi = $this->models->getData('master_kategori',0,"id_master = {$newgen['id_kategori']}");
+        $user = $this->models->getData('master_peserta',0,"id_peserta = {$newgen['id_peserta']}");
         
         $waktu_ujian = date('Y-m-d H:i:s', time());
         $now = strtoupper(changeDate($waktu_ujian));
 
         $this->view->assign('nowdate',$now);
-        $this->view->assign('soal',$gen);
+        $this->view->assign('soal',$newgen);
         $this->view->assign('materi',$materi);
         $this->view->assign('user',$user);
 
-    	return $this->loadView('hasil');
+        return $this->loadView('hasil');
     }
+
+
     function static_event()
     {
         header('Content-Type: text/event-stream');
@@ -113,16 +148,16 @@ class ujian extends Controller {
         $id = $_GET['id'];
         
         $check = $this->models->getData('generated_soal',0,"id = {$id}");
-        $check2 = $this->models->getData('ujian',0,"status_ujian = 1 AND id_kategori = {$check['id_kategori']}");
+        $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
         $waktu_ujian = date('Y-m-d H:i:s', time());
         
-        if($check2['status'] == 2 && $check2['waktu_mulai'] == '0000-00-00 00:00:00'){
-            $this->models->update_data("waktu_ujian = '{$waktu_ujian}'",'ujian',"id_ujian = {$check2['id_ujian']}");
-            $this->models->update_data("waktu_mulai = '{$waktu_ujian}'",'generated_soal',"id = {$id}");
+        if($check2['status_ujian'] == 2 && $check2['waktu_ujian'] == '0000-00-00 00:00:00'){
+            // $this->models->update_data("waktu_ujian = '{$waktu_ujian}'",'ujian',"id_ujian = {$check2['id_ujian']}");
+            $this->models->update_data("waktu_mulai = '{$waktu_ujian}',status = 2",'generated_soal',"id = {$id}");
             $new = $this->models->getData('generated_soal',0,"id = {$id}");
             
             echo "data: {$new['waktu_mulai']}";
-        } elseif ($check['status'] == 2) {
+        } elseif ($check2['status_ujian'] == 2) {
             echo "data: {$check['waktu_mulai']}";
         } else {
             echo "data: 1";
@@ -134,6 +169,7 @@ class ujian extends Controller {
     {
         $data['id_soal'] = $_POST['idsoal'];
         $data['id_kategori'] = $_POST['idKategori'];
+        $data['id_ujian'] = $_POST['idUjian'];
         $jwb = explode(". ", $_POST['jwb']);
         $data['jawaban'] = $jwb[1];
         $data['opt'] = $jwb[0];

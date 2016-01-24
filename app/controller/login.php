@@ -27,10 +27,12 @@ class login extends Controller {
 	function index(){
         global $basedomain,$CONFIG;
         // unset($_COOKIE['id_peserta']);
+        // setcookie("id_peserta", "", time()-3600);
+        // db($_COOKIE);
         if(isset($_COOKIE['id_peserta']))
         {
             $status = $this->models->getData('generated_soal',0,"id_peserta = {$_COOKIE['id_peserta']} AND id_kategori = {$_COOKIE['id_kategori']}");
-            if($status['status'] == 1)
+            if($status['status'] == 1 || $status['status'] == 2 || $status['status'] == 3)
             {
                  $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
                  $validateData = $this->loginHelper->local($getUser);
@@ -42,7 +44,7 @@ class login extends Controller {
                 }
                 exit;
             } else {
-                db('hasil');
+                db('ask then it shall be given to you!!');
             }
 
         }
@@ -52,6 +54,9 @@ class login extends Controller {
         foreach ($materi as $key => $value) {
             $detail = $this->models->getData('master_kategori',0,"id_master = {$value['id_kategori']}");
             $materi[$key]['detail'] = $detail;
+
+            $paket = $this->models->getData('paket_soal',0,"id_kategori = {$value['id_kategori']} AND status = 1");
+            $materi[$key]['paket'] = $paket;
         }
         
         $this->view->assign('materi',$materi);
@@ -67,19 +72,20 @@ class login extends Controller {
         global $basedomain, $CONFIG;
         if (isset($_POST['token'])){
 
+            $ujian = $this->models->getData('ujian',0,"id_ujian = {$_POST['id_ujian']}");
+
+            if($ujian['status_ujian'] == 0){
+                echo "<script>alert('Maaf, ujian belum dimulai');window.location.href='".$basedomain."login'</script>";
+                exit;
+            }
+
             $validateData = $this->loginHelper->local($_POST);
            // db($validateData);
             if ($validateData){
 
-                // $path = LOGS;
-                // $filename= 'datUser-'.$validateData[0]['id_peserta'].'.txt';
-                // $data = serialize($validateData);
-                // $handle = fopen($path.$filename, "a");
-                // fwrite($handle, $data."\n");
-                // fclose($handle);
-
                 setcookie('id_peserta',$validateData[0]['id_peserta'],time() + 10800);
                 setcookie('id_kategori',$_POST['id_kategori'],time() + 10800);
+                setcookie('id_ujian',$_POST['id_ujian'],time() + 10800);
                 
                 redirect($basedomain.$CONFIG['default']['default_view']);
             }else{
@@ -142,10 +148,10 @@ class login extends Controller {
 
     function generateSoal()
     {
-        
-        $this->models->delData('generated_soal',"id_kategori = 4");
 
-        $paket = $this->models->getData('paket_soal',1,"id_kategori = 4");
+        $ujian = $this->models->getData('ujian',0,"status = 1");
+        $this->models->delData('generated_soal',"id_ujian = {$ujian['id_ujian']}");
+        $paket = $this->models->getData('paket_soal',1,"id_kategori = 4 AND status = 1");
         $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$paket[0]['id_soal']})");
        
         $user = $this->models->getidUser();
@@ -156,6 +162,7 @@ class login extends Controller {
             $soal['id_paket'] = $paket[0]['id_paket'];
             $soal['id_kategori'] = $paket[0]['id_kategori'];
             $soal['paket'] = $paket[0]['paket'];
+            $soal['durasi_pengerjaan'] = $ujian['lama_ujian'];
 
             $exp = explode(",", $paket[0]['id_soal']);
             $soal['soal'] = implode(",",shuffle_assoc($exp));
@@ -166,6 +173,7 @@ class login extends Controller {
             }
             $soal['opt'] = serialize($tmp);
             $soal['id_peserta'] = $user[$i]['id_peserta'];
+            $soal['id_ujian'] = $ujian['id_ujian'];
             // db($soal);
 
             $this->models->insert_data($soal,'generated_soal');
