@@ -153,6 +153,7 @@ class ujian extends Controller {
 
     function static_event()
     {
+        date_default_timezone_set("Asia/Jakarta");
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
 
