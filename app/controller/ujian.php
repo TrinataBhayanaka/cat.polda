@@ -113,6 +113,7 @@ class ujian extends Controller {
 
         $id = $_COOKIE['idgen'];
         $gen = $this->models->getData('generated_soal',0,"id = {$id}");
+        $kategori = $this->models->getData('master_kategori',0,"id_master = {$gen['id_kategori']}");
         // $this->models->update_data("status_ujian = 3",'ujian',"status = 1 AND id_kategori = {$gen['id_kategori']}");
 
         $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$gen['id_ujian']} AND id_peserta = {$gen['id_peserta']}");
@@ -126,6 +127,62 @@ class ujian extends Controller {
         $nilai = $benar/count($jwbUser)*100;
         $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id = {$id}");
         // db('bisa');
+
+        $gen = $this->models->getData('generated_soal',0,"id = {$id}");
+        $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$gen['soal']})");
+        foreach ($getSoal as $key => $value) {
+            $getSoal[$key]['soal'] = html_entity_decode(htmlspecialchars_decode($value['soal'],ENT_NOQUOTES));
+            $getSoal[$key]['1'] = html_entity_decode(htmlspecialchars_decode($value['1'],ENT_NOQUOTES));
+            $getSoal[$key]['2'] = html_entity_decode(htmlspecialchars_decode($value['2'],ENT_NOQUOTES));
+            $getSoal[$key]['3'] = html_entity_decode(htmlspecialchars_decode($value['3'],ENT_NOQUOTES));
+            $getSoal[$key]['4'] = html_entity_decode(htmlspecialchars_decode($value['4'],ENT_NOQUOTES));
+        }
+        $opts = unserialize($gen['opt']);
+        
+        $exp = explode(",", $gen['soal']);
+        $opt = explode(",", $gen['opt']);
+        foreach ($exp as $key => $value) {
+            foreach ($getSoal as $k => $val) {
+                if($value == $val['id_soal']){
+                    $soalSort[$key] = $val;
+                }
+            }
+        }
+        
+        $letters = range('A', 'Z');
+        foreach ($soalSort as $key => $value) {
+            $opt = explode(",", $opts[$key]);
+            foreach ($opt as $j => $vals) {
+               $soalSort[$key]['pilihan'][$j]['full'] = $letters[$j].". ".$value[$vals];
+               $soalSort[$key]['pilihan'][$j]['opt'] = $letters[$j];
+            }
+        }
+
+        foreach ($soalSort as $key => $value) {
+            $kisi = $this->models->getData('master_kategori',0,"id_master = {$value['kisi']}");
+            $soalSort[$key]['kisi'] = $kisi['nama_master'];
+
+            $jwb = $this->models->getData('jawaban',0,"id_kategori = {$value['id_kategori']} AND id_soal = {$value['id_soal']} AND id_peserta = {$this->user['id_peserta']}");
+            $soalSort[$key]['jawaban'] = $jwb['jawaban'];
+            $soalSort[$key]['opt'] = $jwb['opt'];
+            $soalSort[$key]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
+
+        }
+
+        $now = strtoupper(changeDate($gen['waktu_mulai']));
+        // db($soalSort);
+        $this->view->assign('paket',$gen['paket']);
+        $this->view->assign('soal',$soalSort);
+        $this->view->assign('kategori',$kategori);
+        $this->view->assign('user',$this->user);
+        $this->view->assign('tanggal',$now);
+        $this->view->assign('skor',$gen['nilai']);
+
+
+        $this->reportHelper =$this->loadModel('reportHelper');
+
+        $html =$this->loadView('kertaSoal');
+        $generate = $this->reportHelper->loadMpdf($html, $this->user['nama']."-".$kategori['nama_master'] ,LOGS);
 
         redirect($basedomain."ujian/result");
 
@@ -153,7 +210,7 @@ class ujian extends Controller {
 
     function static_event()
     {
-        date_default_timezone_set("Asia/Jakarta");
+        // date_default_timezone_set("Asia/Jakarta");
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
 
