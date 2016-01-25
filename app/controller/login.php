@@ -186,6 +186,85 @@ class login extends Controller {
     }
     
 
+    function nilaitoPdf()
+    {
+        global $CONFIG;
+        $id = $_GET['id'];
+        $ujian = $this->models->getData('ujian',0,"id_ujian = {$id}");
+        $peserta = $this->models->getData('generated_soal',1,"id_ujian = {$id}");
+        $kategori = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
+        
+        foreach ($peserta as $key => $value) {
+            unset($soalSort);
+            $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$value['soal']})");
+            $user = $this->models->getData('master_peserta',0,"id_peserta = {$value['id_peserta']}");
+
+            foreach ($getSoal as $k => $val) {
+                $getSoal[$k]['soal'] = html_entity_decode(htmlspecialchars_decode($val['soal'],ENT_NOQUOTES));
+                $getSoal[$k]['1'] = html_entity_decode(htmlspecialchars_decode($val['1'],ENT_NOQUOTES));
+                $getSoal[$k]['2'] = html_entity_decode(htmlspecialchars_decode($val['2'],ENT_NOQUOTES));
+                $getSoal[$k]['3'] = html_entity_decode(htmlspecialchars_decode($val['3'],ENT_NOQUOTES));
+                $getSoal[$k]['4'] = html_entity_decode(htmlspecialchars_decode($val['4'],ENT_NOQUOTES));
+            }
+            $opts = unserialize($value['opt']);
+            
+            $exp = explode(",", $value['soal']);
+            $opt = explode(",", $value['opt']);
+            foreach ($exp as $k => $vals) {
+                foreach ($getSoal as $j => $val) {
+                    if($vals == $val['id_soal']){
+                        $soalSort[$k] = $val;
+                    }
+                }
+            }
+            
+            $letters = range('A', 'Z');
+            foreach ($soalSort as $k => $val) {
+                $opt = explode(",", $opts[$k]);
+
+                foreach ($opt as $j => $vals) {
+                   $soalSort[$k]['pilihan'][$j]['full'] = $letters[$j].". ".$val[$vals];
+                   $soalSort[$k]['pilihan'][$j]['opt'] = $letters[$j];
+                }
+            }
+
+            foreach ($soalSort as $k => $val) {
+                $kisi = $this->models->getData('master_kategori',0,"id_master = {$val['kisi']}");
+                $soalSort[$k]['kisi'] = $kisi['nama_master'];
+
+                $jwb = $this->models->getData('jawaban',0,"id_kategori = {$val['id_kategori']} AND id_soal = {$val['id_soal']} AND id_peserta = {$value['id_peserta']}");
+                $soalSort[$k]['jawaban'] = $jwb['jawaban'];
+                $soalSort[$k]['opt'] = $jwb['opt'];
+                $soalSort[$k]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
+
+            }
+
+
+            
+            $now = strtoupper(changeDate($value['waktu_mulai']));
+            // db($soalSort);
+            $this->view->assign('paket',$value['paket']);
+            $this->view->assign('soal',$soalSort);
+            $this->view->assign('kategori',$kategori);
+            $this->view->assign('user',$user);
+            $this->view->assign('tanggal',$now);
+            $this->view->assign('skor',$value['nilai']);
+
+
+            $this->reportHelper =$this->loadModel('reportHelper');
+
+            $html =$this->loadView('kertaSoal');
+            $generate = $this->reportHelper->loadMpdf($html, $user['nama']."-".$kategori['nama_master'] ,LOGS);
+
+        }
+        // db($kategori['nama_master']);
+        $path = "{$CONFIG['default']['root_path']}logs/hasil/*.pdf";
+        $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/NilaiAkademik-{$kategori['nama_master']}.pdf";
+        $status=exec("pdftk {$path} cat output '{$filename}' &");
+        // return $this->loadView('kertaSoal');
+
+    }
+
     /* DHITA DEMO */
     function demo_1(){
         return $this->loadView('demo/mulai-1');

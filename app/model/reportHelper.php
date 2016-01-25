@@ -21,12 +21,13 @@ class reportHelper extends Database {
         
 	}  
 
-    function loadMpdf($html, $output=null)
+    function loadMpdf($html, $output=null, $path=null)
     {
 		// echo "masuk";
 		// echo $output;
 		// exit;
         global $CONFIG;
+        $hslpath = $path."hasil/";
 		$pdf_ext = '.pdf';
         $mpdfEngine = LIBS . 'mpdf/mpdf' . $CONFIG[$this->configkey]['php_ext'];
 
@@ -39,11 +40,13 @@ class reportHelper extends Database {
 			/*$mpdf=new mPDF('','','','',15,15,16,16,9,9,'P');
             $mpdf->AddPage('L','','','','',15,15,16,16,9,9);
             $mpdf->setFooter('{PAGENO}') ;*/
-			
+			$stylesheet = file_get_contents($CONFIG['default']['root_path'].'assets/css/mpdfstyleA4.css');
+            $mpdf->WriteHTML($stylesheet,1);
 			$mpdf->WriteHTML($html);
-			$mpdf->Output($output . '-' . date(ymdhis) . $pdf_ext,'D');
+			$mpdf->Output($hslpath . $output . $pdf_ext,'F');
             
             logFile('load excel success');
+            return true;
         }else{
             logFile('excel lib not found');
         }
