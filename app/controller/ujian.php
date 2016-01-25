@@ -162,7 +162,7 @@ class ujian extends Controller {
         $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
         $waktu_ujian = date('Y-m-d H:i:s', time());
         
-        if($check2['status_ujian'] == 2 && $check2['waktu_ujian'] == '0000-00-00 00:00:00'){
+        if($check2['status_ujian'] == 2 && $check['waktu_mulai'] == '0000-00-00 00:00:00'){
             // $this->models->update_data("waktu_ujian = '{$waktu_ujian}'",'ujian',"id_ujian = {$check2['id_ujian']}");
             $this->models->update_data("waktu_mulai = '{$waktu_ujian}',status = 2",'generated_soal',"id = {$id}");
             $new = $this->models->getData('generated_soal',0,"id = {$id}");
