@@ -228,6 +228,11 @@ class ujian extends Controller {
             echo "data: {$new['waktu_mulai']}";
         } elseif ($check2['status_ujian'] == 2) {
             echo "data: {$check['waktu_mulai']}";
+        } elseif ($check['status'] == 5){
+            $this->models->update_data("waktu_mulai = '{$waktu_ujian}',status = 2",'generated_soal',"id = {$id}");
+            $new = $this->models->getData('generated_soal',0,"id = {$id}");
+            
+            echo "data: {$new['waktu_mulai']}";
         } else {
             echo "data: 1";
         }
