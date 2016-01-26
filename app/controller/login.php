@@ -143,12 +143,12 @@ class login extends Controller {
             $data['waktu_acak'] = date('Y/m/d h:i:s', time());
             
             $success = $this->models->insert_data($data,'paket_soal');
-            if($success) $hasil++; 
+            // if($success) $hasil++; 
         }
 
-        if($hasil != 0){
-            return 1;
-        } else return 0;
+        // if($hasil != 0){
+        //     return 1;
+        // } else return 0;
 
         db('======= Generate Paket Selesai ========');
     }
@@ -184,13 +184,13 @@ class login extends Controller {
             // db($soal);
 
             $success = $this->models->insert_data($soal,'generated_soal');
-            if($success) $hasil++; 
+            // if($success) $hasil++; 
 
         }
 
-        if($hasil != 0){
-            return 1;
-        } else return 0;
+        // if($hasil != 0){
+        //     return 1;
+        // } else return 0;
 
          db('======= Generate Soal Selesai ========');
     }
