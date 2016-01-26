@@ -118,7 +118,7 @@ class ujian extends Controller {
 
         $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$gen['id_ujian']} AND id_peserta = {$gen['id_peserta']}");
         // db($jwbUser);
-        $ujian = $this->models->getData('ujian',0,"id_ujian = {$gen['id_ujian']");
+        $ujian = $this->models->getData('ujian',0,"id_ujian = {$gen['id_ujian']}");
         $benar = 0;
         foreach ($jwbUser as $key => $value) {
             if($value['kunci'] == $value['jawaban']){
