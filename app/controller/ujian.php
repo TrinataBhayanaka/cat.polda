@@ -118,13 +118,14 @@ class ujian extends Controller {
 
         $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$gen['id_ujian']} AND id_peserta = {$gen['id_peserta']}");
         // db($jwbUser);
+        $ujian = $this->models->getData('ujian',0,"id_ujian = {$gen['id_ujian']");
         $benar = 0;
         foreach ($jwbUser as $key => $value) {
             if($value['kunci'] == $value['jawaban']){
                 $benar++;
             }
         }
-        $nilai = $benar/count($jwbUser)*100;
+        $nilai = $benar/$ujian['jumlah_soal']*100;
         $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id = {$id}");
         // db('bisa');
 
