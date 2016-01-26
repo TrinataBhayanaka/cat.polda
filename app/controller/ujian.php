@@ -73,7 +73,7 @@ class ujian extends Controller {
             $kisi = $this->models->getData('master_kategori',0,"id_master = {$value['kisi']}");
             $soalSort[$key]['kisi'] = $kisi['nama_master'];
 
-            $jwb = $this->models->getData('jawaban',0,"id_kategori = {$value['id_kategori']} AND id_soal = {$value['id_soal']} AND id_peserta = {$this->user['id_peserta']}");
+            $jwb = $this->models->getData('jawaban',0,"id_kategori = {$value['id_kategori']} AND id_soal = {$value['id_soal']} AND id_peserta = {$this->user['id_peserta']} AND id_ujian = {$ujian['id_ujian']}");
             $soalSort[$key]['jawaban'] = $jwb['jawaban'];
             $soalSort[$key]['opt'] = $jwb['opt'];
             $soalSort[$key]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
