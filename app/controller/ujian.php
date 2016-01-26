@@ -28,7 +28,7 @@ class ujian extends Controller {
         $ujian = $this->models->getData('ujian',0,"status = 1");
         $detailujian = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
         $paket = $this->models->getData('paket_soal',0,"id_kategori = {$ujian['id_kategori']} AND status = 1");
-        $tmp_soal = $this->models->getData('generated_soal',0,"id_paket = {$paket['id_paket']} AND id_peserta = {$this->user['id_peserta']}, id_ujian = {$ujian['id_ujian']}");
+        $tmp_soal = $this->models->getData('generated_soal',0,"id_paket = {$paket['id_paket']} AND id_peserta = {$this->user['id_peserta']} AND id_ujian = {$ujian['id_ujian']}");
 
         setcookie('idgen',$tmp_soal['id'],time() + 10800);
         if($tmp_soal['status'] == 3){
