@@ -128,7 +128,7 @@
                         {foreach $val.pilihan as $vals}
                           <div class="radio">
                             <label>
-                              <input type="radio" class="radio-button" name="jawaban_{$val.id_soal}" onclick="return getAnws({$val.id_soal},{$val.id_kategori},{$ujian.id_ujian})" id="{$val.id_soal}_{$vals.opt}" value="{$vals.full}"/>
+                              <input type="radio" class="radio-button" name="jawaban_{$val.id_soal}" onclick="return getAnws({$val.id_soal},{$val.id_kategori},{$ujian.id_ujian})" id="{$val.id_soal}_{$vals.opt}" value='{$vals.full}'/>
                               {$vals.full}
                             </label>
                           </div>
