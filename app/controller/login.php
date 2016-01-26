@@ -198,6 +198,8 @@ class login extends Controller {
     {
         global $CONFIG;
         $id = $_GET['id'];
+        $id_ruangan = $_GET['ruang'];
+        $ruang = str_replace("/", "_", $id_ruangan);
         $ujian = $this->models->getData('ujian',0,"id_ujian = {$id}");
         $peserta = $this->models->getData('generated_soal',1,"id_ujian = {$id}");
         $kategori = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
@@ -271,12 +273,13 @@ class login extends Controller {
         //     $time++;
         // }
         // db($kategori['nama_master']);
-        $path = "{$CONFIG['default']['root_path']}logs/hasil/*.pdf";
-        $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/NilaiAkademik-{$kategori['nama_master']}.pdf";
+        $path = "{$CONFIG['default']['root_path']}logs/hasil/{$ruang}-*.pdf";
+        $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
         $status=exec("pdftk {$path} cat output '{$filename}' &");
         // return $this->loadView('kertaSoal');
 
-        echo "======= Done =========";
+        // echo "======= Done =========";
+        return 1;
 
     }
 
