@@ -246,7 +246,7 @@ class ujian extends Controller {
         $data['id_kategori'] = $_POST['idKategori'];
         $data['id_ujian'] = $_POST['idUjian'];
         $jwb = explode(". ", $_POST['jwb']);
-        $data['jawaban'] = $jwb[1];
+        $data['jawaban'] = htmlentities(htmlspecialchars($jwb[1], ENT_QUOTES));
         $data['opt'] = $jwb[0];
         $data['id_peserta'] = $this->user['id_peserta'];
 
