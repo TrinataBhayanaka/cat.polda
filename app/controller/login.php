@@ -87,6 +87,8 @@ class login extends Controller {
                 
                 redirect($basedomain.$CONFIG['default']['default_view']);
             }else{
+                echo "<script>alert('Maaf, data anda salah');window.location.href='".$basedomain."login'</script>";
+                exit;
                 redirect($basedomain.$CONFIG['default']['login']);
             }
 
