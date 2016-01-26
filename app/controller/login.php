@@ -131,7 +131,7 @@ class login extends Controller {
         $number = randomize_number($soalstack,$ujian['jumlah_soal'],$ujian['pilihan_paket']);
         
         $this->models->delete_data($ujian['id_kategori'],'paket_soal');
-        
+        $hasil = 0;
         $letters = range('A', 'Z');
         foreach ($number as $key => $val) {
             $data['id_kategori'] = $ujian['id_kategori'];
@@ -140,9 +140,13 @@ class login extends Controller {
             $data['paket'] = $letters[$key];
             $data['waktu_acak'] = date('Y/m/d h:i:s', time());
             
-            $this->models->insert_data($data,'paket_soal');
+            $success = $this->models->insert_data($data,'paket_soal');
+            if($success) $hasil++; 
         }
 
+        if($hasil != 0){
+            return 1;
+        } else return 0;
 
         db('======= Generate Paket Selesai ========');
     }
@@ -157,7 +161,7 @@ class login extends Controller {
        
         $user = $this->models->getidUser();
         $total = count($user);
-        
+        $hasil = 0;
         for($i=0;$i<$total;$i++){
 
             $soal['id_paket'] = $paket[0]['id_paket'];
@@ -177,10 +181,14 @@ class login extends Controller {
             $soal['id_ujian'] = $ujian['id_ujian'];
             // db($soal);
 
-            $this->models->insert_data($soal,'generated_soal');
+            $success = $this->models->insert_data($soal,'generated_soal');
+            if($success) $hasil++; 
 
         }
 
+        if($hasil != 0){
+            return 1;
+        } else return 0;
 
          db('======= Generate Soal Selesai ========');
     }
@@ -190,6 +198,8 @@ class login extends Controller {
     {
         global $CONFIG;
         $id = $_GET['id'];
+        $id_ruangan = $_GET['ruang'];
+        $ruang = str_replace("/", "_", $id_ruangan);
         $ujian = $this->models->getData('ujian',0,"id_ujian = {$id}");
         $peserta = $this->models->getData('generated_soal',1,"id_ujian = {$id}");
         $kategori = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
@@ -263,12 +273,13 @@ class login extends Controller {
         //     $time++;
         // }
         // db($kategori['nama_master']);
-        $path = "{$CONFIG['default']['root_path']}logs/hasil/*.pdf";
-        $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/NilaiAkademik-{$kategori['nama_master']}.pdf";
+        $path = "{$CONFIG['default']['root_path']}logs/hasil/{$ruang}-*.pdf";
+        $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
         $status=exec("pdftk {$path} cat output '{$filename}' &");
         // return $this->loadView('kertaSoal');
 
-        echo "======= Done =========";
+        // echo "======= Done =========";
+        return 1;
 
     }
 
