@@ -182,7 +182,7 @@ class ujian extends Controller {
         $this->reportHelper =$this->loadModel('reportHelper');
 
         $html =$this->loadView('kertaSoal');
-        $generate = $this->reportHelper->loadMpdf($html, $this->user['nama']."-".$kategori['nama_master'] ,LOGS);
+        $generate = $this->reportHelper->loadMpdf($html, $this->user['id_ruangan']."-".$this->user['nama']."-".$kategori['nama_master'] ,LOGS);
 
         redirect($basedomain."ujian/result");
 
