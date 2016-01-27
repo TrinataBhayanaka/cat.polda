@@ -236,7 +236,15 @@ function delete_cookie(name)
         (+dateArray[5]),
         (+dateArray[6])
     );
-    var sincedate = dateObject;
+    var sincedate = new Date(
+        (+dateArray[1]),
+        (+dateArray[2])-1, // Careful, month starts at 0!
+        (+dateArray[3]),
+        (+dateArray[4]),
+        (+dateArray[5]),
+        (+dateArray[6])
+    );
+    
     var minute = parseInt(document.getElementById("lama_ujian").value);
     var extra = parseInt(document.getElementById("tambahan_minute").value);
     dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
