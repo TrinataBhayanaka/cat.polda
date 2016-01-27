@@ -87,6 +87,7 @@ class loginHelper extends Database {
                 $waktu_ujian = date('Y-m-d h:i:s', time());
                 $sql = "SELECT status FROM generated_soal WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']}";
                 $gen = $this->fetch($sql,0);
+                if(!$gen) return false;
                 if(!isset($_COOKIE['id_peserta'])){
                     // db($gen);
                     if($gen['status'] == 0){
