@@ -249,6 +249,8 @@ function delete_cookie(name)
     dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
     console.log(dateObject+" "+minute+" "+extra+ " since="+dateSince);
     $('#countdown_div').countdown({since:dateSince, until: dateObject,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil',serverSync: serverTime});
+
+    $.countdown.resync();
   }
 
   function serverTime() { 
