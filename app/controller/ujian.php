@@ -241,6 +241,13 @@ class ujian extends Controller {
         flush();
     }
 
+    function servertime()
+    {
+        date_default_timezone_set("Asia/Jakarta");
+        $now = new DateTime(); 
+        echo $now->format("M j, Y H:i:s O")."\n";
+    }
+
     function ajaxaddJwb()
     {
         $id = $_COOKIE['idgen'];

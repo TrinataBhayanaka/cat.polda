@@ -37,6 +37,11 @@
             "bSort" : false,
             "pageLength": 5,
             "displayStart": tes,
+            "fnDrawCallback": function( oSettings ) {
+              $("#quiz").show();
+              $("div.soal-box").hide();
+              $("#quiz").toggle();
+            },
             "extPagination": {
                 numbers_length: 20
               },
@@ -47,7 +52,6 @@
                 },
             }
         }); 
-  
         // console.log(page);
         // radio selected
         $('input:radio[class="radio-button"]').change(function(){
@@ -58,7 +62,10 @@
         });
 
     });
-
+    function tes()
+    {
+        alert('bisa');
+    }
     function getCookie(name) {
       var value = "; " + document.cookie;
       var parts = value.split("; " + name + "=");

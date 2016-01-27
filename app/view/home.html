@@ -186,7 +186,7 @@ if(typeof(EventSource) !== "undefined") {
 
 function switchDiv(item,opt,id)
 {
-  $("#quiz").empty();
+  $("#quiz").hide();
   $("div.soal-box").hide();
   $("#soal_"+item).toggle();
 
@@ -217,8 +217,6 @@ function getAnws(idsoal,idKategori,idUjian)
   },"JSON")
 }
 
-
-
 function delete_cookie(name)
 {
   document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -236,20 +234,24 @@ function delete_cookie(name)
         (+dateArray[5]),
         (+dateArray[6])
     );
-    var sincedate = new Date(
-        (+dateArray[1]),
-        (+dateArray[2])-1, // Careful, month starts at 0!
-        (+dateArray[3]),
-        (+dateArray[4]),
-        (+dateArray[5]),
-        (+dateArray[6])
-    );
     
     var minute = parseInt(document.getElementById("lama_ujian").value);
     var extra = parseInt(document.getElementById("tambahan_minute").value);
     dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
-    console.log(dateObject+" "+minute+" "+extra+ " since="+sincedate);
-    $('#countdown_div').countdown({since:sincedate, until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil'});
+    // console.log(dateObject+" "+minute+" "+extra+ " since="+sincedate);
+    $('#countdown_div').countdown({until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil',serverSync: serverTime});
+  }
+
+  function serverTime() { 
+      var time = null; 
+      $.ajax({url: basedomain+'ujian/servertime', 
+          async: false, dataType: 'text', 
+          success: function(text) { 
+              time = new Date(text); 
+          }, error: function(http, message, exc) { 
+              time = new Date(); 
+      }}); 
+      return time; 
   }
 
   $(document).ready(function(){
