@@ -72,5 +72,13 @@ class mlogin extends Database {
 
         return true;
     }
+
+    function updNilai($nilai,$id)
+    {
+        $sql = "UPDATE generated_soal SET nilai = nilai + {$nilai} WHERE id = {$id}";
+        $this->query($sql);
+
+        return true;
+    }
 }
 ?>

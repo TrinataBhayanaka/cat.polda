@@ -116,17 +116,17 @@ class ujian extends Controller {
         $kategori = $this->models->getData('master_kategori',0,"id_master = {$gen['id_kategori']}");
         // $this->models->update_data("status_ujian = 3",'ujian',"status = 1 AND id_kategori = {$gen['id_kategori']}");
 
-        $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$gen['id_ujian']} AND id_peserta = {$gen['id_peserta']}");
+        // $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$gen['id_ujian']} AND id_peserta = {$gen['id_peserta']}");
         // db($jwbUser);
-        $ujian = $this->models->getData('ujian',0,"id_ujian = {$gen['id_ujian']}");
-        $benar = 0;
-        foreach ($jwbUser as $key => $value) {
-            if($value['kunci'] == $value['jawaban']){
-                $benar++;
-            }
-        }
-        $nilai = $benar/$ujian['jumlah_soal']*100;
-        $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id = {$id}");
+        // $ujian = $this->models->getData('ujian',0,"id_ujian = {$gen['id_ujian']}");
+        // $benar = 0;
+        // foreach ($jwbUser as $key => $value) {
+            // if($value['kunci'] == $value['jawaban']){
+                // $benar++;
+            // }
+        // }
+        // $nilai = $benar/$ujian['jumlah_soal']*100;
+        // $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id = {$id}");
         // db('bisa');
 
         $gen = $this->models->getData('generated_soal',0,"id = {$id}");
@@ -243,6 +243,7 @@ class ujian extends Controller {
 
     function ajaxaddJwb()
     {
+        $id = $_COOKIE['idgen'];
         $data['id_soal'] = $_POST['idsoal'];
         $data['id_kategori'] = $_POST['idKategori'];
         $data['id_ujian'] = $_POST['idUjian'];
@@ -254,6 +255,14 @@ class ujian extends Controller {
         $soal = $this->models->getData('master_soal',0,"id_soal = {$data['id_soal']}");
 
         $data['kunci'] = $soal[1];
+
+        if($data['kunci'] == $data['jawaban']){
+            $ujian = $this->models->getData('ujian',0,"id_ujian = {$data['id_ujian']}");
+
+            $nilai = 1/$ujian['jumlah_soal']*100;
+
+            $this->models->updNilai($nilai,$id);
+        }
 
         $check = $this->models->getData('jawaban',0,"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
         // pr($check);
