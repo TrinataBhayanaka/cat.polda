@@ -32,18 +32,20 @@ class login extends Controller {
         if(isset($_COOKIE['id_peserta']))
         {
             $status = $this->models->getData('generated_soal',0,"id_peserta = {$_COOKIE['id_peserta']} AND id_kategori = {$_COOKIE['id_kategori']}");
-            if($status['status'] == 1 || $status['status'] == 2 || $status['status'] == 3)
-            {
-                 $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
-                 $validateData = $this->loginHelper->local($getUser);
+            if($status){
+                if($status['status'] == 1 || $status['status'] == 2 || $status['status'] == 3)
+                {
+                     $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
+                     $validateData = $this->loginHelper->local($getUser);
 
-                 if ($validateData){
-                    redirect($basedomain.$CONFIG['default']['default_view']);
-                }else{
-                    redirect($basedomain.$CONFIG['default']['login']);
-                }
-                exit;
-            } 
+                     if ($validateData){
+                        redirect($basedomain.$CONFIG['default']['default_view']);
+                    }else{
+                        redirect($basedomain.$CONFIG['default']['login']);
+                    }
+                    exit;
+                } 
+            }
 
         }
         $materi = $this->models->getData('ujian',1,'status = 1');
