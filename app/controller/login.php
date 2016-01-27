@@ -275,7 +275,7 @@ class login extends Controller {
         //     $time++;
         // }
         // db($kategori['nama_master']);
-        $path = "{$CONFIG['default']['root_path']}logs/hasil/{$ruang}-*.pdf";
+        $path = "{$CONFIG['default']['root_path']}logs/hasil/{$ruang}.pdf";
         $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
         $status=exec("pdftk {$path} cat output '{$filename}' &");
         // return $this->loadView('kertaSoal');

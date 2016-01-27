@@ -29,6 +29,7 @@
    var tes = getCookie('pagenumber');
     $(document).ready(function() {
         // INITIATE DATATABLE
+        $.fn.dataTableExt.pager.numbers_length = 20;
         var tabel = $('#dttable').DataTable({
         	"dom": '<"top"p><"clear">',
         	"bLengthChange": false,
@@ -36,6 +37,9 @@
             "bSort" : false,
             "pageLength": 5,
             "displayStart": tes,
+            "extPagination": {
+                numbers_length: 20
+              },
             "language": {
                 "paginate": {
                     "next":       "",
