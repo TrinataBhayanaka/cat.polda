@@ -267,7 +267,7 @@ class ujian extends Controller {
                 }
             }
             $nilai = $benar/$ujian['jumlah_soal']*100;
-            $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
+            $this->models->update_data("nilai = {$nilai}'generated_soal',"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
         }
 
         $check = $this->models->getData('jawaban',0,"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
