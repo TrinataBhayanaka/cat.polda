@@ -256,6 +256,14 @@ class ujian extends Controller {
 
         $data['kunci'] = $soal[1];
 
+        $check = $this->models->getData('jawaban',0,"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
+        // pr($check);
+        if(!$check){
+            $this->models->insert_data($data,'jawaban');
+        } else {
+            $this->models->update_data("jawaban = '{$data['jawaban']}', opt = '{$data['opt']}'",'jawaban',"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
+        }
+
         if($data['kunci'] == $data['jawaban']){
             $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
             // db($jwbUser);
@@ -269,16 +277,6 @@ class ujian extends Controller {
             $nilai = $benar/$ujian['jumlah_soal']*100;
             $this->models->update_data("nilai = {$nilai}",'generated_soal',"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
         }
-
-        $check = $this->models->getData('jawaban',0,"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
-        // pr($check);
-        if(!$check){
-            $this->models->insert_data($data,'jawaban');
-        } else {
-            $this->models->update_data("jawaban = '{$data['jawaban']}', opt = '{$data['opt']}'",'jawaban',"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
-        }
-
-        
 
         print json_encode(1);
 
