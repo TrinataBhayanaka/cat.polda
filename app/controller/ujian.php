@@ -257,11 +257,17 @@ class ujian extends Controller {
         $data['kunci'] = $soal[1];
 
         if($data['kunci'] == $data['jawaban']){
+            $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
+            // db($jwbUser);
             $ujian = $this->models->getData('ujian',0,"id_ujian = {$data['id_ujian']}");
-
-            $nilai = 1/$ujian['jumlah_soal']*100;
-
-            $this->models->updNilai($nilai,$id);
+            $benar = 0;
+            foreach ($jwbUser as $key => $value) {
+                if($value['kunci'] == $value['jawaban']){
+                    $benar++;
+                }
+            }
+            $nilai = $benar/$ujian['jumlah_soal']*100;
+            $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
         }
 
         $check = $this->models->getData('jawaban',0,"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
