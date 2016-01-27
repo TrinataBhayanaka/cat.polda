@@ -249,7 +249,7 @@ function delete_cookie(name)
     var extra = parseInt(document.getElementById("tambahan_minute").value);
     dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
     console.log(dateObject+" "+minute+" "+extra+ " since="+sincedate);
-    $('#countdown_div').countdown({until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil'});
+    $('#countdown_div').countdown({since:sincedate, until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil'});
   }
 
   $(document).ready(function(){
