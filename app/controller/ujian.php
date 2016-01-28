@@ -67,6 +67,7 @@ class ujian extends Controller {
                 foreach ($opt as $j => $vals) {
                    $soalSort[$key]['pilihan'][$j]['full'] = $letters[$j].". ".$value[$vals];
                    $soalSort[$key]['pilihan'][$j]['opt'] = $letters[$j];
+                   $soalSort[$key]['pilihan'][$j]['ajax'] = $letters[$j]."|".$value[$vals];
                 }
             }
 
@@ -264,7 +265,7 @@ class ujian extends Controller {
         $data['id_soal'] = $_POST['idsoal'];
         $data['id_kategori'] = $_POST['idKategori'];
         $data['id_ujian'] = $_POST['idUjian'];
-        $jwb = explode(". ", $_POST['jwb']);
+        $jwb = explode("|", $_POST['jwb']);
         $data['jawaban'] = htmlentities(htmlspecialchars($jwb[1], ENT_QUOTES));
         $data['opt'] = $jwb[0];
         $data['id_peserta'] = $this->user['id_peserta'];

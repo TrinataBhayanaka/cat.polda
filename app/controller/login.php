@@ -29,10 +29,12 @@ class login extends Controller {
         // unset($_COOKIE['id_peserta']);
         // setcookie("id_peserta", "", time()-3600);
         // db($_COOKIE);
-        if(!isset($_COOKIE['status']))
+        if(isset($_COOKIE['id_peserta']))
         {
-            if(isset($_COOKIE['id_peserta']))
-            {
+            $ujian = $this->models->getData('ujian',0,"id_ujian = {$_COOKIE['id_ujian']}");
+            if($ujian['status'] != 0){
+                
+            
                 $status = $this->models->getData('generated_soal',0,"id_peserta = {$_COOKIE['id_peserta']} AND id_ujian = {$_COOKIE['id_ujian']}");
                 if($status['status'] == 1 || $status['status'] == 2 || $status['status'] == 3)
                 {
@@ -46,8 +48,8 @@ class login extends Controller {
                     }
                     exit;
                 } 
-
             }
+
         }
         $materi = $this->models->getData('ujian',1,'status = 1');
         $lokasi = $this->models->getData('lokasi',1,'status_pemanfaatan = 1');
