@@ -287,7 +287,7 @@ class ujian extends Controller {
             $this->models->update_data("jawaban = '{$data['jawaban']}', opt = '{$data['opt']}'",'jawaban',"id_kategori = {$data['id_kategori']} AND id_soal = {$data['id_soal']} AND id_peserta = {$data['id_peserta']}");
         }
 
-        if($data['kunci'] == $data['jawaban']){
+        // if($data['kunci'] == $data['jawaban']){
             $jwbUser = $this->models->getData('jawaban',1,"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
             // db($jwbUser);
             $ujian = $this->models->getData('ujian',0,"id_ujian = {$data['id_ujian']}");
@@ -299,7 +299,7 @@ class ujian extends Controller {
             }
             $nilai = $benar/$ujian['jumlah_soal']*100;
             $this->models->update_data("nilai = {$nilai}",'generated_soal',"id_ujian = {$data['id_ujian']} AND id_peserta = {$data['id_peserta']}");
-        }
+        // }
 
         print json_encode(1);
 
