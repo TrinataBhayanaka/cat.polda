@@ -62,6 +62,8 @@ class loginHelper extends Database {
 
 	function local($data=false, $debug=false)
 	{ 
+        global $basedomain;
+
 		if($data== false) return false;
 		
 	    
@@ -83,6 +85,13 @@ class loginHelper extends Database {
             // exit;
             if ($res[0]['nrp'] == $data['nrp']){
                 
+                $sql = "SELECT status FROM generated_soal WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']}";
+                $gen = $this->fetch($sql,0); 
+                if($gen['status'] == 1 || $gen['status'] == 2){
+                    echo "<script>alert('Maaf, peserta dengan nomor ini sedang ujian. Hubungi administrator jika ini aku anda.');window.location.href='".$basedomain."login'</script>";
+                    exit;
+                }
+
                 $status_ujian = 1;
                 $waktu_ujian = date('Y-m-d h:i:s', time());
                 $sql = "SELECT status FROM generated_soal WHERE id_ujian = {$data['id_ujian']} AND id_peserta = {$res[0]['id_peserta']}";

@@ -215,7 +215,7 @@ class ujian extends Controller {
         $this->view->assign('soal',$newgen);
         $this->view->assign('materi',$materi);
         $this->view->assign('user',$user);
-
+        
         return $this->loadView('hasil');
     }
 
