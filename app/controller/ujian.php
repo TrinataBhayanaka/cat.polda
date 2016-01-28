@@ -195,7 +195,7 @@ class ujian extends Controller {
         $html =$this->loadView('kertaSoal');
         $ruangan = str_replace("/", "_", $this->user['id_ruangan']);
         $generate = $this->reportHelper->loadMpdf($html, $ruangan."-".$this->user['nama']."-".$kategori['nama_master'] ,LOGS);
-
+        // sleep(10);
         redirect($basedomain."ujian/result");
 
     }
@@ -215,7 +215,7 @@ class ujian extends Controller {
         $this->view->assign('soal',$newgen);
         $this->view->assign('materi',$materi);
         $this->view->assign('user',$user);
-        
+
         return $this->loadView('hasil');
     }
 

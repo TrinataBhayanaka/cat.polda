@@ -49,7 +49,7 @@
             </table>
           </div>
           <div class="content-box-body" id="waitEvents">
-            <center><span class="mr">Menunggu Ujian Mulai</span></center>
+            <center><span class="mr" id="waitText">Menunggu Ujian Mulai</span></center>
           </div>
         </div>
       </div> <!-- END COL-XS-7 -->
@@ -160,13 +160,14 @@
       </a>
   </div>
 </footer>
-
+<div class="modal"><!-- Place at bottom of page --></div>
 <div id="background">
   
 </div>
 
 {literal}
 <script>
+$body = $("body");
 if(typeof(EventSource) !== "undefined") {
     var status = $("#status").val();
     var source = new EventSource(basedomain+"ujian/static_event/?id="+status);
@@ -248,7 +249,16 @@ function delete_cookie(name)
     var extra = parseInt(document.getElementById("tambahan_minute").value);
     dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
     console.log(dateObject+" "+minute+" "+extra+ " since="+dateSince);
-    $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: basedomain+'ujian/hasil',serverSync: serverTime});
+    $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',onExpiry: changePage,serverSync: serverTime});
+  }
+
+  function changePage()
+  {
+    $("#showEvents").hide();
+    $("#waitText").text('Ujian Telah Selesai');
+    $("#waitEvents").show();
+    $("div.soal-box").hide();
+    window.location.replace(basedomain+'ujian/hasil');
   }
 
   function serverTime() { 
