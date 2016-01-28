@@ -38,6 +38,7 @@ class mlogin extends Database {
     function insert_data($data,$table)
     {
         $check = $this->insert($data,$table);
+        logFile($check);
         if($check) return true; else return false;
     }
 
