@@ -29,22 +29,25 @@ class login extends Controller {
         // unset($_COOKIE['id_peserta']);
         // setcookie("id_peserta", "", time()-3600);
         // db($_COOKIE);
-        if(isset($_COOKIE['id_peserta']))
+        if(!isset($_COOKIE['status']))
         {
-            $status = $this->models->getData('generated_soal',0,"id_peserta = {$_COOKIE['id_peserta']} AND id_ujian = {$_COOKIE['id_ujian']}");
-            if($status['status'] == 1 || $status['status'] == 2 || $status['status'] == 3)
+            if(isset($_COOKIE['id_peserta']))
             {
-                 $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
-                 $validateData = $this->loginHelper->local($getUser);
+                $status = $this->models->getData('generated_soal',0,"id_peserta = {$_COOKIE['id_peserta']} AND id_ujian = {$_COOKIE['id_ujian']}");
+                if($status['status'] == 1 || $status['status'] == 2 || $status['status'] == 3)
+                {
+                     $getUser = $this->models->getData('master_peserta',0,"id_peserta = {$_COOKIE['id_peserta']}");
+                     $validateData = $this->loginHelper->local($getUser);
 
-                 if ($validateData){
-                    redirect($basedomain.$CONFIG['default']['default_view']);
-                }else{
-                    redirect($basedomain.$CONFIG['default']['login']);
-                }
-                exit;
-            } 
+                     if ($validateData){
+                        redirect($basedomain.$CONFIG['default']['default_view']);
+                    }else{
+                        redirect($basedomain.$CONFIG['default']['login']);
+                    }
+                    exit;
+                } 
 
+            }
         }
         $materi = $this->models->getData('ujian',1,'status = 1');
         $lokasi = $this->models->getData('lokasi',1,'status_pemanfaatan = 1');
