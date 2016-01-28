@@ -92,7 +92,9 @@ class ujian extends Controller {
             return $this->loadView('home');
         } else {
             session_destroy();
-
+            setcookie('id_peserta',null,-1);
+            setcookie('id_kategori',null,-1);
+            setcookie('id_ujian',null,-1);
             redirect($basedomain);
         }
         
@@ -133,7 +135,7 @@ class ujian extends Controller {
             // }
         // }
         // $nilai = $benar/$ujian['jumlah_soal']*100;
-        // $this->models->update_data("nilai = {$nilai}, status = 3",'generated_soal',"id = {$id}");
+        $this->models->update_data("status = 3",'generated_soal',"id = {$id}");
         // db('bisa');
 
         $gen = $this->models->getData('generated_soal',0,"id = {$id}");
@@ -231,7 +233,8 @@ class ujian extends Controller {
         
         if($check2['status_ujian'] == 2 && $check['waktu_mulai'] == '0000-00-00 00:00:00'){
             // $this->models->update_data("waktu_ujian = '{$waktu_ujian}'",'ujian',"id_ujian = {$check2['id_ujian']}");
-            $this->models->update_data("waktu_mulai = '{$waktu_ujian}',status = 2",'generated_soal',"id = {$id}");
+            $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
+            $this->models->update_data("waktu_mulai = '{$check2['waktu_ujian']}',status = 2",'generated_soal',"id = {$id}");
             $new = $this->models->getData('generated_soal',0,"id = {$id}");
             
             echo "data: {$new['waktu_mulai']}";
