@@ -215,6 +215,12 @@ class ujian extends Controller {
         $this->view->assign('materi',$materi);
         $this->view->assign('user',$user);
 
+        session_destroy();
+        setcookie('id_peserta',null,-1);
+        setcookie('id_kategori',null,-1);
+        setcookie('id_ujian',null,-1);
+        setcookie('idgen',null,-1);
+
         return $this->loadView('hasil');
     }
 

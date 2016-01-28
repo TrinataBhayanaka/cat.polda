@@ -280,6 +280,19 @@ class login extends Controller {
         $status=exec("pdftk {$path} cat output '{$filename}' &");
         // return $this->loadView('kertaSoal');
 
+        // $donwloadfile = "{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
+        
+
+        // header("Cache-Control: public");
+        // header("Content-Description: File Transfer");
+        // header("Content-Disposition: attachment; filename={$donwloadfile}");
+        // header("Content-type:application/pdf");
+        // header("Content-Transfer-Encoding: binary");
+
+        // read the file from disk
+        // readfile($filename);
+        
+
         // echo "======= Done =========";
         return 1;
 
