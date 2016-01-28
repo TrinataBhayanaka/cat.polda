@@ -178,7 +178,7 @@
 			this._super();
 			this._serverSyncs = [];
 			var now = (typeof Date.now == 'function' ? Date.now :
-				function() { return date; });
+				function() { return dateBayu; });
 			// var now = date;
 			var perfAvail = (window.performance && typeof window.performance.now == 'function');
 			// Shared timer for all countdowns
