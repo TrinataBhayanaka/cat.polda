@@ -318,6 +318,10 @@ class login extends Controller {
         return $this->loadView('demo/mulai-6');
     }
 
+    function closed(){
+        return $this->loadView('close');
+    }
+
     
 
 }
