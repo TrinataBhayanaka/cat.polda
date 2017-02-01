@@ -207,82 +207,89 @@ class login extends Controller {
         $id = $_GET['id'];
         $id_ruangan = $_GET['ruang'];
         $ruang = str_replace("/", "_", $id_ruangan);
+         $ruang= str_replace("*", "", $ruang);
         $ujian = $this->models->getData('ujian',0,"id_ujian = {$id}");
         $peserta = $this->models->getData('generated_soal',1,"id_ujian = {$id}");
         $kategori = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
-        // $time = 0;
-        // foreach ($peserta as $key => $value) {
-        //     if($time == 50){
-        //         $time = 0;
-        //         sleep(2);
-        //     }
-        //     unset($soalSort);
-        //     $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$value['soal']})");
-        //     $user = $this->models->getData('master_peserta',0,"id_peserta = {$value['id_peserta']}");
+        $time = 0;
+        foreach ($peserta as $key => $value) {
+            if($time == 50){
+                $time = 0;
+                sleep(2);
+            }
+            unset($soalSort);
+            $getSoal = $this->models->getData('master_soal',1,"id_soal IN ({$value['soal']})");
+            $user = $this->models->getData('master_peserta',0,"id_peserta = {$value['id_peserta']}");
 
-        //     foreach ($getSoal as $k => $val) {
-        //         $getSoal[$k]['soal'] = html_entity_decode(htmlspecialchars_decode($val['soal'],ENT_NOQUOTES));
-        //         $getSoal[$k]['1'] = html_entity_decode(htmlspecialchars_decode($val['1'],ENT_NOQUOTES));
-        //         $getSoal[$k]['2'] = html_entity_decode(htmlspecialchars_decode($val['2'],ENT_NOQUOTES));
-        //         $getSoal[$k]['3'] = html_entity_decode(htmlspecialchars_decode($val['3'],ENT_NOQUOTES));
-        //         $getSoal[$k]['4'] = html_entity_decode(htmlspecialchars_decode($val['4'],ENT_NOQUOTES));
-        //     }
-        //     $opts = unserialize($value['opt']);
+            foreach ($getSoal as $k => $val) {
+                $getSoal[$k]['soal'] = html_entity_decode(htmlspecialchars_decode($val['soal'],ENT_NOQUOTES));
+                $getSoal[$k]['1'] = html_entity_decode(htmlspecialchars_decode($val['1'],ENT_NOQUOTES));
+                $getSoal[$k]['2'] = html_entity_decode(htmlspecialchars_decode($val['2'],ENT_NOQUOTES));
+                $getSoal[$k]['3'] = html_entity_decode(htmlspecialchars_decode($val['3'],ENT_NOQUOTES));
+                $getSoal[$k]['4'] = html_entity_decode(htmlspecialchars_decode($val['4'],ENT_NOQUOTES));
+            }
+            $opts = unserialize($value['opt']);
             
-        //     $exp = explode(",", $value['soal']);
-        //     $opt = explode(",", $value['opt']);
-        //     foreach ($exp as $k => $vals) {
-        //         foreach ($getSoal as $j => $val) {
-        //             if($vals == $val['id_soal']){
-        //                 $soalSort[$k] = $val;
-        //             }
-        //         }
-        //     }
+            $exp = explode(",", $value['soal']);
+            $opt = explode(",", $value['opt']);
+            foreach ($exp as $k => $vals) {
+                foreach ($getSoal as $j => $val) {
+                    if($vals == $val['id_soal']){
+                        $soalSort[$k] = $val;
+                    }
+                }
+            }
             
-        //     $letters = range('A', 'Z');
-        //     foreach ($soalSort as $k => $val) {
-        //         $opt = explode(",", $opts[$k]);
+            $letters = range('A', 'Z');
+            foreach ($soalSort as $k => $val) {
+                $opt = explode(",", $opts[$k]);
 
-        //         foreach ($opt as $j => $vals) {
-        //            $soalSort[$k]['pilihan'][$j]['full'] = $letters[$j].". ".$val[$vals];
-        //            $soalSort[$k]['pilihan'][$j]['opt'] = $letters[$j];
-        //         }
-        //     }
+                foreach ($opt as $j => $vals) {
+                   $soalSort[$k]['pilihan'][$j]['full'] = $letters[$j].". ".$val[$vals];
+                   $soalSort[$k]['pilihan'][$j]['opt'] = $letters[$j];
+                }
+            }
 
-        //     foreach ($soalSort as $k => $val) {
-        //         $kisi = $this->models->getData('master_kategori',0,"id_master = {$val['kisi']}");
-        //         $soalSort[$k]['kisi'] = $kisi['nama_master'];
+            foreach ($soalSort as $k => $val) {
+                $kisi = $this->models->getData('master_kategori',0,"id_master = {$val['kisi']}");
+                $soalSort[$k]['kisi'] = $kisi['nama_master'];
 
-        //         $jwb = $this->models->getData('jawaban',0,"id_kategori = {$val['id_kategori']} AND id_soal = {$val['id_soal']} AND id_peserta = {$value['id_peserta']}");
-        //         $soalSort[$k]['jawaban'] = $jwb['jawaban'];
-        //         $soalSort[$k]['opt'] = $jwb['opt'];
-        //         $soalSort[$k]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
+                $jwb = $this->models->getData('jawaban',0,"id_kategori = {$val['id_kategori']} AND id_soal = {$val['id_soal']} AND id_peserta = {$value['id_peserta']}");
+                $soalSort[$k]['jawaban'] = $jwb['jawaban'];
+                $soalSort[$k]['opt'] = $jwb['opt'];
+                $soalSort[$k]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
 
-        //     }
+            }
 
 
             
-        //     $now = strtoupper(changeDate($value['waktu_mulai']));
-        //     // db($soalSort);
-        //     $this->view->assign('paket',$value['paket']);
-        //     $this->view->assign('soal',$soalSort);
-        //     $this->view->assign('kategori',$kategori);
-        //     $this->view->assign('user',$user);
-        //     $this->view->assign('tanggal',$now);
-        //     $this->view->assign('skor',$value['nilai']);
+            $now = strtoupper(changeDate($value['waktu_mulai']));
+            // db($soalSort);
+            $this->view->assign('paket',$value['paket']);
+            $this->view->assign('soal',$soalSort);
+            $this->view->assign('kategori',$kategori);
+            $this->view->assign('user',$user);
+            $this->view->assign('tanggal',$now);
+            $this->view->assign('skor',$value['nilai']);
+            //echo "<pre>";
+            //print_r($soalSort);
 
 
-        //     $this->reportHelper =$this->loadModel('reportHelper');
+            $this->reportHelper =$this->loadModel('reportHelper');
 
-        //     $html =$this->loadView('kertaSoal');
-        //     $generate = $this->reportHelper->loadMpdf($html, $user['nama']."-".$kategori['nama_master'] ,LOGS);
+            $html =$this->loadView('kertaSoal');
+            $ruangan = str_replace("/", "_", $user['id_ruangan']);
+            $generate = $this->reportHelper->loadMpdf($html, $ruangan."-".$user['nama']."-".$kategori['nama_master'] ,LOGS);
 
-        //     $time++;
-        // }
+            $time++;
+        }
         // db($kategori['nama_master']);
-        $path = "{$CONFIG['default']['root_path']}logs/hasil/{$ruang}.pdf";
-        $filename = "{$CONFIG['default']['root_path']}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
-        $status=exec("pdftk {$path} cat output '{$filename}' &");
+       $full_path="/srv/www/htdocs/siip/cat.polda/";
+        $path = "{$full_path}logs/hasil/{$ruang}*";
+        $filename = "{$full_path}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
+        $log_txt="{$full_path}logs/hasil/all/hasil2.txt";
+        $status=exec("/usr/bin/pdftk {$path} cat output '{$filename}' &");
+        //echo "/usr/bin/pdftk {$path} cat output '{$filename}' > $log_txt &";
         // return $this->loadView('kertaSoal');
 
         // $donwloadfile = "{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
@@ -303,6 +310,17 @@ class login extends Controller {
 
     }
 
+    function genPdf(){
+        $id_ruangan = $_GET['ruang'];
+                $ruang = str_replace("/", "_", $id_ruangan);
+         $ruang = str_replace("*", "", $ruang);
+        $full_path="/srv/www/htdocs/siip/cat.polda/";
+          $path = "{$full_path}logs/hasil/{$ruang}*";
+        $filename = "{$full_path}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
+        $log_txt="{$full_path}logs/hasil/all/hasil2.txt";
+        $status=system("/usr/bin/pdftk {$path} cat output '{$filename}' > $log_txt &");
+        echo "/usr/bin/pdftk {$path} cat output '{$filename}' > $log_txt &";
+    }
     function tesMpdf()
     {
         global $CONFIG;

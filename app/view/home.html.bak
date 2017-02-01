@@ -1,25 +1,17 @@
 <header class="header">
     <div class="pull-left">
       <a href="{$basedomain}" class="logo">
-        <div>TEST SIP 2017 - {$detailujian.nama_master}</div>
+        <div>TEST SIP 2016 - {$detailujian.nama_master}</div>
         <div class="sublogo">{$user.id_lokasi} - Ruangan {$user.id_ruangan}</div>
       </a>
     </div>
     <div class="pull-right time">
-      <span class="mr"><strong>Mulai UJIAN</strong></span><span class="mr" id="waktu_mulai"> {$user.waktu_mulai}</span> <span class="mr"><strong>Sisa waktu</strong></span> <!-- <span id="countdown_div" class="mr">  </span> --><span id="hour"></span>:<span id="min"></span>:<span id="sec"></span>
+      <span class="mr"><strong>Mulai</strong></span><span class="mr" id="waktu_mulai"> {$user.waktu_mulai}</span> <span class="mr"><strong>Sisa waktu</strong></span> <span id="countdown_div" class="mr">  </span>
       {*}<a id="suspend" style="display:none" href="{$basedomain}ujian/suspend" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Klik tombol ini jika terjadi masalah. Hubungi panitia untuk bantuan lebih lanjut sebelum menekan tombol ini!">Suspend</a>{/*}
       <input type="hidden" value="{$genSoal.durasi_pengerjaan}" id="minute_ujian">
       <input type="hidden" value="{$genSoal.tambahan_waktu}" id="tambahan_minute">
       <input type="hidden" value="{$status}" id="status">
       <input type="hidden" value="{$ujian.lama_ujian}" id="lama_ujian">
-      <input type="hidden" value="{$hari}" id="hari">
-      <input type="hidden" value="{$bulan}" id="bulan">
-      <input type="hidden" value="{$tanggal}" id="tanggal">
-      <input type="hidden" value="{$tahun}" id="tahun">
-      <input type="hidden" value="{$jam}" id="jam">
-      <input type="hidden" value="{$menit}" id="menit">
-      <input type="hidden" value="{$detik}" id="detik">
-      <input type="hidden" value="{$zona}" id="zona">
     </div>
     <div class="clearfix"></div>
 </header>
@@ -175,52 +167,6 @@
 
 {literal}
 <script>
-var timerId // current timer if started
-
-var date = new Date()
-var sisa
-function update() {
-  function sec_to_time(sec){
-  var hour = parseInt(sec /3600)
-  var minute = parseInt((sec%3600)/60)
-  var second = parseInt((sec%3600)%60)
-  // alert(hour+" "+minutes+" "+second);
-  return [hour, minute, second]
-}
-  var date
-  sisa = localStorage.getItem("count");
-  date = sec_to_time(sisa)
-  var hours = date[0]
-  if (hours < 10) hours = '0'+hours
-  document.getElementById('hour').innerHTML = hours
-  var minutes = date[1]
-  if (minutes < 10) minutes = '0'+minutes
-  document.getElementById('min').innerHTML = minutes
-  var seconds = date[2]
-  if (seconds < 10) seconds = '0'+seconds
-  document.getElementById('sec').innerHTML = seconds
-  sisa--
-  if(sisa<=0){
-    changePage();
-  }else{
-     localStorage.setItem("count",sisa);
-  }
- 
-}
-
-function clockStart(selisih) {
-var duration = selisih;  
-  if (timerId) return
-  localStorage.setItem("count",duration)
-  timerId = setInterval(update, 1000)
-  update()  // (*)
-}
-
-function clockStop() {
-  clearInterval(timerId)
-  timerId = null
-}
-// clockStart();
 $body = $("body");
 if(typeof(EventSource) !== "undefined") {
     var status = $("#status").val();
@@ -230,7 +176,6 @@ if(typeof(EventSource) !== "undefined") {
         if(event.data != 1){
           starttime(event.data);
           document.getElementById("waktu_mulai").innerHTML = event.data;
-          waktu_mulai = event.data;
           document.cookie="idgen="+status;
           $("#showEvents").show();
           $("#waitEvents").hide();
@@ -279,15 +224,6 @@ function delete_cookie(name)
 }
 
   function starttime(time){
-    var hari = document.getElementById("hari").value;
-    var bulan = document.getElementById("bulan").value;
-    var tanggal = parseInt(document.getElementById("tanggal").value);
-    var tahun = parseInt(document.getElementById("tahun").value);
-    var jam = parseInt(document.getElementById("jam").value);
-    var menit = parseInt(document.getElementById("menit").value);
-    var detik = parseInt(document.getElementById("detik").value);
-    var zona = document.getElementById("zona").value;
-
     var dateString = time;
     var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
     var dateArray = reggie.exec(dateString); 
@@ -298,15 +234,6 @@ function delete_cookie(name)
         (+dateArray[4]),
         (+dateArray[5]),
         (+dateArray[6])
-    );
-    
-    var dateObject_2 = new Date(
-        (+tahun),
-        (+bulan)-1, // Careful, month starts at 0!
-        (+tanggal),
-        (+jam),
-        (+menit),
-        (+detik)
     );
 
     var dateSince = new Date(
@@ -320,21 +247,9 @@ function delete_cookie(name)
     
     var minute = parseInt(document.getElementById("lama_ujian").value);
     var extra = parseInt(document.getElementById("tambahan_minute").value);
-    var waktu = time.split(':');
     dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
-    var jam = dateObject.getHours()*3600;
-    var menit = dateObject.getMinutes()*60;
-    var detik = dateObject.getSeconds();
-    var jumlah = jam + menit + detik;
-
-    var jam_awal = dateObject_2.getHours()*3600;
-    var menit_awal = dateObject_2.getMinutes()*60;
-    var detik_awal = dateObject_2.getSeconds();
-    var jumlah_awal = jam_awal + menit_awal + detik_awal;
-    var selisih = jumlah - jumlah_awal
-    console.log("hari : "+selisih+" "+dateObject+minute+" "+extra+ " since="+dateSince);
-    // $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',onExpiry: changePage,serverSync: serverTime});
-    clockStart(selisih);
+    console.log(dateObject+" "+minute+" "+extra+ " since="+dateSince);
+    $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',onExpiry: changePage,serverSync: serverTime});
   }
 
   function changePage()

@@ -33,7 +33,7 @@ class ujian extends Controller {
 
             setcookie('idgen',$tmp_soal['id'],time() + 10800);
             if($tmp_soal['status'] == 3){
-                redirect($basedomain."ujian/result");
+                redirect($basedomain."ujian/hasil");
                 exit;
             } elseif ($tmp_soal['status'] == 4) {
                 session_destroy();
@@ -82,28 +82,6 @@ class ujian extends Controller {
 
             }
             // db($soalSort);
-            date_default_timezone_set("Asia/Bangkok");
-            $info = explode(" ",date('D m d Y H:i:s O'));
-            
-            $hari = $info[0];
-            $bulan = $info[1];
-            $tanggal = $info[2];
-            $tahun = $info[3];
-            $waktu = explode(":",$info[4]);
-            $jam = $waktu[0];
-            $menit = $waktu[1];
-            $detik = $waktu[2];
-
-            $zona = $info[5];
-            $this->view->assign('hari',$hari);
-            $this->view->assign('bulan',$bulan);
-            $this->view->assign('tanggal',$tanggal);
-            $this->view->assign('tahun',$tahun);
-            $this->view->assign('jam',$jam);
-            $this->view->assign('menit',$menit);
-            $this->view->assign('detik',$detik);
-            $this->view->assign('zona',$zona);
-            
             $this->view->assign('genSoal',$tmp_soal);
             $this->view->assign('status',$tmp_soal['id']);
             $this->view->assign('user',$this->user);
@@ -111,8 +89,7 @@ class ujian extends Controller {
             $this->view->assign('detailujian',$detailujian);
             $this->view->assign('paket',$paket);
             $this->view->assign('soal',$soalSort);
-            
-            // pr($this->user);
+
             return $this->loadView('home');
         } else {
             session_destroy();

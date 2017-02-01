@@ -4,7 +4,8 @@
  * pemanggilan semua controller dimulai dari file ini 
  * file ini berubah, aplikasi tidak berjalan :-)
  */
- 
+ob_start();
+ob_clean();
 define ('APPPATH', 'app/');
 // define ('CODEKIR', true);
 define ('LIBS', 'libs/');
