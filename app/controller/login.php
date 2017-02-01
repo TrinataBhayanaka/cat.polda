@@ -212,6 +212,7 @@ class login extends Controller {
         $peserta = $this->models->getData('generated_soal',1,"id_ujian = {$id}");
         $kategori = $this->models->getData('master_kategori',0,"id_master = {$ujian['id_kategori']}");
         $time = 0;
+        print_r($peserta);
         foreach ($peserta as $key => $value) {
             if($time == 50){
                 $time = 0;
@@ -260,35 +261,39 @@ class login extends Controller {
                 $soalSort[$k]['fulljwb'] = $jwb['opt'].". ".$jwb['jawaban'];
 
             }
+            // echo "<pre>";
+            // print_r($value);
+            // print_r($soalSort);
+            // print_r($peserta);
 
 
             
-            $now = strtoupper(changeDate($value['waktu_mulai']));
-            // db($soalSort);
-            $this->view->assign('paket',$value['paket']);
-            $this->view->assign('soal',$soalSort);
-            $this->view->assign('kategori',$kategori);
-            $this->view->assign('user',$user);
-            $this->view->assign('tanggal',$now);
-            $this->view->assign('skor',$value['nilai']);
-            //echo "<pre>";
-            //print_r($soalSort);
+            // $now = strtoupper(changeDate($value['waktu_mulai']));
+            // // db($soalSort);
+            // $this->view->assign('paket',$value['paket']);
+            // $this->view->assign('soal',$soalSort);
+            // $this->view->assign('kategori',$kategori);
+            // $this->view->assign('user',$user);
+            // $this->view->assign('tanggal',$now);
+            // $this->view->assign('skor',$value['nilai']);
+            // //echo "<pre>";
+            // //print_r($soalSort);
 
 
-            $this->reportHelper =$this->loadModel('reportHelper');
+            // $this->reportHelper =$this->loadModel('reportHelper');
 
-            $html =$this->loadView('kertaSoal');
-            $ruangan = str_replace("/", "_", $user['id_ruangan']);
-            $generate = $this->reportHelper->loadMpdf($html, $ruangan."-".$user['nama']."-".$kategori['nama_master'] ,LOGS);
+            // $html =$this->loadView('kertaSoal');
+            // $ruangan = str_replace("/", "_", $user['id_ruangan']);
+            // $generate = $this->reportHelper->loadMpdf($html, $ruangan."-".$user['nama']."-".$kategori['nama_master'] ,LOGS);
 
-            $time++;
+            // $time++;
         }
         // db($kategori['nama_master']);
-       $full_path="/srv/www/htdocs/siip/cat.polda/";
-        $path = "{$full_path}logs/hasil/{$ruang}*";
-        $filename = "{$full_path}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
-        $log_txt="{$full_path}logs/hasil/all/hasil2.txt";
-        $status=exec("/usr/bin/pdftk {$path} cat output '{$filename}' &");
+       // $full_path="/opt/lampp/htdocs/siip/cat.polda/";
+       //  $path = "{$full_path}logs/hasil/{$ruang}*";
+       //  $filename = "{$full_path}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
+       //  $log_txt="{$full_path}logs/hasil/all/hasil2.txt";
+       //  $status=exec("/usr/bin/pdftk {$path} cat output '{$filename}' &");
         //echo "/usr/bin/pdftk {$path} cat output '{$filename}' > $log_txt &";
         // return $this->loadView('kertaSoal');
 
@@ -314,7 +319,7 @@ class login extends Controller {
         $id_ruangan = $_GET['ruang'];
                 $ruang = str_replace("/", "_", $id_ruangan);
          $ruang = str_replace("*", "", $ruang);
-        $full_path="/srv/www/htdocs/siip/cat.polda/";
+        $full_path="/opt/lampp/htdocs/siip/cat.polda/";
           $path = "{$full_path}logs/hasil/{$ruang}*";
         $filename = "{$full_path}logs/hasil/all/{$ruang}-NilaiAkademik-{$kategori['nama_master']}.pdf";
         $log_txt="{$full_path}logs/hasil/all/hasil2.txt";
