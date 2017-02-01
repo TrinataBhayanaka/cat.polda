@@ -1,0 +1,9 @@
+TRUNCATE `generated_soal`;
+TRUNCATE `jawaban`;
+TRUNCATE `log_penambahan_waktu`;
+TRUNCATE `log_upload_peserta`;
+TRUNCATE `log_upload_soal`;
+TRUNCATE `master_peserta`;
+TRUNCATE `master_soal`;
+TRUNCATE `paket_soal`;
+TRUNCATE `ujian`;

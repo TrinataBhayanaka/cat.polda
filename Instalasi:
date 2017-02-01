@@ -1,0 +1,23 @@
+Instalasi:
+
+1. Chmod -R 777 cache logs admin_cat/static admin_cat/log
+
+2. Ubah Konfigurasi untuk sistem ujian untuk path dan database di file:
+	-- config/access.php
+	-- config/confi.php
+	   $CONFIG['default']['base_url']
+	   $CONFIG['default']['root_path']
+	   $CONFIG['default']['upload_path']
+	--app/controller/login
+	  ---genPdf() --> $full_path
+	  ---nilaitoPdf  --> $full_path
+
+3. Ubah konfigurasi untuk sistem administrator dimenu config
+
+
+untuk reset ujian:
+SQL----
+
+
+UNTUK RESET DATA
+
