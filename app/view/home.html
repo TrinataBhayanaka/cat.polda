@@ -1,380 +1,459 @@
 <header class="header">
     <div class="pull-left">
-      <a href="{$basedomain}" class="logo">
-        <div>TEST SIP 2017 - {$detailujian.nama_master}</div>
-        <div class="sublogo">{$user.id_lokasi} - Ruangan {$user.id_ruangan}</div>
-      </a>
+        <a href="{$basedomain}" class="logo">
+            <div>TEST SIP 2017 - {$detailujian.nama_master}</div>
+            <div class="sublogo">{$user.id_lokasi} - Ruangan {$user.id_ruangan}</div>
+        </a>
     </div>
     <div class="pull-right time">
-      <span class="mr"><strong>Mulai UJIAN</strong></span><span class="mr" id="waktu_mulai"> {$user.waktu_mulai}</span> <span class="mr"><strong>Sisa waktu</strong></span> <!-- <span id="countdown_div" class="mr">  </span> --><span id="hour"></span>:<span id="min"></span>:<span id="sec"></span>
-      {*}<a id="suspend" style="display:none" href="{$basedomain}ujian/suspend" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Klik tombol ini jika terjadi masalah. Hubungi panitia untuk bantuan lebih lanjut sebelum menekan tombol ini!">Suspend</a>{/*}
-      <input type="hidden" value="{$genSoal.durasi_pengerjaan}" id="minute_ujian">
-      <input type="hidden" value="{$genSoal.tambahan_waktu}" id="tambahan_minute">
-      <input type="hidden" value="{$status}" id="status">
-      <input type="hidden" value="{$ujian.lama_ujian}" id="lama_ujian">
-      <input type="hidden" value="{$hari}" id="hari">
-      <input type="hidden" value="{$bulan}" id="bulan">
-      <input type="hidden" value="{$tanggal}" id="tanggal">
-      <input type="hidden" value="{$tahun}" id="tahun">
-      <input type="hidden" value="{$jam}" id="jam">
-      <input type="hidden" value="{$menit}" id="menit">
-      <input type="hidden" value="{$detik}" id="detik">
-      <input type="hidden" value="{$zona}" id="zona">
+        <span class="mr">
+            <strong>Mulai UJIAN</strong>
+        </span>
+        <span class="mr" id="waktu_mulai"> {$user.waktu_mulai}</span> <span
+            class="mr"><strong>Sisa waktu</strong></span> <!-- <span id="countdown_div" class="mr">  </span> -->
+        <span id="hour"></span>:<span id="min"></span>:<span id="sec"></span>
+        <br>
+        <span><strong>Status Server </strong> <i class="fa fa-circle" id="status-server"></i> </span>
+        {*}<a id="suspend" style="display:none" href="{$basedomain}ujian/suspend" class="btn btn-danger"
+              data-toggle="tooltip" data-placement="left"
+              title="Klik tombol ini jika terjadi masalah. Hubungi panitia untuk bantuan lebih lanjut sebelum menekan tombol ini!">Suspend</a>{/*}
+        <input type="hidden" value="{$genSoal.durasi_pengerjaan}" id="minute_ujian">
+        <input type="hidden" value="{$genSoal.tambahan_waktu}" id="tambahan_minute">
+        <input type="hidden" value="{$status}" id="status">
+        <input type="hidden" value="{$ujian.lama_ujian}" id="lama_ujian">
+        <input type="hidden" value="{$hari}" id="hari">
+        <input type="hidden" value="{$bulan}" id="bulan">
+        <input type="hidden" value="{$tanggal}" id="tanggal">
+        <input type="hidden" value="{$tahun}" id="tahun">
+        <input type="hidden" value="{$jam}" id="jam">
+        <input type="hidden" value="{$menit}" id="menit">
+        <input type="hidden" value="{$detik}" id="detik">
+        <input type="hidden" value="{$zona}" id="zona">
     </div>
     <div class="clearfix"></div>
 </header>
 
 <!--main content start-->
-  <div class="container main_content">
+<div class="container main_content">
     <div class="row">
-      <div class="col-xs-7">
-        <div class="content-box">
-          <div class="content-box-header retro-red">
-            <div class="pull-left">LIST SOAL ({$ujian.lama_ujian} Menit)</div>
-            <div class="pull-right">PAKET {$paket.paket}</div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="content-box-body" id="showEvents" style="display:none">
-            <table id = "dttable" class="table table-bordered">
-              <thead>
-                <tr>
-                  <td>No.</td>
-                  <td>Pertanyaan</td>
-                  <td>Jawaban</td>
-                  <td>Pilih</td>
-                </tr>
-              </thead>
-              <tbody>
-              {foreach $soal as $key => $val}
-                <tr>
-                  <td class="text-center">{$key+1}</td>
-                  <td>{$val.soal}</td>
-                  <td class="text-center"><span id="jwb_{$val.id_soal}">{if empty($val.opt)}{else}{$val.opt}{/if}</span></td>
-                  <td class="text-center"><a href="#" id="tombol_{$val.id_soal}" onclick="return switchDiv({$key+1},'{$val.opt}',{$val.id_soal})" class="btn btn-xs btn-cat">{if empty($val.opt)}Pilih{else}Ubah{/if}</a></td>
-                </tr>
-              {/foreach}
-              </tbody>
-            </table>
-          </div>
-          <div class="content-box-body" id="waitEvents">
-            <center><span class="mr" id="waitText">Menunggu Ujian Mulai</span></center>
-          </div>
-        </div>
-      </div> <!-- END COL-XS-7 -->
-
-      <div class="col-xs-5">
-        <div class="content-box">
-          <div class="content-box-header dark-green">
-            <div class="pull-left">DATA PESERTA</div>
-            <div class="pull-right">{$user.no_peserta}</div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="content-box-body">
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <td><strong>Nama </strong>: {$user.nama}</td>
-                  <td class="text-center"><strong>NRP </strong>: {$user.nrp}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div id="boxsoal">
-          <div class="content-box" id="quiz">
-            <div class="content-box-header retro-blue">
-              <div class="pull-left">SOAL TERPILIH</div>
-              <div class="pull-right"></div>
-              <div class="clearfix"></div>
-            </div>
-            <div class="content-box-body">
-              <table class="table table-bordered">
-                <tbody>
-                  {*}<tr>
-                    <td><strong>Kisi - Kisi</strong></td>
-                    <td> - </td>
-                  </tr>{/*}
-                  <tr>
-                    <td><strong>Pertanyaan</strong></td>
-                    <td> - </td>
-                  </tr>
-                  <tr>
-                    <td><strong>Jawaban</strong></td>
-                    <td>
-                      
-                    </td>
-                  </tr>
-                  {*}<tr>
-                    <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php" class="btn btn-cat">Simpan</a></td>
-                  </tr>{/*}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {foreach $soal as $key => $val}
-           <div class="content-box soal-box" id="soal_{$key+1}" style="display:none">
-              <div class="content-box-header retro-blue">
-                <div class="pull-left">SOAL TERPILIH</div>
-                <div class="pull-right">No. {$key+1}</div>
-                <div class="clearfix"></div>
-              </div>
-              <div class="content-box-body">
-                <table class="table table-bordered">
-                  <!-- <tbody> -->
-                    {*}<tr>
-                      <td><strong>Kisi - Kisi</strong></td>
-                      <td> {$val.kisi} </td>
-                    </tr>{/*}
-                    <tr>
-                      <td><strong>Pertanyaan</strong></td>
-                      <td> {$val.soal} </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Jawaban</strong></td>
-                      <td>
-                        {foreach $val.pilihan as $vals}
-                          <div class="radio">
-                            <label>
-                              <input type="radio" class="radio-button" name="jawaban_{$val.id_soal}" onclick="return getAnws({$val.id_soal},{$val.id_kategori},{$ujian.id_ujian})" id="{$val.id_soal}_{$vals.opt}" value='{$vals.ajax}'/>
-                              {$vals.full}
-                            </label>
-                          </div>
+        <div class="col-xs-7">
+            <div class="content-box">
+                <div class="content-box-header retro-red">
+                    <div class="pull-left">LIST SOAL ({$ujian.lama_ujian} Menit)</div>
+                    <div class="pull-right">PAKET {$paket.paket}</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="content-box-body" id="showEvents" style="display:none">
+                    <table id="dttable" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td>No.</td>
+                            <td>Pertanyaan</td>
+                            <td>Jawaban</td>
+                            <td>Pilih</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $soal as $key => $val}
+                        <tr>
+                            <td class="text-center">{$key+1}</td>
+                            <td>{$val.soal}</td>
+                            <td class="text-center"><span id="jwb_{$val.id_soal}">{if empty($val.opt)}{else}{$val.opt}{/if}</span>
+                            </td>
+                            <td class="text-center"><a href="#" id="tombol_{$val.id_soal}"
+                                                       onclick="return switchDiv({$key+1},'{$val.opt}',{$val.id_soal})"
+                                                       class="btn btn-xs btn-cat">{if
+                                empty($val.opt)}Pilih{else}Ubah{/if}</a></td>
+                        </tr>
                         {/foreach}
-                      </td>
-                    </tr>
-                    {*}<tr>
-                      <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php" class="btn btn-cat">Simpan</a></td>
-                    </tr>{/*}
-                  <!-- </tbody> -->
-                </table>
-              </div>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="content-box-body" id="waitEvents">
+                    <center><span class="mr" id="waitText">Menunggu Ujian Mulai</span></center>
+                </div>
             </div>
-          {/foreach}
+        </div> <!-- END COL-XS-7 -->
+
+        <div class="col-xs-5">
+            <div class="content-box">
+                <div class="content-box-header dark-green">
+                    <div class="pull-left">DATA PESERTA</div>
+                    <div class="pull-right">{$user.no_peserta}</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="content-box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td><strong>Nama </strong>: {$user.nama}</td>
+                            <td class="text-center"><strong>NRP </strong>: {$user.nrp}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="boxsoal">
+                <div class="content-box" id="quiz">
+                    <div class="content-box-header retro-blue">
+                        <div class="pull-left">SOAL TERPILIH</div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="content-box-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                            {*}
+                            <tr>
+                                <td><strong>Kisi - Kisi</strong></td>
+                                <td> -</td>
+                            </tr>
+                            {/*}
+                            <tr>
+                                <td><strong>Pertanyaan</strong></td>
+                                <td> -</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jawaban</strong></td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            {*}
+                            <tr>
+                                <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php"
+                                                                       class="btn btn-cat">Simpan</a></td>
+                            </tr>
+                            {/*}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {foreach $soal as $key => $val}
+                <div class="content-box soal-box" id="soal_{$key+1}" style="display:none">
+                    <div class="content-box-header retro-blue">
+                        <div class="pull-left">SOAL TERPILIH</div>
+                        <div class="pull-right">No. {$key+1}</div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="content-box-body">
+                        <table class="table table-bordered">
+                            <!-- <tbody> -->
+                            {*}
+                            <tr>
+                                <td><strong>Kisi - Kisi</strong></td>
+                                <td> {$val.kisi}</td>
+                            </tr>
+                            {/*}
+                            <tr>
+                                <td><strong>Pertanyaan</strong></td>
+                                <td> {$val.soal}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jawaban</strong></td>
+                                <td>
+                                    {foreach $val.pilihan as $vals}
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" class="radio-button" name="jawaban_{$val.id_soal}"
+                                                   onclick="return getAnws({$val.id_soal},{$val.id_kategori},{$ujian.id_ujian})"
+                                                   id="{$val.id_soal}_{$vals.opt}" value='{$vals.ajax}'/>
+                                            {$vals.full}
+                                        </label>
+                                    </div>
+                                    {/foreach}
+                                </td>
+                            </tr>
+                            {*}
+                            <tr>
+                                <td colspan="2" class="text-center"><a href="<?php echo $base_url;?>mulai-3.php"
+                                                                       class="btn btn-cat">Simpan</a></td>
+                            </tr>
+                            {/*}
+                            <!-- </tbody> -->
+                        </table>
+                    </div>
+                </div>
+                {/foreach}
 
 
-        </div>
-      </div> <!-- END COL-XS-5 -->
-    </div>     
-  </div><!-- /MAIN CONTENT --> 
-  <!--main content end-->
+            </div>
+        </div> <!-- END COL-XS-5 -->
+    </div>
+</div><!-- /MAIN CONTENT -->
+<!--main content end-->
 
 
 <footer class="site-footer">
-  <div class="text-center">
-      &copy; 2016 - CAT POLDA
-      <a href="#" class="go-top">
-          <i class="fa fa-angle-up"></i>
-      </a>
-  </div>
+    <div class="text-center">
+        &copy; 2016 - CAT POLDA
+        <a href="#" class="go-top">
+            <i class="fa fa-angle-up"></i>
+        </a>
+    </div>
 </footer>
 <div class="modal"><!-- Place at bottom of page --></div>
 <div id="background">
-  
+
 </div>
 
 {literal}
 <script>
-var timerId // current timer if started
+    var timerId // current timer if started
 
-var date = new Date()
-var sisa
-function update() {
-  function sec_to_time(sec){
-  var hour = parseInt(sec /3600)
-  var minute = parseInt((sec%3600)/60)
-  var second = parseInt((sec%3600)%60)
-  // alert(hour+" "+minutes+" "+second);
-  return [hour, minute, second]
-}
-  var date
-  sisa = localStorage.getItem("count");
-  date = sec_to_time(sisa)
-  var hours = date[0]
-  if (hours < 10) hours = '0'+hours
-  document.getElementById('hour').innerHTML = hours
-  var minutes = date[1]
-  if (minutes < 10) minutes = '0'+minutes
-  document.getElementById('min').innerHTML = minutes
-  var seconds = date[2]
-  if (seconds < 10) seconds = '0'+seconds
-  document.getElementById('sec').innerHTML = seconds
-  sisa--
-  if(sisa<=0){
-    changePage();
-  }else{
-     localStorage.setItem("count",sisa);
-  }
- 
-}
-
-function clockStart(selisih) {
-var duration = selisih;  
-  if (timerId) return
-  localStorage.setItem("count",duration)
-  timerId = setInterval(update, 1000)
-  update()  // (*)
-}
-
-function clockStop() {
-  clearInterval(timerId)
-  timerId = null
-}
-// clockStart();
-$body = $("body");
-if(typeof(EventSource) !== "undefined") {
-    var status = $("#status").val();
-    var source = new EventSource(basedomain+"ujian/static_event/?id="+status);
-    source.onmessage = function(event) {
-        // console.log(event.data);
-        if(event.data != 1){
-          starttime(event.data);
-          document.getElementById("waktu_mulai").innerHTML = event.data;
-          waktu_mulai = event.data;
-          document.cookie="idgen="+status;
-          $("#showEvents").show();
-          $("#waitEvents").hide();
+    var date = new Date();
+    var sisa;
+    function update() {
+        function sec_to_time(sec) {
+            var hour = parseInt(sec / 3600);
+            var minute = parseInt((sec % 3600) / 60);
+            var second = parseInt((sec % 3600) % 60);
+            // alert(hour+" "+minutes+" "+second);
+            return [hour, minute, second];
         }
-    };
-} else {
-    alert("Sorry, your browser does not support server-sent events...");
-}
 
-function switchDiv(item,opt,id)
-{
-  $("#quiz").hide();
-  $("div.soal-box").hide();
-  $("#soal_"+item).toggle();
+        var date
+        sisa = localStorage.getItem("count");
+        date = sec_to_time(sisa);
+        var hours = date[0];
+        if (hours < 10) hours = '0' + hours;
+        document.getElementById('hour').innerHTML = hours;
+        var minutes = date[1];
+        if (minutes < 10) minutes = '0' + minutes;
+        document.getElementById('min').innerHTML = minutes;
+        var seconds = date[2];
+        if (seconds < 10) seconds = '0' + seconds;
+        document.getElementById('sec').innerHTML = seconds;
+        sisa--;
+        if (sisa <= 0) {
+            changePage();
+        } else {
+            localStorage.setItem("count", sisa);
+        }
 
-  if(opt){
-    $("#"+id+"_"+opt).attr('checked', true);
-    $('.radio').css('background-color','transparent');
-    $("#"+id+"_"+opt).parents('.radio').css('background-color','#DFF0D8');
-  }
+    }
 
-  var jwb = $("#jwb_"+id).html();
-  // alert(jwb);
-  $("#"+id+"_"+jwb).attr('checked', 'checked');
-  $('.radio').css('background-color','transparent');
-  $("#"+id+"_"+jwb).parents('.radio').css('background-color','#DFF0D8');
-  
-}
+    function clockStart(selisih) {
+        var duration = selisih;
+        if (timerId) return;
+        localStorage.setItem("count", duration);
+        timerId = setInterval(update, 1000);
+        update()  // (*)
+    }
 
-function getAnws(idsoal,idKategori,idUjian)
-{
-  var jwb = $("input[name=jawaban_"+idsoal+"]:checked").val();
+    function clockStop() {
+        clearInterval(timerId);
+        timerId = null;
+    }
+    // clockStart();
+    $body = $("body");
+//    if (typeof(EventSource) !== "undefined") {
+//        var status = $("#status").val();
+//        var source = new EventSource(basedomain + "ujian/static_event/?id=" + status);
+//        source.onmessage = function (event) {
+//            // console.log(event.data);
+//            if (event.data != 1) {
+//                starttime(event.data);
+//                document.getElementById("waktu_mulai").innerHTML = event.data;
+//                waktu_mulai = event.data;
+//                document.cookie = "idgen=" + status;
+//                $("#showEvents").show();
+//                $("#waitEvents").hide();
+//            }
+//        };
+//    } else {
+//        alert("Sorry, your browser does not support server-sent events...");
+//    }
 
-  $.post(basedomain+'ujian/ajaxaddJwb', {idsoal:idsoal, jwb:jwb, idKategori:idKategori, idUjian:idUjian}, function(data){
-    
-    var opt = jwb.split("|");
-    $("#jwb_"+idsoal).html(opt[0]);
-    $("#tombol_"+idsoal).html('Ubah');
+    function switchDiv(item, opt, id) {
+        $("#quiz").hide();
+        $("div.soal-box").hide();
+        $("#soal_" + item).toggle();
 
-  },"JSON")
-}
+        if (opt) {
+            $("#" + id + "_" + opt).attr('checked', true);
+            $('.radio').css('background-color', 'transparent');
+            $("#" + id + "_" + opt).parents('.radio').css('background-color', '#DFF0D8');
+        }
 
-function delete_cookie(name)
-{
-  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
+        var jwb = $("#jwb_" + id).html();
+        // alert(jwb);
+        $("#" + id + "_" + jwb).attr('checked', 'checked');
+        $('.radio').css('background-color', 'transparent');
+        $("#" + id + "_" + jwb).parents('.radio').css('background-color', '#DFF0D8');
 
-  function starttime(time){
-    var hari = document.getElementById("hari").value;
-    var bulan = document.getElementById("bulan").value;
-    var tanggal = parseInt(document.getElementById("tanggal").value);
-    var tahun = parseInt(document.getElementById("tahun").value);
-    var jam = parseInt(document.getElementById("jam").value);
-    var menit = parseInt(document.getElementById("menit").value);
-    var detik = parseInt(document.getElementById("detik").value);
-    var zona = document.getElementById("zona").value;
+    }
 
-    var dateString = time;
-    var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
-    var dateArray = reggie.exec(dateString); 
-    var dateObject = new Date(
-        (+dateArray[1]),
-        (+dateArray[2])-1, // Careful, month starts at 0!
-        (+dateArray[3]),
-        (+dateArray[4]),
-        (+dateArray[5]),
-        (+dateArray[6])
-    );
-    
-    var dateObject_2 = new Date(
-        (+tahun),
-        (+bulan)-1, // Careful, month starts at 0!
-        (+tanggal),
-        (+jam),
-        (+menit),
-        (+detik)
-    );
+    function getAnws(idsoal, idKategori, idUjian) {
+        var jwb = $("input[name=jawaban_" + idsoal + "]:checked").val();
 
-    var dateSince = new Date(
-        (+dateArray[1]),
-        (+dateArray[2])-1, // Careful, month starts at 0!
-        (+dateArray[3]),
-        (+dateArray[4]),
-        (+dateArray[5]),
-        (+dateArray[6])
-    );
-    
-    var minute = parseInt(document.getElementById("lama_ujian").value);
-    var extra = parseInt(document.getElementById("tambahan_minute").value);
-    var waktu = time.split(':');
-    dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
-    var jam = dateObject.getHours()*3600;
-    var menit = dateObject.getMinutes()*60;
-    var detik = dateObject.getSeconds();
-    var jumlah = jam + menit + detik;
+        $.post(basedomain + 'ujian/ajaxaddJwb', {
+            idsoal: idsoal,
+            jwb: jwb,
+            idKategori: idKategori,
+            idUjian: idUjian
+        }, function (data) {
 
-    var jam_awal = dateObject_2.getHours()*3600;
-    var menit_awal = dateObject_2.getMinutes()*60;
-    var detik_awal = dateObject_2.getSeconds();
-    var jumlah_awal = jam_awal + menit_awal + detik_awal;
-    var selisih = jumlah - jumlah_awal
-    console.log("hari : "+selisih+" "+dateObject+minute+" "+extra+ " since="+dateSince);
-    // $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',onExpiry: changePage,serverSync: serverTime});
-    clockStart(selisih);
-  }
+            var opt = jwb.split("|");
+            $("#jwb_" + idsoal).html(opt[0]);
+            $("#tombol_" + idsoal).html('Ubah');
 
-  function changePage()
-  {
-    $("#showEvents").hide();
-    $("#waitText").text('Ujian Telah Selesai. Silahkan tunggu nilai anda');
-    $("#waitEvents").show();
-    $("div.soal-box").hide();
-    window.location.replace(basedomain+'ujian/result');
-  }
+        }, "JSON")
+    }
 
-  function serverTime() { 
-      var time = null; 
-      $.ajax({url: basedomain+'ujian/servertime', 
-          async: false, dataType: 'text', 
-          success: function(text) { 
-              time = new Date(text); 
-          }, error: function(http, message, exc) { 
-              time = new Date(); 
-      }}); 
-      return time; 
-  }
+    function delete_cookie(name) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
 
-  $(document).ready(function(){
-    // var dateString = "2016-01-24 00:36:01";
-    // var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
-    // var dateArray = reggie.exec(dateString); 
-    // var dateObject = new Date(
-    //     (+dateArray[1]),
-    //     (+dateArray[2])-1, // Careful, month starts at 0!
-    //     (+dateArray[3]),
-    //     (+dateArray[4]),
-    //     (+dateArray[5]),
-    //     (+dateArray[6])
-    // );
-    // dateObject.setMinutes(dateObject.getMinutes() + 5);
-    // alert(dateObject);
-    // $('#countdown_div').countdown({until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: 'http://jquery.com'});
-    document.cookie="idgen="+status;
-  })
+    function starttime(time) {
+        var hari = document.getElementById("hari").value;
+        var bulan = document.getElementById("bulan").value;
+        var tanggal = parseInt(document.getElementById("tanggal").value);
+        var tahun = parseInt(document.getElementById("tahun").value);
+        var jam = parseInt(document.getElementById("jam").value);
+        var menit = parseInt(document.getElementById("menit").value);
+        var detik = parseInt(document.getElementById("detik").value);
+        var zona = document.getElementById("zona").value;
+
+        var dateString = time;
+        var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+        var dateArray = reggie.exec(dateString);
+        var dateObject = new Date(
+                (+dateArray[1]),
+                (+dateArray[2]) - 1, // Careful, month starts at 0!
+                (+dateArray[3]),
+                (+dateArray[4]),
+                (+dateArray[5]),
+                (+dateArray[6])
+        );
+
+        var dateObject_2 = new Date(
+                (+tahun),
+                (+bulan) - 1, // Careful, month starts at 0!
+                (+tanggal),
+                (+jam),
+                (+menit),
+                (+detik)
+        );
+
+        var dateSince = new Date(
+                (+dateArray[1]),
+                (+dateArray[2]) - 1, // Careful, month starts at 0!
+                (+dateArray[3]),
+                (+dateArray[4]),
+                (+dateArray[5]),
+                (+dateArray[6])
+        );
+
+        var minute = parseInt(document.getElementById("lama_ujian").value);
+        var extra = parseInt(document.getElementById("tambahan_minute").value);
+        console.log(extra);
+        var waktu = time.split(':');
+        dateObject.setMinutes(dateObject.getMinutes() + minute + extra);
+        var jam = dateObject.getHours() * 3600;
+        var menit = dateObject.getMinutes() * 60;
+        var detik = dateObject.getSeconds();
+        var jumlah = jam + menit + detik;
+
+        var jam_awal = dateObject_2.getHours() * 3600;
+        var menit_awal = dateObject_2.getMinutes() * 60;
+        var detik_awal = dateObject_2.getSeconds();
+        var jumlah_awal = jam_awal + menit_awal + detik_awal;
+        var selisih = jumlah - jumlah_awal;
+        console.log(selisih + " " + dateObject + minute + " " + extra + " since=" + dateSince);
+        // $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',onExpiry: changePage,serverSync: serverTime});
+        clockStart(selisih);
+    }
+
+    function changePage() {
+        $("#showEvents").hide();
+        $("#waitText").text('Ujian Telah Selesai. Silahkan tunggu nilai anda');
+        $("#waitEvents").show();
+        $("div.soal-box").hide();
+        window.location.replace(basedomain + 'ujian/result');
+    }
+
+    function serverTime() {
+        var time = null;
+        $.ajax({
+            url: basedomain + 'ujian/servertime',
+            async: false, dataType: 'text',
+            success: function (text) {
+                time = new Date(text);
+            }, error: function (http, message, exc) {
+                time = new Date();
+            }
+        });
+        return time;
+    }
+
+    function init()
+    {
+        setTimeout(function(){
+            var conn = new WebSocket('ws://localhost:8080');
+
+            conn.addEventListener("open", function (e) {
+
+            });
+            conn.addEventListener("error", function (e) {
+                var n = noty({text: 'Failed to connect to websocket. Retrying ...',maxVisible: 1,timeout: 2000});
+                $("#status-server").css('color', 'red');
+                init();
+            });
+
+            conn.onopen = function(e) {
+                var n = noty({text: 'Success connect to websocket',maxVisible: 1,timeout: 2000});
+                console.log("Connection established!");
+                $("#status-server").css('color', 'green');
+
+            };
+
+            conn.onmessage = function(e) {
+                console.log(e.data);
+                if (e.data == 2) {
+                    static_event(e.data);
+                }
+            };
+        }, 5000);
+
+    }
+
+    function static_event(e)
+    {
+        $.post(basedomain+"ujian/static_event", {id: e}, function(data){
+            if (data != 1) {
+                starttime(data);
+                document.getElementById("waktu_mulai").innerHTML = data;
+                waktu_mulai = data;
+                document.cookie = "idgen=" + e;
+                $("#showEvents").show();
+                $("#waitEvents").hide();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        // var dateString = "2016-01-24 00:36:01";
+        // var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+        // var dateArray = reggie.exec(dateString);
+        // var dateObject = new Date(
+        //     (+dateArray[1]),
+        //     (+dateArray[2])-1, // Careful, month starts at 0!
+        //     (+dateArray[3]),
+        //     (+dateArray[4]),
+        //     (+dateArray[5]),
+        //     (+dateArray[6])
+        // );
+        // dateObject.setMinutes(dateObject.getMinutes() + 5);
+        // alert(dateObject);
+        // $('#countdown_div').countdown({until: dateObject,compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',expiryUrl: 'http://jquery.com'});
+        if ($("#status").val() != 1) {
+            static_event(2);
+        }
+        init();
+        document.cookie = "idgen=" + status;
+    })
 
 </script>
 {/literal}

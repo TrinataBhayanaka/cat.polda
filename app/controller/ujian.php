@@ -60,7 +60,7 @@ class ujian extends Controller {
                     }
                 }
             }
-            
+
             $letters = range('A', 'Z');
             foreach ($soalSort as $key => $value) {
                 $opt = explode(",", $opts[$key]);
@@ -103,9 +103,9 @@ class ujian extends Controller {
             $this->view->assign('menit',$menit);
             $this->view->assign('detik',$detik);
             $this->view->assign('zona',$zona);
-            
+
             $this->view->assign('genSoal',$tmp_soal);
-            $this->view->assign('status',$tmp_soal['id']);
+            $this->view->assign('status',$tmp_soal['status']);
             $this->view->assign('user',$this->user);
             $this->view->assign('ujian',$ujian);
             $this->view->assign('detailujian',$detailujian);
@@ -249,30 +249,31 @@ class ujian extends Controller {
         header('Content-Type: text/event-stream');
         header('Cache-Control: no-cache');
 
-        $id = $_GET['id'];
-        
+        $id = $_POST['id'];
+
         $check = $this->models->getData('generated_soal',0,"id = {$id}");
         $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
         $waktu_ujian = date('Y-m-d H:i:s', time());
-        
-        if($check2['status_ujian'] == 2 && $check['waktu_mulai'] == '0000-00-00 00:00:00'){
+
+        if($check2['status_ujian'] == 2 && ($check['waktu_mulai'] == '0000-00-00 00:00:00'|| $check['waktu_mulai'] == null)){
             // $this->models->update_data("waktu_ujian = '{$waktu_ujian}'",'ujian',"id_ujian = {$check2['id_ujian']}");
             $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
             $this->models->update_data("waktu_mulai = '{$check2['waktu_ujian']}',status = 2",'generated_soal',"id = {$id}");
             $new = $this->models->getData('generated_soal',0,"id = {$id}");
-            
-            echo "data: {$new['waktu_mulai']}";
+
+            echo "{$new['waktu_mulai']}";
         } elseif ($check2['status_ujian'] == 2) {
-            echo "data: {$check['waktu_mulai']}";
+            echo "{$check['waktu_mulai']}";
         } elseif ($check['status'] == 5){
             $this->models->update_data("waktu_mulai = '{$waktu_ujian}',status = 2",'generated_soal',"id = {$id}");
             $new = $this->models->getData('generated_soal',0,"id = {$id}");
             
-            echo "data: {$new['waktu_mulai']}";
+            echo "{$new['waktu_mulai']}";
         } else {
-            echo "data: 1";
+            echo "1";
         }
         flush();
+        exit;
     }
 
     function servertime()
