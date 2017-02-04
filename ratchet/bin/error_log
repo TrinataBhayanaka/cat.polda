@@ -1,0 +1,24 @@
+[07-Jun-2016 22:17:21 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8080: Address already in use' in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/poldacat/public_html/ratchet/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(70): React\Socket\Server->listen(8080, '0.0.0.0')
+#1 /home/poldacat/public_html/ratchet/bin/chat-server.php(16): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8080)
+#2 {main}
+  thrown in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php on line 29
+[07-Jun-2016 22:17:22 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8080: Address already in use' in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/poldacat/public_html/ratchet/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(70): React\Socket\Server->listen(8080, '0.0.0.0')
+#1 /home/poldacat/public_html/ratchet/bin/chat-server.php(16): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8080)
+#2 {main}
+  thrown in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php on line 29
+[07-Jun-2016 22:17:24 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8080: Address already in use' in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/poldacat/public_html/ratchet/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(70): React\Socket\Server->listen(8080, '0.0.0.0')
+#1 /home/poldacat/public_html/ratchet/bin/chat-server.php(16): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8080)
+#2 {main}
+  thrown in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php on line 29
+[07-Jun-2016 22:17:27 Asia/Jakarta] PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8080: Address already in use' in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/poldacat/public_html/ratchet/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(70): React\Socket\Server->listen(8080, '0.0.0.0')
+#1 /home/poldacat/public_html/ratchet/bin/chat-server.php(16): Ratchet\Server\IoServer::factory(Object(Ratchet\Http\HttpServer), 8080)
+#2 {main}
+  thrown in /home/poldacat/public_html/ratchet/vendor/react/socket/src/Server.php on line 29

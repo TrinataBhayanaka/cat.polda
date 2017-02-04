@@ -1,0 +1,11 @@
+
+2016-06-04 02:40:14,252 WARN received SIGTERM indicating exit request
+2016-06-04 02:40:14,252 INFO waiting for Ratchet to die
+2016-06-04 02:40:14,257 INFO stopped: Ratchet (terminated by SIGTERM)
+2016-06-04 02:40:26,792 CRIT Supervisor running as root (no user in config file)
+2016-06-04 02:40:26,951 INFO RPC interface 'supervisor' initialized
+2016-06-04 02:40:26,952 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2016-06-04 02:40:26,953 INFO daemonizing the supervisord process
+2016-06-04 02:40:26,954 INFO supervisord started with pid 5014
+2016-06-04 02:40:27,958 INFO spawned: 'Ratchet' with pid 5017
+2016-06-04 02:40:28,971 INFO success: Ratchet entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
