@@ -422,7 +422,9 @@
 
     function static_event(e)
     {
+        console.log(e);
         $.post(basedomain+"ujian/static_event", {id: e}, function(data){
+            console.log(data);
             if (data != 1) {
                 starttime(data);
                 var monthNames = [

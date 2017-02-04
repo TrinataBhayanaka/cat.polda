@@ -167,9 +167,7 @@
       };
 
       conn.onmessage = function(e) {
-        if (e.data == 2) {
-          static_event(e.data);
-        } else if (e.data == "refresh") {
+        if (e.data == "refresh") {
           location.reload();
         }
       };
