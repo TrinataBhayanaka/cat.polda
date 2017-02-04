@@ -23,7 +23,7 @@ class ujian extends Controller {
 	}
 	
 	function index(){
-		global $basedomain;
+		global $basedomain, $CONFIG;
 
         $ujian = $this->models->getData('ujian',0,"status = 1");
         if($ujian['id_ujian']){
@@ -111,6 +111,7 @@ class ujian extends Controller {
             $this->view->assign('detailujian',$detailujian);
             $this->view->assign('paket',$paket);
             $this->view->assign('soal',$soalSort);
+            $this->view->assign('websocket',$CONFIG['default']['websocket']);
             
             // pr($this->user);
             return $this->loadView('home');

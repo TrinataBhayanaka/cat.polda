@@ -64,6 +64,7 @@ class login extends Controller {
         
         $this->view->assign('materi',$materi);
         $this->view->assign('lokasi',$lokasi);
+        $this->view->assign('websocket',$CONFIG['default']['websocket']);
 
     	return $this->loadView('login');
     }

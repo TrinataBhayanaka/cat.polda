@@ -66,6 +66,7 @@
               <input type="hidden" name="token" value="1">
               <input type="hidden" name="id_ujian" value="{$materi.0.id_ujian}">
               <input type="hidden" name="status_ujian" value="{$materi.0.status_ujian}">
+              <input type="hidden" id="ipsocket" value="{$websocket}">
 
               <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
@@ -148,7 +149,7 @@
   function init()
   {
     setTimeout(function(){
-      var conn = new WebSocket('ws://localhost:8080');
+      var conn = new WebSocket('ws://'+$("#ipsocket").val());
 
       conn.addEventListener("open", function (e) {
 

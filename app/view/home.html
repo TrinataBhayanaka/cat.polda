@@ -29,6 +29,7 @@
         <input type="hidden" value="{$menit}" id="menit">
         <input type="hidden" value="{$detik}" id="detik">
         <input type="hidden" value="{$zona}" id="zona">
+        <input type="hidden" id="ipsocket" value="{$websocket}">
     </div>
     <div class="clearfix"></div>
 </header>
@@ -391,7 +392,7 @@
     function init()
     {
         setTimeout(function(){
-            var conn = new WebSocket('ws://localhost:8080');
+            var conn = new WebSocket('ws://'+$("#ipsocket").val());
 
             conn.addEventListener("open", function (e) {
 
