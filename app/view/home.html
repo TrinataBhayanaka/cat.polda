@@ -11,9 +11,9 @@
         </span>
         <span class="mr" id="waktu_mulai"> {$user.waktu_mulai}</span> <span
             class="mr"><strong>Sisa waktu</strong></span> <!-- <span id="countdown_div" class="mr">  </span> -->
-        <span id="hour"></span>:<span id="min"></span>:<span id="sec"></span>
-        <br>
-        <span><strong>Status Server </strong> <i class="fa fa-circle" id="status-server"></i> </span>
+        <span id="hour"></span>:<span id="min"></span>:<span id="sec" class="mr"></span>
+
+        <span class="mr"><strong>Status Server </strong></span> <span class="mr"><i class="fa fa-circle" id="status-server"></i> </span>
         {*}<a id="suspend" style="display:none" href="{$basedomain}ujian/suspend" class="btn btn-danger"
               data-toggle="tooltip" data-placement="left"
               title="Klik tombol ini jika terjadi masalah. Hubungi panitia untuk bantuan lebih lanjut sebelum menekan tombol ini!">Suspend</a>{/*}
@@ -410,9 +410,10 @@
             };
 
             conn.onmessage = function(e) {
-                console.log(e.data);
                 if (e.data == 2) {
                     static_event(e.data);
+                } else if (e.data == "refresh") {
+                    location.reload();
                 }
             };
         }, 5000);
@@ -424,7 +425,19 @@
         $.post(basedomain+"ujian/static_event", {id: e}, function(data){
             if (data != 1) {
                 starttime(data);
-                document.getElementById("waktu_mulai").innerHTML = data;
+                var monthNames = [
+                    "January", "February", "March",
+                    "April", "May", "June", "July",
+                    "August", "September", "October",
+                    "November", "December"
+                ];
+
+                var date = new Date(data);
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                document.getElementById("waktu_mulai").innerHTML = day + ' ' + monthNames[monthIndex] + ' ' + year;
                 waktu_mulai = data;
                 document.cookie = "idgen=" + e;
                 $("#showEvents").show();

@@ -89,6 +89,7 @@
 <script type="text/javascript">
   jQuery(function($){
      $("#tgllahir").mask("9999-99-99",{placeholder:"yyyy-mm-dd"});
+     init();
 
   });
 
@@ -142,6 +143,38 @@
       }
       
     },"JSON")
+  }
+
+  function init()
+  {
+    setTimeout(function(){
+      var conn = new WebSocket('ws://localhost:8080');
+
+      conn.addEventListener("open", function (e) {
+
+      });
+      conn.addEventListener("error", function (e) {
+        var n = noty({text: 'Failed to connect to websocket. Retrying ...',maxVisible: 1,timeout: 2000});
+        $("#status-server").css('color', 'red');
+        init();
+      });
+
+      conn.onopen = function(e) {
+        var n = noty({text: 'Success connect to websocket',maxVisible: 1,timeout: 2000});
+        console.log("Connection established!");
+        $("#status-server").css('color', 'green');
+
+      };
+
+      conn.onmessage = function(e) {
+        if (e.data == 2) {
+          static_event(e.data);
+        } else if (e.data == "refresh") {
+          location.reload();
+        }
+      };
+    }, 5000);
+
   }
 </script>
 {/literal}
