@@ -443,7 +443,7 @@
 
                 document.getElementById("waktu_mulai").innerHTML = day + ' ' + monthNames[monthIndex] + ' ' + year;
                 waktu_mulai = data;
-                document.cookie = "idgen=" + e;
+                document.cookie = "idgen=" + $("#idgen").val();
                 $("#showEvents").show();
                 $("#waitEvents").hide();
             }
@@ -469,7 +469,7 @@
             static_event(2);
         }
         init();
-        document.cookie = "idgen=" + status;
+        document.cookie = "idgen=" + $("#idgen").val();
     })
 
 </script>
