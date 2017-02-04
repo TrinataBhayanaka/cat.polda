@@ -108,6 +108,7 @@ class ujian extends Controller {
             $this->view->assign('status',$tmp_soal['status']);
             $this->view->assign('user',$this->user);
             $this->view->assign('ujian',$ujian);
+            $this->view->assign('idgen', $tmp_soal['id']);
             $this->view->assign('detailujian',$detailujian);
             $this->view->assign('paket',$paket);
             $this->view->assign('soal',$soalSort);
@@ -251,7 +252,7 @@ class ujian extends Controller {
         header('Cache-Control: no-cache');
 
         $id = $_POST['id'];
-        sleep(5);
+        sleep(3);
         $check = $this->models->getData('generated_soal',0,"id = {$id}");
         $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
         $waktu_ujian = date('Y-m-d H:i:s', time());

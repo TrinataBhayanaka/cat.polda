@@ -29,7 +29,7 @@
         <input type="hidden" value="{$menit}" id="menit">
         <input type="hidden" value="{$detik}" id="detik">
         <input type="hidden" value="{$zona}" id="zona">
-        <input type="hidden" value="{$ujian.id_ujian}" id="idujian">
+        <input type="hidden" value="{$idgen}" id="idgen">
         <input type="hidden" id="ipsocket" value="{$websocket}">
     </div>
     <div class="clearfix"></div>
@@ -425,7 +425,7 @@
     function static_event(e)
     {
         console.log(e);
-        $.post(basedomain+"ujian/static_event", {id: $("#idujian").val()}, function(data){
+        $.post(basedomain+"ujian/static_event", {id: $("#idgen").val()}, function(data){
             console.log(data);
             if (data != 1) {
                 starttime(data);
