@@ -252,7 +252,7 @@ class ujian extends Controller {
         header('Cache-Control: no-cache');
 
         $id = $_POST['id'];
-        sleep(3);
+        sleep(1);
         $check = $this->models->getData('generated_soal',0,"id = {$id}");
         $check2 = $this->models->getData('ujian',0,"status = 1 AND id_kategori = {$check['id_kategori']}");
         $waktu_ujian = date('Y-m-d H:i:s', time());
