@@ -363,6 +363,7 @@
         var detik_awal = dateObject_2.getSeconds();
         var jumlah_awal = jam_awal + menit_awal + detik_awal;
         var selisih = jumlah - jumlah_awal;
+        console.log('masuk static event');
         console.log(selisih + " " + dateObject + minute + " " + extra + " since=" + dateSince);
         // $('#countdown_div').countdown({until: dateObject, timezone: +7,  compact: true,layout: '<b> {hnn}{sep}{mnn}{sep}{snn}</b>',onExpiry: changePage,serverSync: serverTime});
         clockStart(selisih);
