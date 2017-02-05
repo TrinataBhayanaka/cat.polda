@@ -227,21 +227,26 @@ class ujian extends Controller {
 
     function result()
     {
+        global $basedomain;
         $id = $_COOKIE['idgen'];
 
         $newgen = $this->models->getData('generated_soal',0,"id = {$id}");
-        $materi = $this->models->getData('master_kategori',0,"id_master = {$newgen['id_kategori']}");
-        $user = $this->models->getData('master_peserta',0,"id_peserta = {$newgen['id_peserta']}");
-        
-        $waktu_ujian = date('Y-m-d H:i:s', time());
-        $now = strtoupper(changeDate($waktu_ujian));
+        if (!empty($newgen)) {
+            $materi = $this->models->getData('master_kategori',0,"id_master = {$newgen['id_kategori']}");
+            $user = $this->models->getData('master_peserta',0,"id_peserta = {$newgen['id_peserta']}");
 
-        $this->view->assign('nowdate',$now);
-        $this->view->assign('soal',$newgen);
-        $this->view->assign('materi',$materi);
-        $this->view->assign('user',$user);
+            $waktu_ujian = date('Y-m-d H:i:s', time());
+            $now = strtoupper(changeDate($waktu_ujian));
 
-        return $this->loadView('hasil');
+            $this->view->assign('nowdate',$now);
+            $this->view->assign('soal',$newgen);
+            $this->view->assign('materi',$materi);
+            $this->view->assign('user',$user);
+
+            return $this->loadView('hasil');
+        } else {
+            redirect($basedomain);
+        }
     }
 
 
